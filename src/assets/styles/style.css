@@ -1,0 +1,57 @@
+:root {
+  --red: #F75C4C;
+  --orange: #FFB202;
+  --yellow: #FDDC43;
+  --green: #1ABC9C;
+  --purple: #B470D0;
+  --blue: #59abe3;
+  --aqua: #00d4d9;
+  --grey:#8da5b8 ;
+  --grey-light: #82c7e0;
+}
+
+.work, .high {
+  background-color: var(--orange) !important;
+}
+
+.education {
+  background-color: var(--blue) !important;
+}
+
+.hobby {
+  background-color: var(--purple) !important;
+}
+.sport, .urgent {
+  background-color: var(--red) !important;
+}
+.other {
+  background-color: var(--aqua) !important;
+}
+
+.middle {
+  background-color: var(--yellow) !important;
+}
+
+.low {
+  background-color: var(--green) !important;
+}
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   text-decoration: none;
+   list-style-type: none;
+   /* font-family: 'PT Sans', sans-serif; */
+font-family: 'Roboto', sans-serif;
+font-weight: 500;
+color: #fff
+ }
+
+ .wrapper {
+   background-color: #2a3f50;
+   /* width: 1440px; */
+   height: 100vh;
+   padding: 50px 44px;
+ }
+
