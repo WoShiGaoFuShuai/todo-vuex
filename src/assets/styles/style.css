@@ -8,7 +8,15 @@
   --aqua: #00d4d9;
   --grey:#8da5b8 ;
   --grey-light: #82c7e0;
+  --btn-blue: #59ABE3;
+  --btn-blue-hvr: #368BC5;
+  --btn-green: #1ABC9C;
+  --btn-green-hvr: #16A085;
+  --btn-red: #F15A4A;
+  --btn-red-hvr: #d64130;
 }
+
+
 
 .work, .high {
   background-color: var(--orange) !important;
@@ -54,4 +62,4 @@ color: #fff
    height: 100vh;
    padding: 50px 44px;
  }
-
+ 
