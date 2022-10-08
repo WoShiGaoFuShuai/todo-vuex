@@ -1,21 +1,21 @@
 <template>
   <div class="home">
     <DailyTask />
+    <TopDailyTasks />
     <AppFirstTask />
-    <TodoTasks />
     <GlobalList />
   </div>
 </template>
 
 <script>
 import DailyTask from "@/components/DailyTask.vue";
+import TopDailyTasks from "@/components/TopDailyTasks.vue";
 import AppFirstTask from "@/components/FirstTask.vue";
-import TodoTasks from "@/components/TodoTasks.vue";
 import GlobalList from "@/components/GlobalList.vue";
 
 export default {
   name: "HomeView",
-  components: { AppFirstTask, DailyTask, TodoTasks, GlobalList },
+  components: { AppFirstTask, DailyTask, GlobalList, TopDailyTasks },
   data() {
     return {};
   },

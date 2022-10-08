@@ -1,37 +1,51 @@
 <template>
   <div class="content">
-    <!-- <ul class="content-nav">
+    <ul class="content-nav">
       <li>To Do</li>
       <li class="passive">|</li>
       <li>Done</li>
-    </ul> -->
+    </ul>
     <div class="content-tasks">
-      <div
-        class="content-task"
-        v-for="(todo, i) in this.$store.state.todos"
-        :key="i"
+      <template
+        v-if="
+          this.$store.state.todos.length && !this.$store.state.dailyTodos.length
+        "
       >
-        <div :class="['category', todo.category]"></div>
-        <div class="deadline">
-          <span class="date">{{ todo.deadline }}</span>
-          <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
+        <div class="no-tasks">
+          <h2>
+            Task added, <br />
+            move it to the top 5 in daily task list
+          </h2>
+          <img src="@/assets/images/Arrow-up.svg" alt="" />
         </div>
-        <div class="text">
-          <p class="text-title">{{ todo.title }}</p>
-          <p class="text-description">{{ todo.description }}</p>
-        </div>
-        <div class="buttons">
-          <img src="@/assets/images/Up.svg" alt="" />
-          <img src="@/assets/images/Edit.svg" alt="" />
-          <img src="@/assets/images/Delete.svg" alt="" />
-        </div>
-        <div :class="['priority', todo.priority]">
-          <div class="img">
-            <img src="@/assets/images/Apple.svg" alt="" />
-            <span>{{ todo.estimation }}</span>
+      </template>
+      <template>
+        <div
+          class="content-task"
+          v-for="(todo, i) in this.$store.state.dailyTodos"
+          :key="i"
+        >
+          <div :class="['category', todo.category]"></div>
+          <div class="deadline">
+            <span class="date">{{ todo.deadline }}</span>
+            <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
+          </div>
+          <div class="text">
+            <p class="text-title">{{ todo.title }}</p>
+            <p class="text-description">{{ todo.description }}</p>
+          </div>
+          <div class="buttons">
+            <img src="@/assets/images/Edit.svg" alt="" />
+            <img src="@/assets/images/Delete.svg" alt="" />
+          </div>
+          <div :class="['priority', todo.priority]">
+            <div class="img">
+              <img src="@/assets/images/Apple.svg" alt="" />
+              <span>{{ todo.estimation }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -46,33 +60,45 @@ export default {
 .content {
   margin-top: 34px;
 
-  // .content-nav {
-  //   display: flex;
-  //   justify-content: flex-end;
+  .content-nav {
+    display: flex;
+    justify-content: flex-end;
 
-  //   li {
-  //     font-family: "PT Sans", sans-serif;
-  //     margin-left: 8px;
-  //     color: var(--grey);
-  //     font-size: 16px;
-  //     font-weight: 400px;
-  //     transition: all 0.5s ease;
+    li {
+      font-family: "PT Sans", sans-serif;
+      margin-left: 8px;
+      color: var(--grey);
+      font-size: 16px;
+      font-weight: 400px;
+      transition: all 0.5s ease;
 
-  //     &:hover {
-  //       cursor: pointer;
-  //       color: #fff;
-  //       transform: scale(1.1);
-  //     }
+      &:hover {
+        cursor: pointer;
+        color: #fff;
+        transform: scale(1.1);
+      }
 
-  //     &:hover.passive {
-  //       color: var(--grey);
-  //       cursor: default;
-  //       transform: none;
-  //     }
-  //   }
-  // }
+      &:hover.passive {
+        color: var(--grey);
+        cursor: default;
+        transform: none;
+      }
+    }
+  }
 
   .content-tasks {
+    .no-tasks {
+      text-align: center;
+      margin-bottom: 28px;
+
+      h2 {
+        font-size: 30px;
+        font-weight: 300;
+        line-height: 42px;
+        color: var(--grey);
+        margin-bottom: 36px;
+      }
+    }
     .content-task {
       margin-top: 16px;
       display: flex;
