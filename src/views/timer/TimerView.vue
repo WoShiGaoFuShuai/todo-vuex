@@ -1,10 +1,11 @@
 <template>
   <v-card class="timer-wrap">
     <v-tabs
-      @change="changeCurrentTimer"
       class="bar-nav"
+      @change="changeCurrentTimer"
+      purple
       v-model="currentTimer"
-      background-color="deep-purple accent-4"
+      background-color="var(--grey)"
       centered
       dark
       icons-and-text
@@ -23,17 +24,17 @@
         <h2>{{ displayMinutes }}:{{ displaySeconds }}</h2>
 
         <div class="btn-wrap">
-          <v-btn class="start-btn" color="green" dark @click="start">
+          <v-btn class="start-btn" color="var(--green)" dark @click="start">
             <v-icon left>mdi-play</v-icon>
             <span class="btn-text">Start</span>
           </v-btn>
 
-          <v-btn class="pause-btn" color="yellow darken-3" dark @click="pause">
+          <v-btn class="pause-btn" color="var(--orange)" dark @click="pause">
             <v-icon left class="icon-btn">mdi-pause</v-icon>
             <span class="btn-text">Pause</span>
           </v-btn>
 
-          <v-btn class="reset-btn" color="red lighten-1" dark @click="reset">
+          <v-btn class="reset-btn" color="var(--red)" dark @click="reset">
             <v-icon left>mdi-restart</v-icon>
             <span class="btn-text">Reset</span>
           </v-btn>
@@ -46,28 +47,23 @@
     </div>
 
     <audio loop controls>
-      <source src="../../sounds/finished-timer.mp3" />
+      <source src="@/assets/sounds/finished-timer.mp3" />
     </audio>
-
-    <v-card id="circle" class="circle" @click="showSettings">
-      <v-icon x-large>mdi-cog-outline</v-icon>
-    </v-card>
   </v-card>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Pomodoro-main",
-  emits: {
-    settingsModal: null,
-    sendTabs: null,
-  },
-  props: {
-    updatedTimers: {
-      type: Object,
-      required: true,
-    },
-  },
+
+  // props: {
+  //   updatedTimers: {
+  //     type: Object,
+  //     required: true,
+  //   },
+  // },
   data() {
     return {
       settingsModal: false,
@@ -113,6 +109,9 @@ export default {
     resetBtn() {
       return document.querySelector(".reset-btn");
     },
+    ...mapState({
+      updatedTimers: (state) => state.timer.updatedTimers,
+    }),
   },
   methods: {
     stopSound() {
@@ -132,7 +131,8 @@ export default {
       this.tabs[2].totalSeconds = updatedLongBreak * 60;
     },
     showSettings() {
-      this.$emit("settingsModal");
+      // this.$emit("settingsModal");
+      this.$store.commit("toggleSettingsModal");
     },
     formatTime(time) {
       if (time < 10) {
@@ -224,26 +224,32 @@ export default {
     width: 75%;
   }
 
-  .v-tabs {
-    width: 100%;
+  .bar-nav {
+    background-color: red !important;
+    .v-tabs {
+      width: 100%;
+      background-color: red !important;
 
-    .v-slide-group__prev {
-      display: none;
-    }
-  }
-
-  .bar-tab {
-    @media (max-width: 560px) {
-      font-size: 10px;
+      .v-slide-group__prev {
+        display: none;
+      }
     }
 
-    @media (max-width: 425px) {
-      font-size: 6px;
-    }
+    .bar-tab {
+      margin: 0 auto;
 
-    @media (max-width: 375px) {
-      min-width: initial;
-      padding: 0 10px;
+      @media (max-width: 560px) {
+        font-size: 10px;
+      }
+
+      @media (max-width: 425px) {
+        font-size: 6px;
+      }
+
+      @media (max-width: 375px) {
+        min-width: initial;
+        padding: 0 10px;
+      }
     }
   }
 
@@ -259,9 +265,10 @@ export default {
       h2 {
         font-size: 100px;
         display: inline-block;
-        margin: 50px 0;
+        margin: 80px 0;
         align-self: center;
         justify-self: center;
+        color: var(--main-bg);
 
         @media (max-width: 560px) {
           font-size: 80px;
@@ -374,7 +381,7 @@ audio {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #6200ea;
+  background-color: var(--grey);
   position: absolute;
   display: inline-block;
   bottom: -25px;
@@ -384,7 +391,7 @@ audio {
   outline: none;
 
   &:hover {
-    background-color: #4caf50 !important;
+    background-color: var(--grey-light);
     .mdi-cog-outline::before {
       transform: rotate(360deg);
       transition: 1s ease-in-out all;
@@ -396,6 +403,11 @@ audio {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: (--main-bg);
   }
+}
+
+.theme--dark.v-tabs > .v-tabs-bar {
+  background-color: red !important;
 }
 </style>

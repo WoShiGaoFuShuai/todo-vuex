@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import modals from "@/store/modules/modals";
+import timer from "@/store/modules/timer";
 
 Vue.use(Vuex);
 
@@ -37,5 +38,5 @@ export default new Vuex.Store({
   getters: {},
   mutations: {},
   actions: {},
-  modules: { modals },
+  modules: { modals, timer },
 });

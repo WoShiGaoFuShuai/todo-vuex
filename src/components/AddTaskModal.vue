@@ -171,7 +171,7 @@ export default {
   bottom: 0;
 
   .add-task {
-    background-color: #2a3f50;
+    background-color: var(--main-bg);
     z-index: 101;
     padding: 20px;
     max-width: 520px;
@@ -342,7 +342,7 @@ export default {
                   width: 3px;
                   height: 3px;
                   border-radius: 50%;
-                  border: 2.6px solid #2a3f50;
+                  border: 2.6px solid var(--main-bg);
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);

@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import LoginView from "../views/auth/LoginView.vue";
 import SignupView from "../views/auth/SignupView.vue";
+import TimerView from "../views/timer/TimerView.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/settings",
     name: "settings",
     component: SettingsView,
+  },
+  {
+    path: "/timer",
+    name: "timer",
+    component: TimerView,
   },
 ];
 

@@ -1,7 +1,7 @@
 <template>
   <div class="main-title">
     <h1>Daily Task List</h1>
-    <img src="@/assets/images/Plus.svg" alt="" @click="openAddTask" />
+    <img src="@/assets/images/Add.svg" alt="" @click="openAddTask" />
   </div>
 </template>
 
