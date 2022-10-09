@@ -2,7 +2,6 @@
   <div class="global-list">
     <div class="global-list-top">
       <div class="left">
-        {{ todos }}
         <h2>Global list</h2>
         <img src="@/assets/images/Arrow-right.svg" alt="" />
       </div>
