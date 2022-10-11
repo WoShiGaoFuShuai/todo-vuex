@@ -162,6 +162,7 @@ export default {
 }
 
 .modal-add-task {
+  display: none;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   z-index: 100;

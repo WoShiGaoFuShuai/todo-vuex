@@ -217,18 +217,25 @@ export default {
 <style lang="scss" scoped>
 .timer-wrap {
   width: 50%;
-  margin: 50px auto;
+  margin: 100px auto;
   position: relative;
+  box-shadow: 0px 0px 20px 20px rgba(141, 165, 184, 0.3) !important;
+  transition: all 0.3s ease-out;
+  border-radius: 0px 15px 0px 15px;
+
+  &:hover {
+    border-radius: 15px 0px 15px 0px;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px 20px rgba(130, 199, 224, 0.3);
+  }
 
   @media (max-width: 768px) {
     width: 75%;
   }
 
   .bar-nav {
-    background-color: red !important;
     .v-tabs {
       width: 100%;
-      background-color: red !important;
 
       .v-slide-group__prev {
         display: none;

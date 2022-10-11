@@ -7,17 +7,65 @@
           <h2>Categories list overview</h2>
         </div>
         <div class="right">
-          <span class="text">Pomodoros</span>
+          <span
+            @click="changeSettingsView(true, false)"
+            :class="['text', { active: openPomodoro }]"
+            >Pomodoro</span
+          >
           <span class="decoration">|</span>
-          <span class="text">Categories</span>
+          <span
+            @click="changeSettingsView(false, true)"
+            :class="['text', { active: openCategories }]"
+            >Categories</span
+          >
         </div>
       </div>
     </div>
-    <div class="content-categories">
-      <!-- <template>
-        <div class="item" v-for="(item, i) in settingsCategoryArray" :key="i">
-          <span :class="['color', item.css]"></span>
-          <input type="text" :value="item.title" />
+    <div v-if="openCategories" class="content-categories">
+      <div class="item" v-for="(item, i) in settingsCategoryArray" :key="i">
+        <span :class="['color', item.css]"></span>
+        <input type="text" :value="item.title" />
+      </div>
+
+      <div class="buttons">
+        <router-link :to="{ name: 'home' }">
+          <button class="tasks">Go to Tasks</button>
+        </router-link>
+        <button class="save">Save</button>
+      </div>
+    </div>
+    <div v-if="openPomodoro" class="content-settings">
+      <div>
+        <div
+          class="item-settings"
+          v-for="(item, i) in settingsTimerArray"
+          :key="i"
+        >
+          <div :class="['left', item.color]">
+            <span></span>
+          </div>
+          <div class="right">
+            <div class="top">
+              <span class="top-name">{{ item.title }}</span>
+
+              <div class="buttons">
+                <button class="minus">
+                  <img src="@/assets/images/Minus.svg" alt="" />
+                </button>
+                <span class="number">{{ item.number }}</span>
+                <button class="plus">
+                  <img src="@/assets/images/Plus.svg" alt="" />
+                </button>
+              </div>
+            </div>
+
+            <div class="bottom">
+              <span class="text">
+                Please select a value between {{ item.min }} and {{ item.max }}
+                <span class="mins"> minutes </span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div class="buttons">
@@ -25,39 +73,6 @@
             <button class="tasks">Go to Tasks</button>
           </router-link>
           <button class="save">Save</button>
-        </div>
-      </template> -->
-    </div>
-    <div class="content-settings">
-      <div
-        class="item-settings"
-        v-for="(item, i) in settingsTimerArray"
-        :key="i"
-      >
-        <div :class="['left', item.color]">
-          <span></span>
-        </div>
-        <div>
-          <div class="top">
-            <span class="top-name">{{ item.title }}</span>
-
-            <div class="buttons">
-              <button class="minus">
-                <img src="@/assets/images/Minus.svg" alt="" />
-              </button>
-              <span class="number">{{ item.number }}</span>
-              <button class="plus">
-                <img src="@/assets/images/Plus.svg" alt="" />
-              </button>
-            </div>
-          </div>
-
-          <div class="bottom">
-            <span class="text">
-              Please select a value between {{ item.min }} and {{ item.max }}
-              <span class="mins"> minutes </span>
-            </span>
-          </div>
         </div>
       </div>
     </div>
@@ -96,7 +111,15 @@ export default {
         { title: "Long Break", min: 15, max: 30, number: 30, color: "purple" },
         { title: "Short Break", min: 3, max: 5, number: 5, color: "blue" },
       ],
+      openPomodoro: true,
+      openCategories: false,
     };
+  },
+  methods: {
+    changeSettingsView(firstArg, secondArg) {
+      this.openPomodoro = firstArg;
+      this.openCategories = secondArg;
+    },
   },
 };
 </script>
@@ -144,6 +167,15 @@ export default {
           color: var(--grey);
           font-weight: 400;
           margin-left: 8px;
+
+          &.active {
+            color: white;
+          }
+        }
+
+        .text:hover {
+          cursor: pointer;
+          color: white;
         }
       }
     }
@@ -218,14 +250,12 @@ export default {
 
   .content-settings {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
 
     .item-settings {
       display: flex;
-      margin-right: 20px;
-      margin-bottom: 64px;
-      flex-basis: 345px;
+      margin-bottom: 32px;
 
       .left {
         padding: 8px;
@@ -236,53 +266,59 @@ export default {
         margin-top: 5px;
       }
 
-      .top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px;
+      .right {
+        width: 100%;
 
-        .top-name {
-          font-family: var(--second-font);
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 16px;
-          text-transform: uppercase;
-        }
-
-        .buttons {
-          margin: 0 auto;
+        .top {
           display: flex;
           align-items: center;
-          border-bottom: 1px solid var(--grey);
-          padding-bottom: 8px;
+          justify-content: space-between;
+          margin-bottom: 8px;
 
-          .minus,
-          .plus {
-            display: flex;
-            transition: all 1s ease;
-
-            img {
-              transition: all 0.5s ease-in;
-            }
-
-            &:hover {
-              cursor: pointer;
-              transform: scale(1.5);
-
-              img {
-                filter: brightness(0) saturate(100%) invert(80%) sepia(16%)
-                  saturate(842%) hue-rotate(155deg) brightness(91%)
-                  contrast(93%);
-              }
-            }
+          .top-name {
+            font-family: var(--second-font);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            text-transform: uppercase;
           }
 
-          .number {
-            font-weight: 400;
-            line-height: 16px;
-            padding: 0 20px;
-            color: var(--grey);
+          .buttons {
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--grey);
+            padding-bottom: 8px;
+            min-width: 78px;
+
+            .minus,
+            .plus {
+              display: flex;
+              transition: all 1s ease;
+
+              img {
+                transition: all 0.5s ease-in;
+              }
+
+              &:hover {
+                cursor: pointer;
+                transform: scale(1.5);
+
+                img {
+                  filter: brightness(0) saturate(100%) invert(80%) sepia(16%)
+                    saturate(842%) hue-rotate(155deg) brightness(91%)
+                    contrast(93%);
+                }
+              }
+            }
+
+            .number {
+              font-weight: 400;
+              line-height: 16px;
+              padding: 0 20px;
+              color: var(--grey);
+            }
           }
         }
       }
@@ -299,6 +335,36 @@ export default {
 
         .mins {
           color: #fff;
+        }
+      }
+    }
+
+    .buttons {
+      margin-top: 80px;
+
+      .tasks,
+      .save {
+        background-color: var(--btn-blue);
+        padding: 12px 32px;
+        border: none;
+        outline: none;
+        font-family: "PT Sans", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        margin: 0 12px;
+        color: #fff;
+
+        &:hover {
+          cursor: pointer;
+          background-color: var(--btn-blue-hvr);
+        }
+      }
+      .save {
+        background-color: var(--btn-green);
+
+        &:hover {
+          background-color: var(--btn-green-hvr);
         }
       }
     }

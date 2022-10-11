@@ -64,8 +64,8 @@ export default {
       img {
         cursor: pointer;
         transform: scale(1.05);
-        filter: brightness(0) saturate(100%) invert(100%) sepia(5%) saturate(1%)
-          hue-rotate(37deg) brightness(105%) contrast(100%);
+        filter: brightness(0) saturate(100%) invert(83%) sepia(11%)
+          saturate(1681%) hue-rotate(163deg) brightness(91%) contrast(93%);
       }
     }
   }
