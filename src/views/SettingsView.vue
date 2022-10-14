@@ -3,8 +3,8 @@
     <div class="top-wrapper">
       <div class="main-text">
         <div class="left">
-          <h1>Settings</h1>
-          <h2>Categories list overview</h2>
+          <h1 class="left-title">Settings</h1>
+          <h2 class="left-subtitle">Categories list overview</h2>
         </div>
         <div class="right">
           <span
@@ -24,7 +24,7 @@
     <div v-if="openCategories" class="content-categories">
       <div class="item" v-for="(item, i) in settingsCategoryArray" :key="i">
         <span :class="['color', item.css]"></span>
-        <input type="text" :value="item.title" />
+        <input class="category-input" type="text" v-model="item.title" />
       </div>
 
       <div class="buttons">
@@ -38,21 +38,21 @@
       <div>
         <div
           class="item-settings"
-          v-for="(item, i) in settingsTimerArray"
+          v-for="({ title, min, max, number, color }, i) in settingsTimerArray"
           :key="i"
         >
-          <div :class="['left', item.color]">
+          <div :class="['left', color]">
             <span></span>
           </div>
           <div class="right">
             <div class="top">
-              <span class="top-name">{{ item.title }}</span>
+              <span class="top-name">{{ title }}</span>
 
               <div class="buttons">
                 <button class="minus">
                   <img src="@/assets/images/Minus.svg" alt="" />
                 </button>
-                <span class="number">{{ item.number }}</span>
+                <span class="number">{{ number }}</span>
                 <button class="plus">
                   <img src="@/assets/images/Plus.svg" alt="" />
                 </button>
@@ -61,7 +61,7 @@
 
             <div class="bottom">
               <span class="text">
-                Please select a value between {{ item.min }} and {{ item.max }}
+                Please select a value between {{ min }} and {{ max }}
                 <span class="mins"> minutes </span>
               </span>
             </div>
@@ -80,32 +80,34 @@
 </template>
 
 <script>
+const DEFAULT_CATEGORY = [
+  {
+    title: "Work",
+    css: "work",
+  },
+  {
+    title: "Education",
+    css: "education",
+  },
+  {
+    title: "Hobby",
+    css: "hobby",
+  },
+  {
+    title: "Sport",
+    css: "sport",
+  },
+  {
+    title: "Other",
+    css: "other",
+  },
+];
+
 export default {
   name: "SettingsView",
   data() {
     return {
-      settingsCategoryArray: [
-        {
-          title: "Work",
-          css: "work",
-        },
-        {
-          title: "Education",
-          css: "education",
-        },
-        {
-          title: "Hobby",
-          css: "hobby",
-        },
-        {
-          title: "Sport",
-          css: "sport",
-        },
-        {
-          title: "Other",
-          css: "other",
-        },
-      ],
+      settingsCategoryArray: DEFAULT_CATEGORY,
       settingsTimerArray: [
         { title: "Work Time", min: 15, max: 25, number: 25, color: "orange" },
         { title: "Long Break", min: 15, max: 30, number: 30, color: "purple" },
@@ -144,19 +146,19 @@ export default {
         text-align: center;
         align-self: center;
 
-        h1 {
+        .left-title {
           margin-bottom: 20px;
           font-size: 28px;
           line-height: 32px;
           letter-spacing: 0.7px;
         }
 
-        h2 {
+        .left-subtitle {
           font-weight: 300;
           font-size: 22px;
           line-height: 28px;
           letter-spacing: 0.55px;
-          color: var(--grey);
+          color: var(--greyish);
         }
       }
 
@@ -164,7 +166,7 @@ export default {
         .text,
         .decoration {
           font-family: var(--second-font);
-          color: var(--grey);
+          color: var(--greyish);
           font-weight: 400;
           margin-left: 8px;
 
@@ -201,13 +203,12 @@ export default {
         width: 16px;
         height: 16px;
         display: inline-block;
-        background-color: red;
         margin-right: 20px;
         border-radius: 50%;
       }
 
-      input {
-        color: var(--grey);
+      .category-input {
+        color: var(--greyish);
         font-weight: 400;
         font-size: 16px;
         padding: 8px 0;
@@ -260,7 +261,7 @@ export default {
       .left {
         padding: 8px;
         border-radius: 50%;
-        background-color: var(--orange);
+        background-color: var(--orangeish);
         align-self: baseline;
         margin-right: 16px;
         margin-top: 5px;
@@ -288,7 +289,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--grey);
+            border-bottom: 1px solid var(--greyish);
             padding-bottom: 8px;
             min-width: 78px;
 
@@ -317,7 +318,7 @@ export default {
               font-weight: 400;
               line-height: 16px;
               padding: 0 20px;
-              color: var(--grey);
+              color: var(--greyish);
             }
           }
         }
@@ -330,7 +331,7 @@ export default {
           font-weight: 400;
           font-size: 14px;
           line-height: 16px;
-          color: var(--grey);
+          color: var(--greyish);
         }
 
         .mins {

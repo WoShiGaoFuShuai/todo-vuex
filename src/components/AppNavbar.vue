@@ -2,21 +2,21 @@
   <nav class="nav">
     <ul class="nav-ul">
       <template>
-        <li class="nav-username">Welcome, USERNAME!</li>
-        <li>
+        <li class="nav-li nav-username">Welcome, USERNAME!</li>
+        <li class="nav-li">
           <img src="@/assets/images/Logout.svg" alt="" />
         </li>
-        <li><img src="@/assets/images/Delete.svg" alt="" /></li>
-        <li>
+        <li class="nav-li"><img src="@/assets/images/Delete.svg" alt="" /></li>
+        <li class="nav-li">
           <router-link :to="{ name: 'home' }">
             <img src="@/assets/images/Global List.svg" alt="" />
           </router-link>
         </li>
-        <li>
+        <li class="nav-li">
           <img src="@/assets/images/Statistics.svg" alt="" />
         </li>
 
-        <li>
+        <li class="nav-li">
           <router-link :to="{ name: 'settings' }">
             <img src="@/assets/images/Settings.svg" alt="" />
           </router-link>
@@ -24,10 +24,10 @@
       </template>
       <template>
         <router-link :to="{ name: 'login' }"
-          ><li class="link">Login</li></router-link
+          ><li class="nav-li link">Login</li></router-link
         >
         <router-link :to="{ name: 'signup' }"
-          ><li class="link">Signup</li></router-link
+          ><li class="nav-li link">Signup</li></router-link
         >
       </template>
     </ul>
@@ -53,7 +53,7 @@ export default {
     }
   }
 
-  li {
+  .nav-li {
     margin-left: 32px;
 
     img {
@@ -73,12 +73,12 @@ export default {
   .nav-username {
     margin-left: 0;
     margin-right: auto;
-    color: var(--grey);
+    color: var(--greyish);
   }
 
   .link,
   .btn {
-    background-color: var(--grey);
+    background-color: var(--greyish);
     padding: 8px 10px;
     border-radius: 10px 0px 10px 0px;
     transition: all 0.3s ease;

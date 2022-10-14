@@ -13,7 +13,7 @@
       >
         <div :class="['category', todo.category]"></div>
         <div class="deadline">
-          <span class="date">{{ todo.deadline }}</span>
+          <span class="span date">{{ todo.deadline }}</span>
           <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
         </div>
         <div class="text">
@@ -21,14 +21,14 @@
           <p class="text-description">{{ todo.description }}</p>
         </div>
         <div class="buttons">
-          <img src="@/assets/images/Up.svg" alt="" />
-          <img src="@/assets/images/Edit.svg" alt="" />
-          <img src="@/assets/images/Delete.svg" alt="" />
+          <img class="buttons-img" src="@/assets/images/Up.svg" alt="" />
+          <img class="buttons-img" src="@/assets/images/Edit.svg" alt="" />
+          <img class="buttons-img" src="@/assets/images/Delete.svg" alt="" />
         </div>
         <div :class="['priority', todo.priority]">
           <div class="img">
-            <img src="@/assets/images/Apple.svg" alt="" />
-            <span>{{ todo.estimation }}</span>
+            <!-- <img src="@/assets/images/Apple.svg" alt="" /> -->
+            <span class="estimation">{{ todo.estimation }}</span>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
   //   li {
   //     font-family: "PT Sans", sans-serif;
   //     margin-left: 8px;
-  //     color: var(--grey);
+  //     color: var(--greyish);
   //     font-size: 16px;
   //     font-weight: 400px;
   //     transition: all 0.5s ease;
@@ -65,7 +65,7 @@ export default {
   //     }
 
   //     &:hover.passive {
-  //       color: var(--grey);
+  //       color: var(--greyish);
   //       cursor: default;
   //       transform: none;
   //     }
@@ -89,12 +89,12 @@ export default {
 
       .category {
         min-width: 8px;
-        background-color: var(--red);
+        background-color: var(--redish);
       }
 
       .deadline {
         align-self: center;
-        span {
+        .span {
           color: #9f9f9f;
           font-weight: 700;
           font-size: 11px;
@@ -122,6 +122,7 @@ export default {
           font-size: 16px;
           color: #7f7f7f;
           font-weight: 400;
+          margin-bottom: 0;
         }
       }
 
@@ -130,7 +131,7 @@ export default {
         margin-right: 20px;
         min-width: 80px;
 
-        img {
+        .buttons-img {
           margin-left: 20px;
           filter: brightness(0) saturate(100%) invert(95%) sepia(0%)
             saturate(107%) hue-rotate(161deg) brightness(86%) contrast(92%);
@@ -146,23 +147,29 @@ export default {
       }
 
       .priority {
-        background-color: red;
         display: flex;
         justify-content: center;
         align-items: center;
 
         .img {
           position: relative;
+          width: 88px;
+          background: url("@/assets/images/Apple.svg") no-repeat center;
+          height: 100%;
 
-          img {
-            margin: 20px;
+          &:hover {
+            cursor: pointer;
+            margin-top: 10px;
+            background: url("@/assets/images/Hover.svg") no-repeat center;
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%)
+              saturate(7500%) hue-rotate(298deg) brightness(105%) contrast(103%);
 
-            &:hover + span {
+            .estimation {
               display: none;
             }
           }
 
-          span {
+          .estimation {
             font-family: "PT Sans", sans-serif;
             position: absolute;
             top: 50%;
@@ -171,6 +178,7 @@ export default {
             color: #fff;
             font-size: 24px;
             font-weight: 700;
+            margin-top: 3px;
           }
         }
       }

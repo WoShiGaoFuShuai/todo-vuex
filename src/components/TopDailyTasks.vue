@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <ul class="content-nav">
-      <li>To Do</li>
-      <li class="passive">|</li>
-      <li>Done</li>
+      <li class="li">To Do</li>
+      <li class="li passive">|</li>
+      <li class="li">Done</li>
     </ul>
     <div class="content-tasks">
       <template
@@ -12,7 +12,7 @@
         "
       >
         <div class="no-tasks">
-          <h2>
+          <h2 class="title">
             Task added, <br />
             move it to the top 5 in daily task list
           </h2>
@@ -27,7 +27,7 @@
         >
           <div :class="['category', todo.category]"></div>
           <div class="deadline">
-            <span class="date">{{ todo.deadline }}</span>
+            <span class="deadline-span date">{{ todo.deadline }}</span>
             <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
           </div>
           <div class="text">
@@ -41,7 +41,7 @@
           <div :class="['priority', todo.priority]">
             <div class="img">
               <img src="@/assets/images/Apple.svg" alt="" />
-              <span>{{ todo.estimation }}</span>
+              <span class="estimation-span">{{ todo.estimation }}</span>
             </div>
           </div>
         </div>
@@ -64,10 +64,10 @@ export default {
     display: flex;
     justify-content: flex-end;
 
-    li {
+    .li {
       font-family: "PT Sans", sans-serif;
       margin-left: 8px;
-      color: var(--grey);
+      color: var(--greyish);
       font-size: 16px;
       font-weight: 400px;
       transition: all 0.5s ease;
@@ -79,7 +79,7 @@ export default {
       }
 
       &:hover.passive {
-        color: var(--grey);
+        color: var(--greyish);
         cursor: default;
         transform: none;
       }
@@ -91,11 +91,11 @@ export default {
       text-align: center;
       margin-bottom: 28px;
 
-      h2 {
+      .title {
         font-size: 30px;
         font-weight: 300;
         line-height: 42px;
-        color: var(--grey);
+        color: var(--greyish);
         margin-bottom: 36px;
       }
     }
@@ -115,12 +115,13 @@ export default {
 
       .category {
         min-width: 8px;
-        background-color: var(--red);
+        background-color: var(--redish);
       }
 
       .deadline {
         align-self: center;
-        span {
+
+        .deadline-span {
           color: #9f9f9f;
           font-weight: 700;
           font-size: 11px;
@@ -188,7 +189,7 @@ export default {
             }
           }
 
-          span {
+          estimation-span {
             font-family: "PT Sans", sans-serif;
             position: absolute;
             top: 50%;

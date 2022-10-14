@@ -1,13 +1,22 @@
 <template>
   <div class="main-title">
-    <h1>Daily Task List</h1>
-    <img src="@/assets/images/Add.svg" alt="" />
+    <h1 class="title">Daily Task List</h1>
+    <img @click="openModal" class="img" src="@/assets/images/Add.svg" alt="" />
+    <AddTaskModal :type="'edit'" />
   </div>
 </template>
 
 <script>
+import AddTaskModal from "@/components/AddTaskModal.vue";
+
 export default {
   name: "DailyTask",
+  components: {
+    AddTaskModal,
+  },
+  methods: {
+    openModal() {},
+  },
 };
 </script>
 
@@ -18,14 +27,14 @@ export default {
   justify-content: center;
   margin-top: 16px;
 
-  h1 {
+  .title {
     cursor: pointer;
     letter-spacing: 0.7px;
     font-size: 28px;
     margin-right: 16px;
   }
 
-  img {
+  .img {
     cursor: pointer;
     transition: all 0.5s ease-in-out;
     &:hover {

@@ -2,8 +2,8 @@
   <div class="global-list">
     <div class="global-list-top">
       <div class="left">
-        <h2>Global list</h2>
-        <img src="@/assets/images/Arrow-right.svg" alt="" />
+        <h2 class="title">Global list</h2>
+        <img class="img" src="@/assets/images/Arrow-right.svg" alt="" />
       </div>
 
       <div class="right">
@@ -51,11 +51,11 @@ export default {
   &:hover {
     cursor: pointer;
 
-    h2 {
+    .title {
       color: var(--grey-light);
     }
 
-    img {
+    .img {
       filter: brightness(0) saturate(100%) invert(69%) sepia(82%) saturate(195%)
         hue-rotate(153deg) brightness(94%) contrast(86%);
     }
@@ -65,9 +65,9 @@ export default {
     display: flex;
     align-items: center;
 
-    h2 {
+    .title {
       font-family: "PT Sans", sans-serif;
-      color: var(--grey);
+      color: var(--greyish);
       font-weight: 700;
       font-size: 20px;
       margin-right: 16px;
@@ -77,17 +77,14 @@ export default {
   .bars-container {
     display: flex;
 
-    // &:last-child li .decoration {
-    //   background: white;
-    // }
-
     .bar-item {
       &:last-child > .decoration {
         display: none;
       }
+
       .name,
       .decoration {
-        color: var(--grey);
+        color: var(--greyish);
         margin-left: 8px;
         font-family: var(--second-font);
 
@@ -97,7 +94,7 @@ export default {
       }
 
       .decoration:hover {
-        color: var(--grey);
+        color: var(--greyish);
       }
     }
   }

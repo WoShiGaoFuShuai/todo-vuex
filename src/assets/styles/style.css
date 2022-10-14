@@ -1,49 +1,49 @@
 :root {
-  --red: #F75C4C !important;
-  --orange: #FFB202 !important;
-  --yellow: #FDDC43 !important;
-  --green: #1ABC9C !important;
-  --purple: #B470D0 !important;
-  --blue: #59abe3 !important;
-  --aqua: #00d4d9 !important;
-  --grey:#8da5b8 !important ;
-  --grey-light: #82c7e0 !important;
-  --btn-blue: #59ABE3 !important;
-  --btn-blue-hvr: #368BC5 !important;
-  --btn-green: #1ABC9C !important;
-  --btn-green-hvr: #16A085 !important;
-  --btn-red: #F15A4A !important;
-  --btn-red-hvr: #d64130 !important;
+  --redish: #F75C4C;
+  --orangeish: #FFB202;
+  --yellowish: #FDDC43;
+  --greenish: #1ABC9C;
+  --purpleish: #B470D0;
+  --blueish: #59abe3;
+  --aquaish: #00d4d9;
+  --greyish:#8da5b8;
+  --grey-light: #82c7e0;
+  --btn-blue: #59ABE3;
+  --btn-blue-hvr: #368BC5;
+  --btn-green: #1ABC9C;
+  --btn-green-hvr: #16A085;
+  --btn-red: #F15A4A;
+  --btn-red-hvr: #d64130;
   --second-font:  'PT Sans', sans-serif;
-  --main-bg: #2A3F50 !important;
+  --main-bg: #2A3F50;
 }
 
 
 
 .work, .high {
-  background-color: var(--orange) !important;
+  background-color: var(--orangeish);
 }
 
 .education {
-  background-color: var(--blue) !important;
+  background-color: var(--blueish);
 }
 
 .hobby {
-  background-color: var(--purple) !important;
+  background-color: var(--purpleish);
 }
 .sport, .urgent {
-  background-color: var(--red) !important;
+  background-color: var(--redish);
 }
 .other {
-  background-color: var(--aqua) !important;
+  background-color: var(--aquaish);
 }
 
 .middle {
-  background-color: var(--yellow) !important;
+  background-color: var(--yellowish);
 }
 
 .low {
-  background-color: var(--green) !important;
+  background-color: var(--greenish);
 }
 
 * {
@@ -64,6 +64,10 @@ color: #fff
    height: 100%;
    padding: 50px 44px;
  }
+
+ .v-application a {
+color: none; 
+}
  
 
  .v-application p {

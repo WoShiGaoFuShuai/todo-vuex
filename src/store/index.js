@@ -35,8 +35,5 @@ export default new Vuex.Store({
     ],
     dailyTodos: [{ title: "aa" }],
   },
-  getters: {},
-  mutations: {},
-  actions: {},
   modules: { modals, timer },
 });

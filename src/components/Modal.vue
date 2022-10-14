@@ -1,168 +1,30 @@
 <template>
-  <BaseModal class="modal-add-task wrapper" v-modal="isOpenAddTaskModal">
-    <div class="add-task" @click.stop="">
-      <form class="form">
-        <ul class="buttons">
-          <li class="button-item">
-            <img src="@/assets/images/Cancel-btn.svg" alt="" />
-          </li>
-          <li class="button-item">
-            <img src="@/assets/images/Agree-btn.svg" alt="" />
-          </li>
-        </ul>
-        <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }}Task</h2>
-        <div class="content">
-          <fieldset class="fieldset">
-            <label class="label-title" for="title">Title</label>
-            <input
-              class="input-text"
-              id="title"
-              type="text"
-              placeholder="Add title here"
-              v-model="title"
-              required
-            />
-          </fieldset>
-          <fieldset class="fieldset">
-            <label class="label-title" for="description">Description</label>
-            <input
-              class="input-text"
-              id="description"
-              type="text"
-              placeholder="Add description here"
-              v-model="description"
-              required
-            />
-          </fieldset>
-          <fieldset class="fieldset radio category">
-            <span class="label-wrapper">
-              <span class="label-title">Category</span>
-
-              <template
-                v-for="({ name, className, value }, index) in categoryArray"
-              >
-                <label class="label-item" :key="index">
-                  <input
-                    v-model="category"
-                    :value="value"
-                    class="radio"
-                    type="radio"
-                    name="category"
-                  />
-                  <span :class="['fake', className]"></span>
-                  <span class="text">{{ name }}</span>
-                </label>
-              </template>
-            </span>
-          </fieldset>
-          <fieldset class="fieldset">
-            <label class="label-title" for="deadline"> Deadline </label>
-            <input
-              v-model="deadline"
-              class="input-text"
-              id="deadline"
-              type="date"
-              placeholder="Add DEADLINE here"
-              required
-            />
-          </fieldset>
-
-          <fieldset class="fieldset radio estimation">
-            <span class="label-wrapper">
-              <span class="label-title">Estimation</span>
-
-              <label
-                v-for="({ value }, index) in estimationArray"
-                :key="index"
-                class="label-item estimation"
-                :value="value"
-              >
-                <input class="radio" type="checkbox" />
-                <span class="fake estimation"></span>
-              </label>
-            </span>
-          </fieldset>
-
-          <fieldset class="fieldset radio priority">
-            <span class="label-wrapper">
-              <span class="label-title">Priority</span>
-
-              <template
-                v-for="({ name, className, value }, index) in priorityArray"
-              >
-                <label class="label-item" :key="index">
-                  <input
-                    v-model="priority"
-                    :value="value"
-                    class="radio"
-                    type="radio"
-                    name="priority"
-                  />
-                  <span :class="['fake', className]"></span>
-                  <span class="text">{{ name }}</span>
-                </label>
-              </template>
-            </span>
-          </fieldset>
-        </div>
-      </form>
-    </div>
-  </BaseModal>
+  <div class="modal-add-task wrapper" v-if="isOpenAddTaskModal">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import BaseModal from "@/components/Modal.vue";
-
 export default {
-  name: "AddTaskModal",
-  components: {
-    BaseModal,
-  },
+  name: "BaseModal",
   props: {
-    type: {
-      type: String,
-      default: "Add",
+    value: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
-      title: "",
-      description: "",
-      category: "",
-      deadline: "",
-      estimation: "",
-      priority: "",
-      categoryArray: [
-        {
-          name: "Work",
-          className: "orangeish",
-          value: "work",
-        },
-        { name: "Education", className: "blueish", value: "education" },
-        { name: "Hobby", className: "pinkish", value: "hobby" },
-        { name: "Sport", className: "redish", value: "sport" },
-        { name: "Other", className: "aquaish", value: "other" },
-      ],
-      priorityArray: [
-        { name: "Urgent", className: "redish", value: "urgent" },
-        { name: "High", className: "orangeish", value: "high" },
-        { name: "Middle", className: "yellowish", value: "middle" },
-        { name: "Low", className: "greenish", value: "low" },
-      ],
-      estimationArray: [
-        { name: 0, checked: true, value: 0 },
-        { name: 1, checked: true, value: 1 },
-        { name: 2, checked: true, value: 2 },
-        { name: 3, checked: false, value: 3 },
-        { name: 4, checked: false, value: 4 },
-      ],
+      isOpenAddTaskModal: false,
     };
   },
-  computed: {
-    ...mapState({
-      isOpenAddTaskModal: (state) => state.modals.isOpenAddTaskModal,
-    }),
+  watch: {
+    value: {
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue) this.isOpenAddTaskModal = newValue;
+      },
+      immediate: true,
+    },
   },
 };
 
@@ -178,7 +40,7 @@ export default {
 }
 
 .modal-add-task {
-  display: none;
+  // display: none;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   z-index: 100;

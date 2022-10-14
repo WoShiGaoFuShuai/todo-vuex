@@ -5,7 +5,7 @@
       @change="changeCurrentTimer"
       purple
       v-model="currentTimer"
-      background-color="var(--grey)"
+      background-color="var(--greyish)"
       centered
       dark
       icons-and-text
@@ -24,17 +24,17 @@
         <h2>{{ displayMinutes }}:{{ displaySeconds }}</h2>
 
         <div class="btn-wrap">
-          <v-btn class="start-btn" color="var(--green)" dark @click="start">
+          <v-btn class="start-btn" color="var(--greenish)" dark @click="start">
             <v-icon left>mdi-play</v-icon>
             <span class="btn-text">Start</span>
           </v-btn>
 
-          <v-btn class="pause-btn" color="var(--orange)" dark @click="pause">
+          <v-btn class="pause-btn" color="var(--orangeish)" dark @click="pause">
             <v-icon left class="icon-btn">mdi-pause</v-icon>
             <span class="btn-text">Pause</span>
           </v-btn>
 
-          <v-btn class="reset-btn" color="var(--red)" dark @click="reset">
+          <v-btn class="reset-btn" color="var(--redish)" dark @click="reset">
             <v-icon left>mdi-restart</v-icon>
             <span class="btn-text">Reset</span>
           </v-btn>
@@ -388,7 +388,7 @@ audio {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: var(--grey);
+  background-color: var(--greyish);
   position: absolute;
   display: inline-block;
   bottom: -25px;

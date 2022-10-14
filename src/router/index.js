@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import SettingsView from "../views/SettingsView.vue";
-import LoginView from "../views/auth/LoginView.vue";
-import SignupView from "../views/auth/SignupView.vue";
-import TimerView from "../views/timer/TimerView.vue";
+// import SettingsView from "../views/SettingsView.vue";
+// import LoginView from "../views/auth/LoginView.vue";
+// import SignupView from "../views/auth/SignupView.vue";
+// import TimerView from "../views/timer/TimerView.vue";
 
 Vue.use(VueRouter);
 
@@ -17,22 +17,26 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: LoginView,
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/views/auth/LoginView.vue"),
   },
   {
     path: "/signup",
     name: "signup",
-    component: SignupView,
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/views/auth/SignupView.vue"),
   },
   {
     path: "/settings",
     name: "settings",
-    component: SettingsView,
+    component: () =>
+      import(/* webpackChunkName: "settings" */ "@/views/SettingsView.vue"),
   },
   {
     path: "/timer",
     name: "timer",
-    component: TimerView,
+    component: () =>
+      import(/* webpackChunkName: "timer" */ "@/views/timer/TimerView.vue"),
   },
 ];
 
