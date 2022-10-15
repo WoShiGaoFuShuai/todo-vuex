@@ -134,6 +134,10 @@ export default {
     display: flex;
     // justify-content: center;
 
+    @media (max-width: 768px) {
+      margin-bottom: -30px;
+    }
+
     .main-text {
       margin-bottom: 96px;
       display: flex;
@@ -159,6 +163,10 @@ export default {
           line-height: 28px;
           letter-spacing: 0.55px;
           color: var(--greyish);
+
+          @media (max-width: 768px) {
+            margin-bottom: 8px;
+          }
         }
       }
 
@@ -195,8 +203,16 @@ export default {
       align-items: center;
       margin-bottom: 32px;
 
+      @media (max-width: 768px) {
+        margin-bottom: 24px;
+      }
+
       &:nth-last-child(2) {
         margin-bottom: 80px;
+
+        @media (max-width: 768px) {
+          margin-bottom: 50px;
+        }
       }
 
       .color {
@@ -221,6 +237,9 @@ export default {
     }
 
     .buttons {
+      display: flex;
+      justify-content: center;
+
       .tasks,
       .save {
         background-color: var(--btn-blue);
@@ -233,6 +252,17 @@ export default {
         transition: all 0.2s ease;
         margin: 0 12px;
         color: #fff;
+
+        @media (max-width: 425px) {
+          padding: 10px 28px;
+          font-size: 16px;
+          margin: 0px 10px;
+        }
+
+        @media (max-width: 375px) {
+          padding: 8px 20px;
+          font-size: 14px;
+        }
 
         &:hover {
           cursor: pointer;
@@ -282,6 +312,10 @@ export default {
             font-size: 14px;
             line-height: 16px;
             text-transform: uppercase;
+
+            @media (max-width: 375px) {
+              margin-right: 8px;
+            }
           }
 
           .buttons {
@@ -332,6 +366,10 @@ export default {
           font-size: 14px;
           line-height: 16px;
           color: var(--greyish);
+
+          @media (max-width: 375px) {
+            font-size: 12px;
+          }
         }
 
         .mins {
@@ -342,6 +380,12 @@ export default {
 
     .buttons {
       margin-top: 80px;
+      display: flex;
+      justify-content: center;
+
+      @media (max-width: 425px) {
+        margin-top: 50px;
+      }
 
       .tasks,
       .save {
@@ -355,6 +399,17 @@ export default {
         transition: all 0.2s ease;
         margin: 0 12px;
         color: #fff;
+
+        @media (max-width: 425px) {
+          padding: 10px 28px;
+          font-size: 16px;
+          margin: 0px 10px;
+        }
+
+        @media (max-width: 375px) {
+          padding: 8px 20px;
+          font-size: 14px;
+        }
 
         &:hover {
           cursor: pointer;
