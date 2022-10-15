@@ -25,8 +25,8 @@ export default new Vuex.Store({
         category: "work",
       },
       {
-        title: "44",
-        description: "444",
+        title: "Learing fa a afassasasas as asas sfs fqw sa ffqwqw",
+        description: "Learn something new today",
         estimation: 1,
         priority: "middle",
         deadline: "today",

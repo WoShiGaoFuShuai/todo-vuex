@@ -45,28 +45,45 @@ export default {
 <style lang="scss" scoped>
 .global-list-top {
   display: flex;
-  // align-items: center;
   justify-content: space-between;
+  align-items: center;
 
-  &:hover {
-    cursor: pointer;
-
-    .title {
-      color: var(--grey-light);
-    }
-
-    .img {
-      filter: brightness(0) saturate(100%) invert(69%) sepia(82%) saturate(195%)
-        hue-rotate(153deg) brightness(94%) contrast(86%);
-    }
+  @media (max-width: 500px) {
+    flex-direction: column;
   }
+
+  // &:hover {
+  //   cursor: pointer;
+
+  //   // .title {
+  //   //   color: var(--grey-light);
+  //   // }
+
+  //   .img {
+  //     filter: brightness(0) saturate(100%) invert(69%) sepia(82%) saturate(195%)
+  //       hue-rotate(153deg) brightness(94%) contrast(86%);
+  //   }
+  // }
 
   .left {
     display: flex;
     align-items: center;
 
+    &:hover {
+      cursor: pointer;
+
+      .title {
+        color: var(--grey-light);
+      }
+
+      .img {
+        filter: brightness(0) saturate(100%) invert(69%) sepia(82%)
+          saturate(195%) hue-rotate(153deg) brightness(94%) contrast(86%);
+      }
+    }
+
     .title {
-      font-family: "PT Sans", sans-serif;
+      font-family: var(--second-font);
       color: var(--greyish);
       font-weight: 700;
       font-size: 20px;
@@ -90,6 +107,7 @@ export default {
 
         &:hover {
           color: #fff;
+          cursor: pointer;
         }
       }
 

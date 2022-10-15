@@ -79,6 +79,10 @@ export default {
       background-color: #fff;
       transition: all 0.4s ease;
 
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
       &:last-child {
         margin-bottom: 32px;
       }
@@ -90,10 +94,19 @@ export default {
       .category {
         min-width: 8px;
         background-color: var(--redish);
+
+        @media (max-width: 768px) {
+          height: 8px;
+        }
       }
 
       .deadline {
         align-self: center;
+
+        @media (max-width: 768px) {
+          align-self: flex-start;
+        }
+
         .span {
           color: #9f9f9f;
           font-weight: 700;
@@ -111,11 +124,26 @@ export default {
         flex-grow: 1;
         padding: 14px 0;
         align-self: center;
+        overflow-wrap: break-word;
+
+        @media (max-width: 768px) {
+          padding: 8px 0;
+          align-self: flex-start;
+          margin: 0 16px;
+          line-height: 22px;
+        }
 
         .text-title {
           font-size: 18px;
           color: #e74c3c;
           margin-bottom: 4px;
+          overflow-wrap: break-word;
+          word-break: break-all;
+
+          @media (max-width: 425px) {
+            font-size: 16px;
+            line-height: 18px;
+          }
         }
 
         .text-description {
@@ -123,13 +151,25 @@ export default {
           color: #7f7f7f;
           font-weight: 400;
           margin-bottom: 0;
+          overflow-wrap: break-word;
+          word-break: break-all;
+
+          @media (max-width: 425px) {
+            font-size: 14px;
+          }
         }
       }
 
       .buttons {
         align-self: center;
-        margin-right: 20px;
+        margin-right: 15px;
         min-width: 80px;
+
+        @media (max-width: 768px) {
+          margin-right: 16px;
+          margin-bottom: 8px;
+          align-self: flex-end;
+        }
 
         .buttons-img {
           margin-left: 20px;
@@ -150,6 +190,10 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        @media (max-width: 768px) {
+          height: 64px;
+        }
 
         .img {
           position: relative;
