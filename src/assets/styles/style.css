@@ -77,3 +77,11 @@ color: none;
  .v-application ul, .v-application ol {
   padding-left: 0 !important;
 }
+
+.v-card__text {
+  width: initial !important;
+}
+
+.v-tabs--icons-and-text > .v-tabs-bar .v-tab > *:first-child {
+  margin-bottom: 0 !important;
+}
