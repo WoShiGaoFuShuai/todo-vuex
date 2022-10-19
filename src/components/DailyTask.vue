@@ -8,6 +8,7 @@
 
 <script>
 import AddTaskModal from "@/components/AddTaskModal.vue";
+import { mutationModals } from "@/store/modules/modals";
 
 export default {
   name: "DailyTask",
@@ -15,7 +16,9 @@ export default {
     AddTaskModal,
   },
   methods: {
-    openModal() {},
+    openModal() {
+      this.$store.commit(mutationModals.toggleModals);
+    },
   },
 };
 </script>

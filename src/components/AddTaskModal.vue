@@ -1,16 +1,20 @@
 <template>
-  <BaseModal class="modal-add-task wrapper" v-modal="isOpenAddTaskModal">
+  <BaseModal v-model="isOpenAddTaskModal">
     <div class="add-task" @click.stop="">
       <form class="form">
         <ul class="buttons">
           <li class="button-item">
-            <img src="@/assets/images/Cancel-btn.svg" alt="" />
+            <img
+              @click="closeModal"
+              src="@/assets/images/Cancel-btn.svg"
+              alt=""
+            />
           </li>
           <li class="button-item">
             <img src="@/assets/images/Agree-btn.svg" alt="" />
           </li>
         </ul>
-        <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }}Task</h2>
+        <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }} Task</h2>
         <div class="content">
           <fieldset class="fieldset">
             <label class="label-title" for="title">Title</label>
@@ -113,6 +117,7 @@
 <script>
 import { mapState } from "vuex";
 import BaseModal from "@/components/Modal.vue";
+import { mutationModals } from "@/store/modules/modals";
 
 export default {
   name: "AddTaskModal",
@@ -159,6 +164,11 @@ export default {
       ],
     };
   },
+  methods: {
+    closeModal() {
+      this.$store.commit(mutationModals.closeModals);
+    },
+  },
   computed: {
     ...mapState({
       isOpenAddTaskModal: (state) => state.modals.isOpenAddTaskModal,
@@ -178,7 +188,7 @@ export default {
 }
 
 .modal-add-task {
-  display: none;
+  // display: none;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   z-index: 100;
@@ -252,6 +262,10 @@ export default {
             line-height: 20px;
             outline: none;
             margin-bottom: 8px;
+
+            @media (max-width: 375px) {
+              font-size: 14px;
+            }
           }
 
           ::-webkit-input-placeholder {
@@ -282,11 +296,25 @@ export default {
             display: inline-block;
             margin-bottom: 8px;
 
+            @media (max-width: 768px) {
+              display: flex;
+              flex-direction: column;
+            }
+
             .label-item {
               margin-left: 16px;
 
+              @media (max-width: 768px) {
+                margin-left: 0px;
+                margin-bottom: 8px;
+              }
+
               &.estimation {
                 margin-left: 8px;
+
+                @media (max-width: 768px) {
+                  margin-left: 0px;
+                }
               }
 
               &:hover {

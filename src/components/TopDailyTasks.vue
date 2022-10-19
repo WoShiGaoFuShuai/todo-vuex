@@ -35,6 +35,7 @@
             <p class="text-description">{{ todo.description }}</p>
           </div>
           <div class="buttons">
+            <img src="@/assets/images/Done.svg" alt="" />
             <img src="@/assets/images/Edit.svg" alt="" />
             <img src="@/assets/images/Delete.svg" alt="" />
           </div>

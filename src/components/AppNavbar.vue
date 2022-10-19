@@ -15,7 +15,7 @@
           </router-link>
         </li>
         <li :class="['nav-li', { active: activeHamburger }]">
-          <img src="@/assets/images/Statistics.svg" alt="" />
+          <img src="@/assets/images/Timer.svg" alt="" />
         </li>
 
         <li :class="['nav-li', { active: activeHamburger }]">
