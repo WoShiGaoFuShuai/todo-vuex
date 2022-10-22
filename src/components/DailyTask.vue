@@ -1,14 +1,20 @@
 <template>
   <div class="main-title">
     <h1 class="title">Daily Task List</h1>
-    <img @click="openModal" class="img" src="@/assets/images/Add.svg" alt="" />
-    <AddTaskModal :type="'edit'" />
+    <img
+      @click="openModalAdd"
+      class="img"
+      src="@/assets/images/Add.svg"
+      alt=""
+    />
+    <AddTaskModal :type="'Add'" />
   </div>
 </template>
 
 <script>
 import AddTaskModal from "@/components/AddTaskModal.vue";
-import { mutationModals } from "@/store/modules/modals";
+// import { mutationModals } from "@/store/modules/modals";
+// import modals from "@/store/modules/modals";
 
 export default {
   name: "DailyTask",
@@ -16,8 +22,9 @@ export default {
     AddTaskModal,
   },
   methods: {
-    openModal() {
-      this.$store.commit(mutationModals.toggleModals);
+    openModalAdd() {
+      this.$store.dispatch("modals/toggleModals");
+      this.$store.dispatch("modals/changeTitleModals", "Add");
     },
   },
 };

@@ -1,31 +1,40 @@
 <template>
-  <div class="modal-add-task wrapper" v-if="isOpenAddTaskModal">
+  <div class="modal-add-task wrapper" v-if="isOpen">
     <slot></slot>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "BaseModal",
-  props: {
-    value: {
-      type: Boolean,
-      default: false,
-    },
+  computed: {
+    // isOpen() {
+    // return this.$store.state.modals.isOpenAddTaskModal;
+    // },
+    ...mapState({
+      isOpen: (state) => state.modals.isOpenAddTaskModal,
+    }),
   },
-  data() {
-    return {
-      isOpenAddTaskModal: false,
-    };
-  },
-  watch: {
-    value: {
-      handler(newValue, oldValue) {
-        if (newValue !== oldValue) this.isOpenAddTaskModal = newValue;
-      },
-      immediate: true,
-    },
-  },
+  // props: {
+  //   value: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
+  // data() {
+  //   return {
+  //     isOpenAddTaskModal: false,
+  //   };
+  // },
+  // watch: {
+  //   value: {
+  //     handler(newValue, oldValue) {
+  //       if (newValue !== oldValue) this.isOpenAddTaskModal = newValue;
+  //     },
+  //     immediate: true,
+  //   },
+  // },
 };
 
 // // const categoryIndex = ["work", "education", "hobby", "sport", "other"];

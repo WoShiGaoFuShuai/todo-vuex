@@ -6,11 +6,7 @@
       <li>Done</li>
     </ul> -->
     <div class="content-tasks">
-      <div
-        class="content-task"
-        v-for="(todo, i) in this.$store.state.todos"
-        :key="i"
-      >
+      <div class="content-task" v-for="(todo, i) in todos" :key="i">
         <div :class="['category', todo.category]"></div>
         <div class="deadline">
           <span class="span date">{{ todo.deadline }}</span>
@@ -22,7 +18,12 @@
         </div>
         <div class="buttons">
           <img class="buttons-img" src="@/assets/images/Up.svg" alt="" />
-          <img class="buttons-img" src="@/assets/images/Edit.svg" alt="" />
+          <img
+            @click="openEditModal"
+            class="buttons-img"
+            src="@/assets/images/Edit.svg"
+            alt=""
+          />
           <img class="buttons-img" src="@/assets/images/Delete.svg" alt="" />
         </div>
         <div :class="['priority', todo.priority]">
@@ -33,12 +34,29 @@
         </div>
       </div>
     </div>
+    <AddTaskModal />
   </div>
 </template>
 
 <script>
+import AddTaskModal from "@/components/AddTaskModal.vue";
+import { mapGetters } from "vuex";
+// import { mutationModals } from "@/store/modules/modals";
+
 export default {
   name: "TodoTasks",
+  components: {
+    AddTaskModal,
+  },
+  methods: {
+    openEditModal() {
+      this.$store.dispatch("modals/toggleModals");
+      this.$store.dispatch("modals/changeTitleModals", "Edit");
+    },
+  },
+  computed: {
+    ...mapGetters({ todos: "tasks/todos" }),
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <BaseModal v-model="isOpenAddTaskModal">
+  <BaseModal>
     <div class="add-task" @click.stop="">
       <form class="form">
         <ul class="buttons">
@@ -14,7 +14,8 @@
             <img src="@/assets/images/Agree-btn.svg" alt="" />
           </li>
         </ul>
-        <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }} Task</h2>
+        <h2 class="title">{{ titleModal }} Task</h2>
+        <!-- <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }} Task</h2> -->
         <div class="content">
           <fieldset class="fieldset">
             <label class="label-title" for="title">Title</label>
@@ -47,11 +48,11 @@
               >
                 <label class="label-item" :key="index">
                   <input
-                    v-model="category"
                     :value="value"
                     class="radio"
                     type="radio"
                     name="category"
+                    :checked="index === 4"
                   />
                   <span :class="['fake', className]"></span>
                   <span class="text">{{ name }}</span>
@@ -81,7 +82,7 @@
                 class="label-item estimation"
                 :value="value"
               >
-                <input class="radio" type="checkbox" />
+                <input class="radio" type="checkbox" :checked="index === 0" />
                 <span class="fake estimation"></span>
               </label>
             </span>
@@ -91,21 +92,21 @@
             <span class="label-wrapper">
               <span class="label-title">Priority</span>
 
-              <template
+              <label
+                class="label-item"
                 v-for="({ name, className, value }, index) in priorityArray"
+                :key="index"
               >
-                <label class="label-item" :key="index">
-                  <input
-                    v-model="priority"
-                    :value="value"
-                    class="radio"
-                    type="radio"
-                    name="priority"
-                  />
-                  <span :class="['fake', className]"></span>
-                  <span class="text">{{ name }}</span>
-                </label>
-              </template>
+                <input
+                  :value="value"
+                  class="radio"
+                  type="radio"
+                  name="priority"
+                  :checked="index === 3"
+                />
+                <span :class="['fake', className]"></span>
+                <span class="text">{{ name }}</span>
+              </label>
             </span>
           </fieldset>
         </div>
@@ -115,21 +116,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import BaseModal from "@/components/Modal.vue";
-import { mutationModals } from "@/store/modules/modals";
+import { mapState } from "vuex";
 
 export default {
   name: "AddTaskModal",
   components: {
     BaseModal,
   },
-  props: {
-    type: {
-      type: String,
-      default: "Add",
-    },
-  },
+  // props: {
+  //   type: {
+  //     type: String,
+  //     default: "Add",
+  //   },
+  // },
   data() {
     return {
       title: "",
@@ -137,7 +138,7 @@ export default {
       category: "",
       deadline: "",
       estimation: "",
-      priority: "",
+      check: true,
       categoryArray: [
         {
           name: "Work",
@@ -152,7 +153,11 @@ export default {
       priorityArray: [
         { name: "Urgent", className: "redish", value: "urgent" },
         { name: "High", className: "orangeish", value: "high" },
-        { name: "Middle", className: "yellowish", value: "middle" },
+        {
+          name: "Middle",
+          className: "yellowish",
+          value: "middle",
+        },
         { name: "Low", className: "greenish", value: "low" },
       ],
       estimationArray: [
@@ -166,14 +171,19 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$store.commit(mutationModals.closeModals);
+      this.$store.dispatch("modals/closeModals");
     },
   },
   computed: {
     ...mapState({
-      isOpenAddTaskModal: (state) => state.modals.isOpenAddTaskModal,
+      titleModal: (state) => state.modals.titleModal,
     }),
   },
+  // computed: {
+  //   ...mapState({
+  //     isOpenAddTaskModal: (state) => state.modals.isOpenAddTaskModal,
+  //   }),
+  // },
 };
 
 // // const categoryIndex = ["work", "education", "hobby", "sport", "other"];
@@ -306,7 +316,7 @@ export default {
 
               @media (max-width: 768px) {
                 margin-left: 0px;
-                margin-bottom: 8px;
+                margin-bottom: 6px;
               }
 
               &.estimation {

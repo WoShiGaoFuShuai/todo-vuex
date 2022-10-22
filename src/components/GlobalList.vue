@@ -30,10 +30,6 @@ export default {
   components: {
     TodoTasks,
   },
-  todos: {
-    type: Object,
-    required: true,
-  },
   data() {
     return {
       bars: ["All", "Urgent", "High", "Middle", "Low"],

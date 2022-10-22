@@ -8,7 +8,8 @@
     <div class="content-tasks">
       <template
         v-if="
-          this.$store.state.todos.length && !this.$store.state.dailyTodos.length
+          this.$store.state.tasks.todos.length &&
+          !this.$store.state.tasks.dailyTodos.length
         "
       >
         <div class="no-tasks">
@@ -22,7 +23,7 @@
       <template>
         <div
           class="content-task"
-          v-for="(todo, i) in this.$store.state.dailyTodos"
+          v-for="(todo, i) in this.$store.state.tasks.dailyTodos"
           :key="i"
         >
           <div :class="['category', todo.category]"></div>
