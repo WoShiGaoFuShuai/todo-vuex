@@ -61,6 +61,9 @@ export default {
       this.activeHamburger = !this.activeHamburger;
     },
   },
+  mounted() {
+    console.log("!MOUNTED NAVBAR");
+  },
 };
 </script>
 

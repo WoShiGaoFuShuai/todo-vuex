@@ -35,6 +35,9 @@ export default {
       bars: ["All", "Urgent", "High", "Middle", "Low"],
     };
   },
+  mounted() {
+    console.log("!MOUNTED GLOBAL LIST");
+  },
 };
 </script>
 

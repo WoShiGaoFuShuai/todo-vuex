@@ -30,8 +30,16 @@ export default {
     dailyTodos: [{ title: "daily" }],
   }),
 
-  mutations: {},
-  actions: {},
+  mutations: {
+    ADD_NEW_TODO(state, payload) {
+      state.todos.push(payload);
+    },
+  },
+  actions: {
+    addNewTodo({ commit }, payload) {
+      commit("ADD_NEW_TODO", payload);
+    },
+  },
   getters: {
     todos(state) {
       return state.todos;

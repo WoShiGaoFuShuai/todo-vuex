@@ -1,7 +1,8 @@
 <template>
-  <BaseModal>
+  <!-- <BaseModal> -->
+  <div class="modal-add-task wrapper">
     <div class="add-task" @click.stop="">
-      <form class="form">
+      <form @submit.prevent="agreeModalTodo" class="form">
         <ul class="buttons">
           <li class="button-item">
             <img
@@ -11,7 +12,13 @@
             />
           </li>
           <li class="button-item">
-            <img src="@/assets/images/Agree-btn.svg" alt="" />
+            <button class="agree-btn"></button>
+            <!-- <img
+           
+              src="@/assets/images/Agree-btn.svg"
+              alt=""
+              type="button"
+            /> -->
           </li>
         </ul>
         <h2 class="title">{{ titleModal }} Task</h2>
@@ -43,21 +50,22 @@
             <span class="label-wrapper">
               <span class="label-title">Category</span>
 
-              <template
+              <label
+                class="label-item"
                 v-for="({ name, className, value }, index) in categoryArray"
+                :key="index"
               >
-                <label class="label-item" :key="index">
-                  <input
-                    :value="value"
-                    class="radio"
-                    type="radio"
-                    name="category"
-                    :checked="index === 4"
-                  />
-                  <span :class="['fake', className]"></span>
-                  <span class="text">{{ name }}</span>
-                </label>
-              </template>
+                <input
+                  :value="value"
+                  class="radio"
+                  type="radio"
+                  name="category"
+                  :checked="index === 4"
+                  @click="addCategory(value)"
+                />
+                <span :class="['fake', className]"></span>
+                <span class="text">{{ name }}</span>
+              </label>
             </span>
           </fieldset>
           <fieldset class="fieldset">
@@ -77,12 +85,18 @@
               <span class="label-title">Estimation</span>
 
               <label
-                v-for="({ value }, index) in estimationArray"
-                :key="index"
+                v-for="{ name, value } in estimationArray"
+                :key="value"
                 class="label-item estimation"
-                :value="value"
               >
-                <input class="radio" type="checkbox" :checked="index === 0" />
+                <input
+                  class="radio estimation-checkbox"
+                  :name="name"
+                  :value="value"
+                  @click="addEstimation(value)"
+                  type="checkbox"
+                  :checked="value === 0"
+                />
                 <span class="fake estimation"></span>
               </label>
             </span>
@@ -102,6 +116,7 @@
                   class="radio"
                   type="radio"
                   name="priority"
+                  @click="addPriority(value)"
                   :checked="index === 3"
                 />
                 <span :class="['fake', className]"></span>
@@ -112,18 +127,18 @@
         </div>
       </form>
     </div>
-  </BaseModal>
+  </div>
+  <!-- </BaseModal> -->
 </template>
 
 <script>
-// import { mapState } from "vuex";
-import BaseModal from "@/components/Modal.vue";
-import { mapState } from "vuex";
+// import BaseModal from "@/components/Modal.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AddTaskModal",
   components: {
-    BaseModal,
+    // BaseModal,
   },
   // props: {
   //   type: {
@@ -135,9 +150,10 @@ export default {
     return {
       title: "",
       description: "",
-      category: "",
+      category: "other",
       deadline: "",
-      estimation: "",
+      estimation: 0,
+      priority: "low",
       check: true,
       categoryArray: [
         {
@@ -173,17 +189,61 @@ export default {
     closeModal() {
       this.$store.dispatch("modals/closeModals");
     },
+    agreeModalTodo() {
+      const newTodo = {
+        title: this.title,
+        description: this.description,
+        category: this.category,
+        deadline: this.deadline,
+        estimation: this.estimation,
+        priority: this.priority,
+      };
+      this.$store.dispatch("tasks/addNewTodo", newTodo);
+      this.$store.dispatch("modals/closeModals");
+
+      console.log(this.title);
+      console.log(this.description);
+      console.log(this.category);
+      console.log(this.deadline);
+      console.log(this.estimation);
+      console.log(this.priority);
+
+      this.defaultValueInputs();
+    },
+    defaultValueInputs() {
+      this.title = "";
+      this.description = "";
+      this.category = "other";
+      this.deadline = "";
+      this.estimation = 0;
+      this.priority = "low";
+    },
+
+    addCategory(inputValue) {
+      this.category = inputValue;
+    },
+    addPriority(inputValue) {
+      this.priority = inputValue;
+    },
+    addEstimation(inputValue) {
+      this.estimation = inputValue;
+      const allEstimation = document.querySelectorAll(
+        ".radio.estimation-checkbox"
+      );
+      for (let i = 0; i < allEstimation.length; i++) {
+        if (i <= inputValue) allEstimation[i].checked = true;
+        else allEstimation[i].checked = false;
+      }
+    },
   },
   computed: {
-    ...mapState({
-      titleModal: (state) => state.modals.titleModal,
+    ...mapGetters({
+      titleModal: ["modals/titleModal"],
     }),
   },
-  // computed: {
-  //   ...mapState({
-  //     isOpenAddTaskModal: (state) => state.modals.isOpenAddTaskModal,
-  //   }),
-  // },
+  mounted() {
+    console.log("!MOUNTED ADD TASK MODAL");
+  },
 };
 
 // // const categoryIndex = ["work", "education", "hobby", "sport", "other"];
@@ -236,6 +296,12 @@ export default {
             cursor: pointer;
             filter: brightness(0) saturate(100%) invert(81%) sepia(29%)
               saturate(806%) hue-rotate(165deg) brightness(93%) contrast(87%);
+          }
+
+          .agree-btn {
+            width: 20px;
+            height: 20px;
+            background: url("@/assets/images/Agree-btn.svg") center no-repeat;
           }
         }
       }

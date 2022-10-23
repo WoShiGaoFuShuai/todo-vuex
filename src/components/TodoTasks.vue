@@ -34,17 +34,21 @@
         </div>
       </div>
     </div>
-    <AddTaskModal />
+    <AddTaskModal v-if="isOpen" />
   </div>
 </template>
 
 <script>
 import AddTaskModal from "@/components/AddTaskModal.vue";
 import { mapGetters } from "vuex";
+
 // import { mutationModals } from "@/store/modules/modals";
 
 export default {
   name: "TodoTasks",
+  data() {
+    return {};
+  },
   components: {
     AddTaskModal,
   },
@@ -55,7 +59,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ todos: "tasks/todos" }),
+    ...mapGetters({ todos: ["tasks/todos"], isOpen: ["modals/isOpen"] }),
   },
 };
 </script>
@@ -111,7 +115,6 @@ export default {
 
       .category {
         min-width: 8px;
-        background-color: var(--redish);
 
         @media (max-width: 768px) {
           height: 8px;

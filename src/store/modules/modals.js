@@ -29,5 +29,12 @@ export default {
       commit("CLOSE_MODALS");
     },
   },
-  getters: {},
+  getters: {
+    isOpen(state) {
+      return state.isOpenAddTaskModal;
+    },
+    titleModal(state) {
+      return state.titleModal;
+    },
+  },
 };

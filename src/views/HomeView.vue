@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AddTaskModal />
+    <!-- <AddTaskModal /> -->
     <DailyTask />
     <TopDailyTasks />
     <AppFirstTask />
@@ -13,7 +13,7 @@ import DailyTask from "@/components/DailyTask.vue";
 import TopDailyTasks from "@/components/TopDailyTasks.vue";
 import AppFirstTask from "@/components/FirstTask.vue";
 import GlobalList from "@/components/GlobalList.vue";
-import AddTaskModal from "@/components/AddTaskModal.vue";
+// import AddTaskModal from "@/components/AddTaskModal.vue";
 
 export default {
   name: "HomeView",
@@ -22,7 +22,7 @@ export default {
     DailyTask,
     GlobalList,
     TopDailyTasks,
-    AddTaskModal,
+    // AddTaskModal,
   },
   data() {
     return {};

@@ -7,19 +7,19 @@
       src="@/assets/images/Add.svg"
       alt=""
     />
-    <AddTaskModal :type="'Add'" />
+    <!-- <AddTaskModal :type="'Add'" /> -->
   </div>
 </template>
 
 <script>
-import AddTaskModal from "@/components/AddTaskModal.vue";
+// import AddTaskModal from "@/components/AddTaskModal.vue";
 // import { mutationModals } from "@/store/modules/modals";
 // import modals from "@/store/modules/modals";
 
 export default {
   name: "DailyTask",
   components: {
-    AddTaskModal,
+    // AddTaskModal,
   },
   methods: {
     openModalAdd() {

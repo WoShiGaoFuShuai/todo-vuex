@@ -1,20 +1,24 @@
 <template>
-  <div class="modal-add-task wrapper" v-if="isOpen">
+  <!-- <div class="modal-add-task wrapper" v-if="isOpen">
     <slot></slot>
-  </div>
+  </div> -->
+  <div>aa</div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
-  name: "BaseModal",
+  name: "ModalWindow",
   computed: {
     // isOpen() {
     // return this.$store.state.modals.isOpenAddTaskModal;
     // },
-    ...mapState({
-      isOpen: (state) => state.modals.isOpenAddTaskModal,
+    ...mapGetters({
+      isOpen: ["modals/isOpen"],
     }),
+  },
+  mounted() {
+    console.log("!MOUNTED MODAL");
   },
   // props: {
   //   value: {
