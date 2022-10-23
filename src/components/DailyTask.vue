@@ -8,24 +8,29 @@
       alt=""
     />
     <!-- <AddTaskModal :type="'Add'" /> -->
+    <AddTaskModal v-if="isOpen" />
   </div>
 </template>
 
 <script>
-// import AddTaskModal from "@/components/AddTaskModal.vue";
-// import { mutationModals } from "@/store/modules/modals";
-// import modals from "@/store/modules/modals";
+import AddTaskModal from "@/components/AddTaskModal.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DailyTask",
   components: {
-    // AddTaskModal,
+    AddTaskModal,
   },
   methods: {
     openModalAdd() {
       this.$store.dispatch("modals/toggleModals");
       this.$store.dispatch("modals/changeTitleModals", "Add");
     },
+  },
+  computed: {
+    ...mapGetters({
+      isOpen: ["modals/isOpen"],
+    }),
   },
 };
 </script>

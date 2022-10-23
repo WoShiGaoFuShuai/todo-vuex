@@ -26,6 +26,14 @@ export default {
         deadline: "today",
         category: "sport",
       },
+      {
+        title: "123",
+        description: "42ay",
+        estimation: 1,
+        priority: "high",
+        deadline: "today",
+        category: "sport",
+      },
     ],
     dailyTodos: [{ title: "daily" }],
   }),
@@ -43,6 +51,18 @@ export default {
   getters: {
     todos(state) {
       return state.todos;
+    },
+    urgentTodos(state) {
+      return state.todos.filter((todo) => todo.priority === "urgent");
+    },
+    highTodos(state) {
+      return state.todos.filter((todo) => todo.priority === "high");
+    },
+    middleTodos(state) {
+      return state.todos.filter((todo) => todo.priority === "middle");
+    },
+    lowTodos(state) {
+      return state.todos.filter((todo) => todo.priority === "low");
     },
   },
 };

@@ -34,32 +34,27 @@
         </div>
       </div>
     </div>
-    <AddTaskModal v-if="isOpen" />
   </div>
 </template>
 
 <script>
-import AddTaskModal from "@/components/AddTaskModal.vue";
-import { mapGetters } from "vuex";
-
-// import { mutationModals } from "@/store/modules/modals";
-
 export default {
   name: "TodoTasks",
   data() {
     return {};
   },
-  components: {
-    AddTaskModal,
+
+  props: {
+    todos: {
+      type: Array,
+      required: true,
+    },
   },
   methods: {
     openEditModal() {
       this.$store.dispatch("modals/toggleModals");
       this.$store.dispatch("modals/changeTitleModals", "Edit");
     },
-  },
-  computed: {
-    ...mapGetters({ todos: ["tasks/todos"], isOpen: ["modals/isOpen"] }),
   },
 };
 </script>

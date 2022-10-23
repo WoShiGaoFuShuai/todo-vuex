@@ -81,7 +81,7 @@
           </fieldset>
 
           <fieldset class="fieldset radio estimation">
-            <span class="label-wrapper">
+            <span class="label-wrapper estimation">
               <span class="label-title">Estimation</span>
 
               <label
@@ -152,7 +152,7 @@ export default {
       description: "",
       category: "other",
       deadline: "",
-      estimation: 0,
+      estimation: 1,
       priority: "low",
       check: true,
       categoryArray: [
@@ -226,7 +226,7 @@ export default {
       this.priority = inputValue;
     },
     addEstimation(inputValue) {
-      this.estimation = inputValue;
+      this.estimation = inputValue + 1;
       const allEstimation = document.querySelectorAll(
         ".radio.estimation-checkbox"
       );
@@ -240,9 +240,6 @@ export default {
     ...mapGetters({
       titleModal: ["modals/titleModal"],
     }),
-  },
-  mounted() {
-    console.log("!MOUNTED ADD TASK MODAL");
   },
 };
 
@@ -282,6 +279,10 @@ export default {
       border-radius: 15px 0px 15px 0px;
       transform: scale(1.01);
       box-shadow: 0px 0px 20px 20px rgba(130, 199, 224, 0.3);
+    }
+
+    @media (max-width: 425px) {
+      padding: 16px 8px;
     }
 
     .form {
@@ -377,6 +378,10 @@ export default {
               flex-direction: column;
             }
 
+            &.estimation {
+              display: inline-block;
+            }
+
             .label-item {
               margin-left: 16px;
 
@@ -387,10 +392,6 @@ export default {
 
               &.estimation {
                 margin-left: 8px;
-
-                @media (max-width: 768px) {
-                  margin-left: 0px;
-                }
               }
 
               &:hover {
@@ -528,6 +529,17 @@ export default {
           }
         }
       }
+    }
+  }
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(73%) sepia(6%) saturate(1216%) hue-rotate(165deg)
+      brightness(89%) contrast(85%);
+    font-size: 24px;
+
+    &:hover {
+      filter: invert(96%) sepia(100%) saturate(15%) hue-rotate(335deg)
+        brightness(105%) contrast(103%);
+      cursor: pointer;
     }
   }
 }

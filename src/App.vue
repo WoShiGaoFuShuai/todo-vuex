@@ -3,7 +3,6 @@
     <v-main>
       <div class="wrapper">
         <AppNavbar />
-
         <router-view />
       </div>
     </v-main>

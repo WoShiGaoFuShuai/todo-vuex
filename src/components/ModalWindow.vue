@@ -17,9 +17,6 @@ export default {
       isOpen: ["modals/isOpen"],
     }),
   },
-  mounted() {
-    console.log("!MOUNTED MODAL");
-  },
   // props: {
   //   value: {
   //     type: Boolean,
