@@ -39,6 +39,7 @@ export default {
         id: 2,
       },
     ],
+    deletedTodos: [],
     dailyTodos: [{ title: "daily" }],
   }),
 
@@ -50,6 +51,9 @@ export default {
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === payload)
       );
+      const deletedTask = state.todos.filter((item) => item.id === payload);
+      state.deletedTodos.push(...deletedTask);
+
       state.todos.splice(taskIndex, 1);
     },
   },
@@ -76,6 +80,9 @@ export default {
     },
     lowTodos(state) {
       return state.todos.filter((todo) => todo.priority === "low");
+    },
+    deletedTodos(state) {
+      return state.deletedTodos;
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="main-title">
-    <h1 class="title">Daily Task List</h1>
+    <h1 class="title-daily">Daily Task List</h1>
     <img
       @click="openModalAdd"
       class="img"
@@ -42,7 +42,7 @@ export default {
   justify-content: center;
   margin-top: 16px;
 
-  .title {
+  .title-daily {
     cursor: pointer;
     letter-spacing: 0.7px;
     font-size: 28px;

@@ -16,7 +16,7 @@
           <p class="text-title">{{ todo.title }}</p>
           <p class="text-description">{{ todo.description }}</p>
         </div>
-        <div class="buttons">
+        <div class="buttons" v-if="typeOfTodos !== 'deleted'">
           <img class="buttons-img" src="@/assets/images/Up.svg" alt="" />
           <img
             @click="openEditModal"
@@ -54,6 +54,10 @@ export default {
     todos: {
       type: Array,
       required: true,
+    },
+    typeOfTodos: {
+      type: String,
+      default: "normal",
     },
   },
   methods: {

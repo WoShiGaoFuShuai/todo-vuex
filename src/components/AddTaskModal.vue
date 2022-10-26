@@ -1,6 +1,6 @@
 <template>
   <!-- <BaseModal> -->
-  <div class="modal-add-task wrapper">
+  <div class="modal-add-task wrapper" @click="closeModal">
     <div class="add-task" @click.stop="">
       <form @submit.prevent="agreeModalTodo" class="form">
         <ul class="buttons">
@@ -13,15 +13,9 @@
           </li>
           <li class="button-item">
             <button class="agree-btn"></button>
-            <!-- <img
-           
-              src="@/assets/images/Agree-btn.svg"
-              alt=""
-              type="button"
-            /> -->
           </li>
         </ul>
-        <h2 class="title">{{ titleModal }} Task</h2>
+        <h2 class="title-modal">{{ titleModal }} Task</h2>
         <!-- <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }} Task</h2> -->
         <div class="content">
           <fieldset class="fieldset">
@@ -308,11 +302,11 @@ export default {
         }
       }
 
-      .title {
+      .title-modal {
         text-align: center;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         font-weight: 700;
-        font-size: 28px;
+        font-size: 24px;
         letter-spacing: 1.5px;
       }
 

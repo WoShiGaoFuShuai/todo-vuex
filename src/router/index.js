@@ -34,6 +34,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "timer" */ "@/views/timer/TimerView.vue"),
   },
+  {
+    path: "/deleted",
+    name: "deleted",
+    component: () =>
+      import(/* webpackChunkName: "deleted" */ "@/views/DeletedView.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -7,7 +7,17 @@
           <img src="@/assets/images/Logout.svg" alt="" />
         </li>
         <li :class="['nav-li', { active: activeHamburger }]">
-          <img src="@/assets/images/Delete.svg" alt="" />
+          <router-link :to="{ name: 'deleted' }">
+            <div class="delete-btn-wrapper">
+              <img src="@/assets/images/Delete.svg" alt="" />
+              <div v-if="deletedTodos.length" class="delete-quantity">
+                <img src="@/assets/images/Delete-quantity.svg" alt="" />
+                <span class="delete-quantity-num">{{
+                  deletedTodos.length
+                }}</span>
+              </div>
+            </div>
+          </router-link>
         </li>
         <li :class="['nav-li', { active: activeHamburger }]">
           <router-link :to="{ name: 'home' }">
@@ -49,6 +59,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "AppNavbar",
   data() {
@@ -60,6 +71,9 @@ export default {
     toggleHamburger() {
       this.activeHamburger = !this.activeHamburger;
     },
+  },
+  computed: {
+    ...mapGetters({ deletedTodos: "tasks/deletedTodos" }),
   },
 };
 </script>
@@ -148,6 +162,32 @@ export default {
         display: none;
         margin-left: 0;
         padding-top: 10px;
+      }
+
+      .delete-btn-wrapper {
+        position: relative;
+
+        .delete-quantity {
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          bottom: 3px;
+          right: -5px;
+
+          img {
+            filter: invert(49%) sepia(88%) saturate(3232%) hue-rotate(334deg)
+              brightness(104%) contrast(94%);
+          }
+
+          .delete-quantity-num {
+            position: absolute;
+            font-size: 11px;
+            top: 50%;
+            left: 50%;
+            line-height: 11px;
+            transform: translate(-50%, -33%);
+          }
+        }
       }
 
       img {
