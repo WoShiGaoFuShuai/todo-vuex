@@ -24,14 +24,20 @@
             src="@/assets/images/Edit.svg"
             alt=""
           />
-          <img class="buttons-img" src="@/assets/images/Delete.svg" alt="" />
+          <img
+            @click="deleteTask(todo.id)"
+            class="buttons-img"
+            src="@/assets/images/Delete.svg"
+            alt=""
+          />
         </div>
-        <div :class="['priority', todo.priority]">
-          <div class="img">
-            <!-- <img src="@/assets/images/Apple.svg" alt="" /> -->
-            <span class="estimation">{{ todo.estimation }}</span>
+        <router-link class="link" :to="{ name: 'timer' }">
+          <div :class="['priority', todo.priority]">
+            <div class="img">
+              <span class="estimation">{{ todo.estimation }}</span>
+            </div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -54,6 +60,9 @@ export default {
     openEditModal() {
       this.$store.dispatch("modals/toggleModals");
       this.$store.dispatch("modals/changeTitleModals", "Edit");
+    },
+    deleteTask(id) {
+      this.$store.dispatch("tasks/deleteTask", id);
     },
   },
 };
@@ -206,6 +215,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 100%;
 
         @media (max-width: 768px) {
           height: 64px;

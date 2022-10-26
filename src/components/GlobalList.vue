@@ -15,10 +15,7 @@
           <li class="bar-item" v-for="(bar, i) in bars" :key="i">
             <span
               @click="sortTodosByPriority(bar, $event)"
-              :class="[
-                'name',
-                { currentActiveBar: bar === currentValueActiveBar },
-              ]"
+              :class="['name', { currentActiveBar: bar === currentActiveBar }]"
               >{{ bar }}</span
             >
             <span class="decoration">|</span>
@@ -47,8 +44,7 @@ export default {
       bars: ["all", "urgent", "high", "middle", "low"],
       todosToShow: [],
       active: false,
-      currentActiveBar: true,
-      currentValueActiveBar: "all",
+      currentActiveBar: "all",
     };
   },
   computed: {
@@ -67,11 +63,13 @@ export default {
       if (priorityType === "high") this.todosToShow = this.highTodos;
       if (priorityType === "middle") this.todosToShow = this.middleTodos;
       if (priorityType === "low") this.todosToShow = this.lowTodos;
-      this.currentValueActiveBar = priorityType;
+      this.currentActiveBar = priorityType;
     },
     toggleGlobalState() {
       this.active = !this.active;
+
       if (this.active) {
+        this.currentActiveBar = "all";
         this.todosToShow = this.todos;
       }
     },

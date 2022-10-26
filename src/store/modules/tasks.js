@@ -9,6 +9,7 @@ export default {
         priority: "low",
         deadline: "today",
         category: "work",
+        id: 1,
       },
       {
         title: "333333333",
@@ -17,6 +18,7 @@ export default {
         priority: "urgent",
         deadline: "2022-02-12",
         category: "work",
+        id: 4,
       },
       {
         title: "Learing fa a afassasasas as asas sfs fqw sa ffqwqw",
@@ -25,6 +27,7 @@ export default {
         priority: "middle",
         deadline: "today",
         category: "sport",
+        id: 3,
       },
       {
         title: "123",
@@ -33,6 +36,7 @@ export default {
         priority: "high",
         deadline: "today",
         category: "sport",
+        id: 2,
       },
     ],
     dailyTodos: [{ title: "daily" }],
@@ -42,10 +46,19 @@ export default {
     ADD_NEW_TODO(state, payload) {
       state.todos.push(payload);
     },
+    DELETE_TASK(state, payload) {
+      const taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === payload)
+      );
+      state.todos.splice(taskIndex, 1);
+    },
   },
   actions: {
     addNewTodo({ commit }, payload) {
       commit("ADD_NEW_TODO", payload);
+    },
+    deleteTask({ commit }, id) {
+      commit("DELETE_TASK", id);
     },
   },
   getters: {

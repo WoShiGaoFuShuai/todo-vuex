@@ -197,16 +197,17 @@ export default {
         deadline: this.deadline,
         estimation: this.estimation,
         priority: this.priority,
+        id: Math.random(),
       };
       this.$store.dispatch("tasks/addNewTodo", newTodo);
       this.$store.dispatch("modals/closeModals");
 
-      console.log(this.title);
-      console.log(this.description);
-      console.log(this.category);
-      console.log(this.deadline);
-      console.log(this.estimation);
-      console.log(this.priority);
+      // console.log(this.title);
+      // console.log(this.description);
+      // console.log(this.category);
+      // console.log(this.deadline);
+      // console.log(this.estimation);
+      // console.log(this.priority);
 
       this.defaultValueInputs();
     },
