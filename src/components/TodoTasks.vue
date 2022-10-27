@@ -7,12 +7,19 @@
     </ul> -->
     <div class="content-tasks">
       <div class="content-task" v-for="(todo, i) in todos" :key="i">
-        <div :class="['category', todo.category]"></div>
-        <div class="deadline">
+        <div
+          @click="deleteTaskCompletely(todo.id)"
+          :class="[
+            'category',
+            todo.category,
+            { 'category-deleted': typeOfTodos === 'deleted' },
+          ]"
+        ></div>
+        <div class="deadline" v-if="typeOfTodos !== 'deleted'">
           <span class="span date">{{ todo.deadline }}</span>
           <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
         </div>
-        <div class="text">
+        <div :class="['text', { 'text-deleted': typeOfTodos === 'deleted' }]">
           <p class="text-title">{{ todo.title }}</p>
           <p class="text-description">{{ todo.description }}</p>
         </div>
@@ -57,7 +64,7 @@ export default {
     },
     typeOfTodos: {
       type: String,
-      default: "normal",
+      default: "default",
     },
   },
   methods: {
@@ -67,6 +74,12 @@ export default {
     },
     deleteTask(id) {
       this.$store.dispatch("tasks/deleteTask", id);
+    },
+    deleteTaskCompletely(id) {
+      if (this.typeOfTodos === "deleted") {
+        console.log(id);
+        this.$store.dispatch("modals/toggleDeleteCompletelyModal");
+      }
     },
   },
 };
@@ -127,6 +140,17 @@ export default {
         @media (max-width: 768px) {
           height: 8px;
         }
+
+        &.category-deleted {
+          min-width: 88px;
+          background-image: url("@/assets/images/Delete-bg.svg");
+          background-position: center;
+          cursor: pointer;
+
+          &:hover {
+            background-image: url("@/assets/images/Delete-bg-active.svg");
+          }
+        }
       }
 
       .deadline {
@@ -160,6 +184,10 @@ export default {
           align-self: flex-start;
           margin: 0 16px;
           line-height: 22px;
+        }
+
+        &.text-deleted {
+          margin-left: 16px;
         }
 
         .text-title {

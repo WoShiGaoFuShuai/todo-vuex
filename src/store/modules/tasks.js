@@ -48,13 +48,25 @@ export default {
       state.todos.push(payload);
     },
     DELETE_TASK(state, payload) {
+      //GETTING INDEX OF TASK WHICH MUST BE REMOVED
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === payload)
       );
+      // GETTING DELETED TASK TO PUSH IT TO ARRAY WITH DELETED TODOS
       const deletedTask = state.todos.filter((item) => item.id === payload);
       state.deletedTodos.push(...deletedTask);
 
+      // DELETING TASK FROM ARRAY TODOS
       state.todos.splice(taskIndex, 1);
+    },
+    REMOVE_COMPLETELY_DELETED_TASK(state, payload) {
+      //GETTING INDEX OF TASK WHICH MUST BE REMOVED
+      const taskIndex = state.deletedTodos.indexOf(
+        ...state.deletedTodos.filter((item) => item.id === payload)
+      );
+
+      // DELETING TASK FROM ARRAY DELETED TODOS MEANS WE DELETE THIS TASK COMPLETELY
+      state.deletedTodos.splice(taskIndex, 1);
     },
   },
   actions: {
@@ -63,6 +75,9 @@ export default {
     },
     deleteTask({ commit }, id) {
       commit("DELETE_TASK", id);
+    },
+    removeCompletelyDeletedTask({ commit }, payload) {
+      commit("REMOVE_COMPLETELY_DELETED_TASK", payload);
     },
   },
   getters: {

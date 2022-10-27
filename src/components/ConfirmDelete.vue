@@ -1,10 +1,14 @@
 <template>
-  <div class="modal-confirm-del wrapper">
+  <div @click="cancelDeleteCompletely" class="modal-confirm-del wrapper">
     <div class="confirm" @click.stop="">
-      <form class="form">
+      <form @submit.prevent="" class="form">
         <div class="top-wrapper">
           <div class="btn-wrapper">
-            <button class="btn"></button>
+            <button
+              @click="cancelDeleteCompletely"
+              type="button"
+              class="btn"
+            ></button>
           </div>
           <h2 class="title-modal">Remove Task</h2>
         </div>
@@ -15,8 +19,12 @@
           </h2>
         </div>
         <div class="button-wrapper-btm">
-          <button class="cancel">Cancel</button>
-          <button class="remove">Remove</button>
+          <button @click="cancelDeleteCompletely" type="button" class="cancel">
+            Cancel
+          </button>
+          <button @click="confirmDeleteCompletely" type="submit" class="remove">
+            Remove
+          </button>
         </div>
       </form>
     </div>
@@ -24,7 +32,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "ConfirmDelete",
+  methods: {
+    cancelDeleteCompletely() {
+      this.$store.dispatch("modals/toggleDeleteCompletelyModal");
+    },
+    confirmDeleteCompletely() {
+      this.$store.dispatch("tasks/removeCompletelyDeletedTask");
+      this.$store.dispatch("modals/toggleDeleteCompletelyModal");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
