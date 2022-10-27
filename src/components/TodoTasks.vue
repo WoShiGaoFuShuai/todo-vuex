@@ -77,7 +77,7 @@ export default {
     },
     deleteTaskCompletely(id) {
       if (this.typeOfTodos === "deleted") {
-        console.log(id);
+        this.$store.dispatch("tasks/changeDeleteCompletelyTaskId", id);
         this.$store.dispatch("modals/toggleDeleteCompletelyModal");
       }
     },
@@ -149,6 +149,10 @@ export default {
 
           &:hover {
             background-image: url("@/assets/images/Delete-bg-active.svg");
+          }
+
+          @media (max-width: 768px) {
+            height: 64px;
           }
         }
       }

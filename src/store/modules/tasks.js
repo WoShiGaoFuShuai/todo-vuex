@@ -9,7 +9,7 @@ export default {
         priority: "low",
         deadline: "today",
         category: "work",
-        id: 1,
+        id: 111111,
       },
       {
         title: "333333333",
@@ -18,7 +18,7 @@ export default {
         priority: "urgent",
         deadline: "2022-02-12",
         category: "work",
-        id: 4,
+        id: 44444,
       },
       {
         title: "Learing fa a afassasasas as asas sfs fqw sa ffqwqw",
@@ -27,7 +27,7 @@ export default {
         priority: "middle",
         deadline: "today",
         category: "sport",
-        id: 3,
+        id: 3333,
       },
       {
         title: "123",
@@ -36,10 +36,11 @@ export default {
         priority: "high",
         deadline: "today",
         category: "sport",
-        id: 2,
+        id: 22222,
       },
     ],
     deletedTodos: [],
+    deleteCompletelyTaskId: null,
     dailyTodos: [{ title: "daily" }],
   }),
 
@@ -59,14 +60,23 @@ export default {
       // DELETING TASK FROM ARRAY TODOS
       state.todos.splice(taskIndex, 1);
     },
-    REMOVE_COMPLETELY_DELETED_TASK(state, payload) {
+    REMOVE_COMPLETELY_DELETED_TASK(state) {
       //GETTING INDEX OF TASK WHICH MUST BE REMOVED
       const taskIndex = state.deletedTodos.indexOf(
-        ...state.deletedTodos.filter((item) => item.id === payload)
+        ...state.deletedTodos.filter(
+          (item) => item.id === state.deleteCompletelyTaskId
+        )
       );
 
-      // DELETING TASK FROM ARRAY DELETED TODOS MEANS WE DELETE THIS TASK COMPLETELY
+      // DELETING TASK FROM ARRAY DELETED TODOS MEANS WE DELETE THIS TASK COMPLETELY AND RESET deleteCompletelyTaskId
       state.deletedTodos.splice(taskIndex, 1);
+      state.deleteCompletelyTaskId = null;
+    },
+    CHANGE_DELETE_COMPLETELY_TASK_INDEX(state, index) {
+      state.deleteCompletelyTaskId = index;
+    },
+    RESET_DELETE_COMPLETELY_TASK_ID(state) {
+      state.deleteCompletelyTaskId = null;
     },
   },
   actions: {
@@ -76,8 +86,14 @@ export default {
     deleteTask({ commit }, id) {
       commit("DELETE_TASK", id);
     },
-    removeCompletelyDeletedTask({ commit }, payload) {
-      commit("REMOVE_COMPLETELY_DELETED_TASK", payload);
+    removeCompletelyDeletedTask({ commit }) {
+      commit("REMOVE_COMPLETELY_DELETED_TASK");
+    },
+    changeDeleteCompletelyTaskId({ commit }, index) {
+      commit("CHANGE_DELETE_COMPLETELY_TASK_INDEX", index);
+    },
+    resetDeleteCompletelyTaskId({ commit }) {
+      commit("RESET_DELETE_COMPLETELY_TASK_ID");
     },
   },
   getters: {

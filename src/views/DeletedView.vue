@@ -33,7 +33,6 @@ export default {
 <style lang="scss" scoped>
 .deleted-tasks {
   height: 100%;
-  position: relative;
 
   .title-deleted {
     margin-top: 16px;
@@ -47,16 +46,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 40px;
 
     .text {
       font-weight: 300;
       font-size: 30px;
       line-height: 42px;
       color: var(--greyish);
+      text-align: center;
     }
 
     .image {

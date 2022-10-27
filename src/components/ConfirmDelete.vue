@@ -22,7 +22,7 @@
           <button @click="cancelDeleteCompletely" type="button" class="cancel">
             Cancel
           </button>
-          <button @click="confirmDeleteCompletely" type="submit" class="remove">
+          <button @click="confirmDeleteCompletely" type="button" class="remove">
             Remove
           </button>
         </div>
@@ -37,6 +37,7 @@ export default {
   methods: {
     cancelDeleteCompletely() {
       this.$store.dispatch("modals/toggleDeleteCompletelyModal");
+      this.$store.dispatch("tasks/resetDeleteCompletelyTaskId");
     },
     confirmDeleteCompletely() {
       this.$store.dispatch("tasks/removeCompletelyDeletedTask");
@@ -61,6 +62,7 @@ export default {
     z-index: 101;
     padding: 20px;
     max-width: 520px;
+    max-height: 520px;
     height: 100%;
     margin: 0 auto;
     border-radius: 0px 15px 0px 15px;
@@ -155,7 +157,7 @@ export default {
         }
 
         @media (max-width: 375px) {
-          font-size: 16px;
+          font-size: 14px;
         }
       }
 
