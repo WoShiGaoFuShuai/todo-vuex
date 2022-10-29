@@ -13,7 +13,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TodoTask from "@/components/TodoTasks.vue";
-import ConfirmDelete from "@/components/ConfirmDelete.vue";
+import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 
 export default {
   name: "DeletedView",

@@ -5,56 +5,21 @@
       <li class="li passive">|</li>
       <li class="li">Done</li>
     </ul>
-    <div class="content-tasks">
-      <template
-        v-if="
-          this.$store.state.tasks.todos.length &&
-          !this.$store.state.tasks.dailyTodos.length
-        "
-      >
-        <div class="no-tasks">
-          <h2 class="title">
-            Task added, <br />
-            move it to the top 5 in daily task list
-          </h2>
-          <img src="@/assets/images/Arrow-up.svg" alt="" />
-        </div>
-      </template>
-      <template>
-        <div
-          class="content-task"
-          v-for="(todo, i) in this.$store.state.tasks.dailyTodos"
-          :key="i"
-        >
-          <div :class="['category', todo.category]"></div>
-          <div class="deadline">
-            <span class="deadline-span date">{{ todo.deadline }}</span>
-            <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
-          </div>
-          <div class="text">
-            <p class="text-title">{{ todo.title }}</p>
-            <p class="text-description">{{ todo.description }}</p>
-          </div>
-          <div class="buttons">
-            <img src="@/assets/images/Done.svg" alt="" />
-            <img src="@/assets/images/Edit.svg" alt="" />
-            <img src="@/assets/images/Delete.svg" alt="" />
-          </div>
-          <div :class="['priority', todo.priority]">
-            <div class="img">
-              <img src="@/assets/images/Apple.svg" alt="" />
-              <span class="estimation-span">{{ todo.estimation }}</span>
-            </div>
-          </div>
-        </div>
-      </template>
-    </div>
+
+    <TodoTasks :todos="dailyTodos" :typeOfTodos="'daily'" />
   </div>
 </template>
 
 <script>
+import TodoTasks from "@/components/TodoTasks.vue";
+import { mapGetters } from "vuex";
+
 export default {
-  name: "TodoTasks",
+  name: "DailyTasks",
+  components: { TodoTasks },
+  computed: {
+    ...mapGetters({ dailyTodos: "tasks/dailyTodos" }),
+  },
 };
 </script>
 

@@ -25,7 +25,7 @@
     </div>
 
     <div class="global-list-content">
-      <TodoTasks v-if="active" :todos="todosToShow" />
+      <TodoTasks v-if="active" :todos="todosToShow" :typeOfTodos="'global'" />
     </div>
   </div>
 </template>

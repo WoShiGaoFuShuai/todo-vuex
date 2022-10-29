@@ -24,7 +24,19 @@
           <p class="text-description">{{ todo.description }}</p>
         </div>
         <div class="buttons" v-if="typeOfTodos !== 'deleted'">
-          <img class="buttons-img" src="@/assets/images/Up.svg" alt="" />
+          <img
+            v-if="typeOfTodos === 'daily'"
+            class="buttons-img"
+            src="@/assets/images/Done.svg"
+            alt=""
+          />
+          <img
+            v-if="typeOfTodos === 'global'"
+            @click="pushToDailyTodos(todo.id)"
+            class="buttons-img"
+            src="@/assets/images/Up.svg"
+            alt=""
+          />
           <img
             @click="openEditModal"
             class="buttons-img"
@@ -80,6 +92,9 @@ export default {
         this.$store.dispatch("tasks/changeDeleteCompletelyTaskId", id);
         this.$store.dispatch("modals/toggleDeleteCompletelyModal");
       }
+    },
+    pushToDailyTodos(id) {
+      this.$store.dispatch("tasks/pushToDailyTodos", id);
     },
   },
 };

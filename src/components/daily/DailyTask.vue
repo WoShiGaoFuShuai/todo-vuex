@@ -1,25 +1,32 @@
 <template>
-  <div class="main-title">
-    <h1 class="title-daily">Daily Task List</h1>
-    <img
-      @click="openModalAdd"
-      class="img"
-      src="@/assets/images/Add.svg"
-      alt=""
-    />
-    <!-- <AddTaskModal :type="'Add'" /> -->
-    <AddTaskModal v-if="isOpen" />
+  <div class="daily-task-wrapper">
+    <div class="main-title">
+      <h1 class="title-daily">Daily Task List</h1>
+      <img
+        @click="openModalAdd"
+        class="img"
+        src="@/assets/images/Add.svg"
+        alt=""
+      />
+      <AddTaskModal v-if="isOpen" />
+    </div>
+    <NoTasks v-if="!todos.length && !dailyTodos.length" />
+    <NoDailyTasks v-if="todos.length && !dailyTodos.length" />
   </div>
 </template>
 
 <script>
-import AddTaskModal from "@/components/AddTaskModal.vue";
+import AddTaskModal from "@/components/modals/AddTaskModal.vue";
+import NoTasks from "@/components/daily/NoTasks.vue";
+import NoDailyTasks from "@/components/daily/NoDailyTasks.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "DailyTask",
   components: {
     AddTaskModal,
+    NoTasks,
+    NoDailyTasks,
   },
   methods: {
     openModalAdd() {
@@ -29,7 +36,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOpen: ["modals/isOpen"],
+      isOpen: "modals/isOpen",
+      todos: "tasks/todos",
+      dailyTodos: "tasks/dailyTodos",
     }),
   },
 };

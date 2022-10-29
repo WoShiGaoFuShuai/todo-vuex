@@ -41,7 +41,8 @@ export default {
     ],
     deletedTodos: [],
     deleteCompletelyTaskId: null,
-    dailyTodos: [{ title: "daily" }],
+    dailyTodos: [],
+    dailyDoneTodos: [],
   }),
 
   mutations: {
@@ -78,6 +79,11 @@ export default {
     RESET_DELETE_COMPLETELY_TASK_ID(state) {
       state.deleteCompletelyTaskId = null;
     },
+    PUSH_TO_DAILY_TODOS(state, task, taskIndex) {
+      console.log("IM WORKING MUT");
+      state.todos.splice(taskIndex, 1);
+      state.dailyTodos.push(task);
+    },
   },
   actions: {
     addNewTodo({ commit }, payload) {
@@ -94,6 +100,18 @@ export default {
     },
     resetDeleteCompletelyTaskId({ commit }) {
       commit("RESET_DELETE_COMPLETELY_TASK_ID");
+    },
+    pushToDailyTodos({ commit, state }, id) {
+      //GETTING INDEX OF A TASK
+      const taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === id)
+      );
+
+      //ADDING A 'STATUS' KEY TO A TASK
+      const taskToPush = state.todos[taskIndex];
+      taskToPush.status = "todo";
+
+      commit("PUSH_TO_DAILY_TODOS", taskToPush, taskIndex);
     },
   },
   getters: {
@@ -114,6 +132,12 @@ export default {
     },
     deletedTodos(state) {
       return state.deletedTodos;
+    },
+    dailyTodos(state) {
+      return state.dailyTodos;
+    },
+    dailyDoneTodos(state) {
+      return state.dailyDoneTodos;
     },
   },
 };

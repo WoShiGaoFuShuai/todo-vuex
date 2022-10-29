@@ -1,28 +1,35 @@
 <template>
   <div class="home">
     <DailyTask />
-    <TopDailyTasks />
-    <AppFirstTask />
+    <TopDailyTasks v-if="dailyDoneTodos.length || dailyTodos.length" />
+    <!-- <NoTasks /> -->
     <GlobalList />
   </div>
 </template>
 
 <script>
-import DailyTask from "@/components/DailyTask.vue";
-import TopDailyTasks from "@/components/TopDailyTasks.vue";
-import AppFirstTask from "@/components/FirstTask.vue";
-import GlobalList from "@/components/GlobalList.vue";
+import DailyTask from "@/components/daily/DailyTask.vue";
+import TopDailyTasks from "@/components/daily/TopDailyTasks.vue";
+// import NoTasks from "@/components/daily/NoTasks.vue";
+import GlobalList from "@/components/global/GlobalList.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
   components: {
-    AppFirstTask,
+    // NoTasks,
     DailyTask,
     GlobalList,
     TopDailyTasks,
   },
   data() {
     return {};
+  },
+  computed: {
+    ...mapGetters({
+      dailyDoneTodos: "tasks/dailyDoneTodos",
+      dailyTodos: "tasks/dailyTodos",
+    }),
   },
 };
 </script>
