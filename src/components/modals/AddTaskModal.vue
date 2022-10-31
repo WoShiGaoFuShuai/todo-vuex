@@ -148,7 +148,6 @@ export default {
       deadline: "",
       estimation: 1,
       priority: "low",
-      check: true,
       categoryArray: [
         {
           name: "Work",
@@ -192,6 +191,7 @@ export default {
         estimation: this.estimation,
         priority: this.priority,
         id: Math.random(),
+        done: false,
       };
       this.$store.dispatch("tasks/addNewTodo", newTodo);
       this.$store.dispatch("modals/closeModals");

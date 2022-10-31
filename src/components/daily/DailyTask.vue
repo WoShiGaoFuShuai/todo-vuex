@@ -10,15 +10,15 @@
       />
       <AddTaskModal v-if="isOpen" />
     </div>
-    <NoTasks v-if="!todos.length && !dailyTodos.length" />
-    <NoDailyTasks v-if="todos.length && !dailyTodos.length" />
+    <NoTasks
+      v-if="!todos.length && !dailyTodos.length && !dailyDoneTodos.length"
+    />
   </div>
 </template>
 
 <script>
 import AddTaskModal from "@/components/modals/AddTaskModal.vue";
 import NoTasks from "@/components/daily/NoTasks.vue";
-import NoDailyTasks from "@/components/daily/NoDailyTasks.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -26,7 +26,6 @@ export default {
   components: {
     AddTaskModal,
     NoTasks,
-    NoDailyTasks,
   },
   methods: {
     openModalAdd() {
@@ -39,6 +38,7 @@ export default {
       isOpen: "modals/isOpen",
       todos: "tasks/todos",
       dailyTodos: "tasks/dailyTodos",
+      dailyDoneTodos: "tasks/dailyDoneTodos",
     }),
   },
 };

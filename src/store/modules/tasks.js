@@ -10,6 +10,7 @@ export default {
         deadline: "today",
         category: "work",
         id: 111111,
+        done: false,
       },
       {
         title: "333333333",
@@ -19,6 +20,7 @@ export default {
         deadline: "2022-02-12",
         category: "work",
         id: 44444,
+        done: false,
       },
       {
         title: "Learing fa a afassasasas as asas sfs fqw sa ffqwqw",
@@ -28,6 +30,7 @@ export default {
         deadline: "today",
         category: "sport",
         id: 3333,
+        done: false,
       },
       {
         title: "123",
@@ -37,6 +40,7 @@ export default {
         deadline: "today",
         category: "sport",
         id: 22222,
+        done: false,
       },
     ],
     deletedTodos: [],
@@ -79,10 +83,46 @@ export default {
     RESET_DELETE_COMPLETELY_TASK_ID(state) {
       state.deleteCompletelyTaskId = null;
     },
-    PUSH_TO_DAILY_TODOS(state, task, taskIndex) {
-      console.log("IM WORKING MUT");
-      state.todos.splice(taskIndex, 1);
+    PUSH_TO_DAILY_TODOS(state, id) {
+      //GETTING INDEX OF A TASK
+      const taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === id)
+      );
+
+      //GETTING A TASK
+      const task = state.todos[taskIndex];
       state.dailyTodos.push(task);
+
+      //DELETING A TASK
+      state.todos.splice(taskIndex, 1);
+    },
+    DELETE_DAILY_TASK(state, id) {
+      const taskIndex = state.dailyTodos.indexOf(
+        ...state.dailyTodos.filter((item) => item.id === id)
+      );
+      const task = state.dailyTodos[taskIndex];
+
+      state.deletedTodos.push(task);
+      state.dailyTodos.splice(taskIndex, 1);
+    },
+    DONE_TASK(state, id) {
+      const taskIndex = state.dailyTodos.indexOf(
+        ...state.dailyTodos.filter((item) => item.id === id)
+      );
+      const task = state.dailyTodos[taskIndex];
+      task.done = true;
+
+      state.dailyDoneTodos.push(task);
+      state.dailyTodos.splice(taskIndex, 1);
+    },
+    DELETE_DONE_DAILY_TASK(state, id) {
+      const taskIndex = state.dailyDoneTodos.indexOf(
+        ...state.dailyDoneTodos.filter((item) => item.id === id)
+      );
+      const deletedTask = state.dailyDoneTodos[taskIndex];
+      state.deletedTodos.push(deletedTask);
+
+      state.dailyDoneTodos.splice(taskIndex, 1);
     },
   },
   actions: {
@@ -101,17 +141,17 @@ export default {
     resetDeleteCompletelyTaskId({ commit }) {
       commit("RESET_DELETE_COMPLETELY_TASK_ID");
     },
-    pushToDailyTodos({ commit, state }, id) {
-      //GETTING INDEX OF A TASK
-      const taskIndex = state.todos.indexOf(
-        ...state.todos.filter((item) => item.id === id)
-      );
-
-      //ADDING A 'STATUS' KEY TO A TASK
-      const taskToPush = state.todos[taskIndex];
-      taskToPush.status = "todo";
-
-      commit("PUSH_TO_DAILY_TODOS", taskToPush, taskIndex);
+    pushToDailyTodos({ commit }, id) {
+      commit("PUSH_TO_DAILY_TODOS", id);
+    },
+    deleteDailyTask({ commit }, id) {
+      commit("DELETE_DAILY_TASK", id);
+    },
+    doneTask({ commit }, id) {
+      commit("DONE_TASK", id);
+    },
+    deleteDoneDailyTask({ commit }, id) {
+      commit("DELETE_DONE_DAILY_TASK", id);
     },
   },
   getters: {

@@ -6,7 +6,11 @@
       <li>Done</li>
     </ul> -->
     <div class="content-tasks">
-      <div class="content-task" v-for="(todo, i) in todos" :key="i">
+      <div
+        :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"
+        v-for="(todo, i) in todos"
+        :key="i"
+      >
         <div
           @click="deleteTaskCompletely(todo.id)"
           :class="[
@@ -16,16 +20,22 @@
           ]"
         ></div>
         <div class="deadline" v-if="typeOfTodos !== 'deleted'">
-          <span class="span date">{{ todo.deadline }}</span>
+          <span
+            :class="['span', 'date', { done: typeOfTodos === 'doneDaily' }]"
+            >{{ todo.deadline }}</span
+          >
           <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
         </div>
         <div :class="['text', { 'text-deleted': typeOfTodos === 'deleted' }]">
-          <p class="text-title">{{ todo.title }}</p>
+          <p :class="['text-title', { done: typeOfTodos === 'doneDaily' }]">
+            {{ todo.title }}
+          </p>
           <p class="text-description">{{ todo.description }}</p>
         </div>
         <div class="buttons" v-if="typeOfTodos !== 'deleted'">
           <img
             v-if="typeOfTodos === 'daily'"
+            @click="doneTask(todo.id)"
             class="buttons-img"
             src="@/assets/images/Done.svg"
             alt=""
@@ -38,6 +48,7 @@
             alt=""
           />
           <img
+            v-if="typeOfTodos !== 'doneDaily'"
             @click="openEditModal"
             class="buttons-img"
             src="@/assets/images/Edit.svg"
@@ -45,18 +56,30 @@
           />
           <img
             @click="deleteTask(todo.id)"
-            class="buttons-img"
+            :class="['buttons-img', { done: typeOfTodos === 'doneDaily' }]"
             src="@/assets/images/Delete.svg"
             alt=""
           />
         </div>
-        <router-link class="link" :to="{ name: 'timer' }">
+        <router-link
+          v-if="typeOfTodos !== 'doneDaily'"
+          class="link"
+          :to="{ name: 'timer' }"
+        >
           <div :class="['priority', todo.priority]">
             <div class="img">
               <span class="estimation">{{ todo.estimation }}</span>
             </div>
           </div>
         </router-link>
+        <div
+          v-if="typeOfTodos === 'doneDaily'"
+          :class="['priority', 'done', todo.priority]"
+        >
+          <div class="img">
+            <span class="estimation">{{ todo.estimation }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +95,6 @@ export default {
   props: {
     todos: {
       type: Array,
-      required: true,
     },
     typeOfTodos: {
       type: String,
@@ -85,7 +107,14 @@ export default {
       this.$store.dispatch("modals/changeTitleModals", "Edit");
     },
     deleteTask(id) {
-      this.$store.dispatch("tasks/deleteTask", id);
+      if (this.typeOfTodos === "global") {
+        this.$store.dispatch("tasks/deleteTask", id);
+      } else if (this.typeOfTodos === "doneDaily") {
+        this.$store.dispatch("tasks/deleteDoneDailyTask", id);
+      } else {
+        console.log("FIRST", id);
+        this.$store.dispatch("tasks/deleteDailyTask", id);
+      }
     },
     deleteTaskCompletely(id) {
       if (this.typeOfTodos === "deleted") {
@@ -95,6 +124,9 @@ export default {
     },
     pushToDailyTodos(id) {
       this.$store.dispatch("tasks/pushToDailyTodos", id);
+    },
+    doneTask(id) {
+      this.$store.dispatch("tasks/doneTask", id);
     },
   },
 };
@@ -149,6 +181,10 @@ export default {
         transform: scale(1.006);
       }
 
+      &.done {
+        background-color: #d4d9dc;
+      }
+
       .category {
         min-width: 8px;
 
@@ -188,6 +224,10 @@ export default {
 
           &.date {
             color: red;
+
+            &.done {
+              color: #9f9f9f;
+            }
           }
         }
       }
@@ -219,6 +259,10 @@ export default {
           @media (max-width: 425px) {
             font-size: 16px;
             line-height: 18px;
+          }
+
+          &.done {
+            text-decoration: line-through;
           }
         }
 
@@ -258,6 +302,18 @@ export default {
             transform: scale(1.1);
             filter: brightness(0) saturate(100%) invert(67%) sepia(25%)
               saturate(288%) hue-rotate(164deg) brightness(93%) contrast(87%);
+          }
+
+          &.done {
+            filter: brightness(0) saturate(100%) invert(100%) sepia(2%)
+              saturate(0%) hue-rotate(167deg) brightness(104%) contrast(103%);
+
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.1);
+              filter: brightness(0) saturate(100%) invert(67%) sepia(25%)
+                saturate(288%) hue-rotate(164deg) brightness(93%) contrast(87%);
+            }
           }
         }
       }
@@ -300,6 +356,15 @@ export default {
             font-size: 24px;
             font-weight: 700;
             margin-top: 3px;
+          }
+        }
+
+        &.done {
+          height: inherit;
+          background: red;
+
+          .img {
+            pointer-events: none;
           }
         }
       }

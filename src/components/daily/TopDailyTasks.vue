@@ -1,24 +1,89 @@
 <template>
   <div class="content">
     <ul class="content-nav">
-      <li class="li">To Do</li>
+      <li
+        @click="changeTodoToShow('dailyTodos')"
+        :class="['li', { active: typeOfTodos === 'daily' }]"
+      >
+        To Do
+      </li>
       <li class="li passive">|</li>
-      <li class="li">Done</li>
+      <li
+        @click="changeTodoToShow('dailyDoneTodos')"
+        :class="['li', { active: typeOfTodos === 'doneDaily' }]"
+      >
+        Done
+      </li>
     </ul>
-
-    <TodoTasks :todos="dailyTodos" :typeOfTodos="'daily'" />
+    <TodoTasks :todos="todoToShow" :typeOfTodos="typeOfTodos" />
+    <div
+      :class="['no-daily-tasks', { 'not-active': typeOfTodos === 'doneDaily' }]"
+    >
+      <NoDailyTasks
+        v-if="todos.length && !dailyTodos.length"
+        :class="{ 'not-active': typeOfTodos === 'doneDaily' }"
+      >
+        {{ textTodo.line1 }} <br />
+        {{ textTodo.line2 }}
+      </NoDailyTasks>
+      <NoDailyTasks
+        v-if="todos.length && !dailyDoneTodos.length"
+        :typeOfTodos="typeOfTodos"
+        :class="{ 'not-active': typeOfTodos === 'daily' }"
+      >
+        {{ textDone.line1 }} <br />
+        {{ textDone.line2 }}
+      </NoDailyTasks>
+    </div>
   </div>
 </template>
 
 <script>
 import TodoTasks from "@/components/TodoTasks.vue";
+import NoDailyTasks from "@/components/daily/NoDailyTasks.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "DailyTasks",
-  components: { TodoTasks },
+  components: { TodoTasks, NoDailyTasks },
+
   computed: {
-    ...mapGetters({ dailyTodos: "tasks/dailyTodos" }),
+    ...mapGetters({
+      dailyTodos: "tasks/dailyTodos",
+      dailyDoneTodos: "tasks/dailyDoneTodos",
+      todos: "tasks/todos",
+    }),
+  },
+  data() {
+    return {
+      todoToShow: null,
+      typeOfTodos: null,
+      textTodo: {
+        line1: "No tasks to do,",
+        line2: "move tasks to the top 5 in daily task list.",
+      },
+      textDone: {
+        line1: "No finished tasks,",
+        line2: "done a task and return here, please.",
+      },
+    };
+  },
+  beforeMount() {
+    this.todoToShow = this.dailyTodos;
+    this.typeOfTodos = "daily";
+  },
+  methods: {
+    changeTodoToShow(todosToShow) {
+      console.log(todosToShow);
+      if (todosToShow === "dailyDoneTodos") {
+        this.todoToShow = this.dailyDoneTodos;
+        this.typeOfTodos = "doneDaily";
+      } else {
+        this.todoToShow = this.dailyTodos;
+        this.typeOfTodos = "daily";
+      }
+    },
   },
 };
 </script>
@@ -42,14 +107,22 @@ export default {
       &:hover {
         cursor: pointer;
         color: #fff;
-        transform: scale(1.1);
       }
 
       &:hover.passive {
         color: var(--greyish);
         cursor: default;
-        transform: none;
       }
+
+      &.active {
+        color: #fff;
+      }
+    }
+  }
+
+  .no-daily-tasks {
+    .not-active {
+      display: none;
     }
   }
 

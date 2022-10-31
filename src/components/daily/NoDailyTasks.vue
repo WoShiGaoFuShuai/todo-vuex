@@ -2,19 +2,24 @@
   <div class="no-daily-task-wrapper">
     <div class="content">
       <h2 class="text">
-        Task added, <br />
-        move it to the top 5 in daily task list
+        <slot></slot>
       </h2>
-
-      <div class="image">
-        <img src="@/assets/images/Arrow-up.svg" alt="" />
+      <div v-if="typeOfTodos !== 'doneDaily'" class="image">
+        <img src="@/assets/images/Arrows-up.svg" alt="" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "NoDailyTasks",
+  props: {
+    typeOfTodos: {
+      type: String,
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -25,7 +30,7 @@ export default {};
     align-items: center;
     flex-direction: column;
     text-align: center;
-    margin: 80px 0 28px;
+    margin: 32px 0 28px;
 
     .text {
       font-weight: 300;

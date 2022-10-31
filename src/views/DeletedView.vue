@@ -46,7 +46,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 80px;
 
     .text {
       font-weight: 300;

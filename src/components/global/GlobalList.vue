@@ -10,11 +10,11 @@
         />
       </div>
 
-      <div :class="['right', { active }]" v-if="active">
+      <div :class="['right', { active }]">
         <ul :class="['bars-container', { active }]">
           <li class="bar-item" v-for="(bar, i) in bars" :key="i">
             <span
-              @click="sortTodosByPriority(bar, $event)"
+              @click="sortTodosByPriority(bar)"
               :class="['name', { currentActiveBar: bar === currentActiveBar }]"
               >{{ bar }}</span
             >
@@ -26,18 +26,21 @@
 
     <div class="global-list-content">
       <TodoTasks v-if="active" :todos="todosToShow" :typeOfTodos="'global'" />
+      <NoGlobalTasks v-if="!todosToShow.length" :barName="currentActiveBar" />
     </div>
   </div>
 </template>
 
 <script>
 import TodoTasks from "@/components/TodoTasks.vue";
+import NoGlobalTasks from "@/components/global/NoGlobalTasks.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "GlobalList",
   components: {
     TodoTasks,
+    NoGlobalTasks,
   },
   data() {
     return {
@@ -57,20 +60,44 @@ export default {
     }),
   },
   methods: {
-    sortTodosByPriority(priorityType) {
-      if (priorityType === "all") this.todosToShow = this.todos;
-      if (priorityType === "urgent") this.todosToShow = this.urgentTodos;
-      if (priorityType === "high") this.todosToShow = this.highTodos;
-      if (priorityType === "middle") this.todosToShow = this.middleTodos;
-      if (priorityType === "low") this.todosToShow = this.lowTodos;
-      this.currentActiveBar = priorityType;
-    },
     toggleGlobalState() {
       this.active = !this.active;
 
       if (this.active) {
         this.currentActiveBar = "all";
         this.todosToShow = this.todos;
+      }
+    },
+    sortTodosByPriority(priorityType) {
+      switch (priorityType) {
+        case "all":
+          this.todosToShow = this.todos;
+          break;
+
+        default:
+          this.todosToShow = this.todos.filter(
+            (todo) => todo.priority === priorityType
+          );
+      }
+      console.log("sort");
+      this.currentActiveBar = priorityType;
+    },
+  },
+  // beforeUpdate() {
+  //   console.log(" beforeUpdate");
+  // },
+  // updated() {
+  // this.currentActiveBar = "urgent";
+  // console.log("UPDARED");
+  // },
+  beforeMount() {
+    this.todosToShow = this.todos;
+  },
+  watch: {
+    todos(newValue) {
+      this.sortTodosByPriority(this.currentActiveBar);
+      if (!newValue.length) {
+        this.currentActiveBar = "all";
       }
     },
   },
@@ -140,13 +167,13 @@ export default {
   }
 
   .right {
-    transition: 1s all ease-in;
+    transition: 0.3s all ease-in;
     opacity: 0;
-    transition: 1s all ease-in;
+    pointer-events: none;
 
     &.active {
-      transition: 1s all ease-in;
       opacity: 1;
+      pointer-events: auto;
     }
 
     .bars-container {
