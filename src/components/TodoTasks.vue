@@ -367,7 +367,6 @@ export default {
 
         &.done {
           height: inherit;
-          background: red;
 
           .img {
             pointer-events: none;

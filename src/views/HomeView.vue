@@ -11,7 +11,6 @@ import DailyTask from "@/components/daily/DailyTask.vue";
 import TopDailyTasks from "@/components/daily/TopDailyTasks.vue";
 
 import GlobalList from "@/components/global/GlobalList.vue";
-// import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
@@ -24,9 +23,9 @@ export default {
     return {};
   },
   // computed: {
-  // ...mapGetters({
-  // todos: "tasks/todos",
-  // }),
+  //   ...mapGetters({
+  //     isDeleteCompletelyOpen: "modals/isDeleteCompletelyOpen",
+  //   }),
   // },
 };
 </script>

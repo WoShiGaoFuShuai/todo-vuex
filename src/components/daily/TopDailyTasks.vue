@@ -1,5 +1,9 @@
 <template>
-  <div class="content">
+  <div
+    v-if="todos.length || dailyTodos.length || dailyDoneTodos.length"
+    class="content"
+  >
+    <!-- <ConfirmDeleteDoneTasks v-if="isDeleteDoneTasksModal" /> -->
     <ul class="content-nav">
       <li
         @click="changeTodoToShow('dailyTodos')"
@@ -15,19 +19,28 @@
         Done
       </li>
     </ul>
+    <div
+      class="delete-wrapper"
+      v-if="typeOfTodos === 'doneDaily' && dailyDoneTodos.length"
+    >
+      <span @click="deleteAllDoneTasks" class="delete-all"
+        >Delete all done tasks</span
+      >
+    </div>
     <TodoTasks :todos="todoToShow" :typeOfTodos="typeOfTodos" />
     <div
       :class="['no-daily-tasks', { 'not-active': typeOfTodos === 'doneDaily' }]"
     >
       <NoDailyTasks
-        v-if="todos.length && !dailyTodos.length"
+        v-if="!dailyTodos.length"
         :class="{ 'not-active': typeOfTodos === 'doneDaily' }"
       >
         {{ textTodo.line1 }} <br />
         {{ textTodo.line2 }}
       </NoDailyTasks>
+      <!-- v-if="todos.length && !dailyDoneTodos.length" -->
       <NoDailyTasks
-        v-if="todos.length && !dailyDoneTodos.length"
+        v-if="!dailyDoneTodos.length"
         :typeOfTodos="typeOfTodos"
         :class="{ 'not-active': typeOfTodos === 'daily' }"
       >
@@ -41,6 +54,7 @@
 <script>
 import TodoTasks from "@/components/TodoTasks.vue";
 import NoDailyTasks from "@/components/daily/NoDailyTasks.vue";
+// import ConfirmDeleteDoneTasks from "@/components/modals/ConfirmDeleteDoneTasks.vue";
 
 import { mapGetters } from "vuex";
 
@@ -53,6 +67,7 @@ export default {
       dailyTodos: "tasks/dailyTodos",
       dailyDoneTodos: "tasks/dailyDoneTodos",
       todos: "tasks/todos",
+      isDeleteDoneTasksModal: "modals/isDeleteDoneTasksModal",
     }),
   },
   data() {
@@ -75,7 +90,6 @@ export default {
   },
   methods: {
     changeTodoToShow(todosToShow) {
-      console.log(todosToShow);
       if (todosToShow === "dailyDoneTodos") {
         this.todoToShow = this.dailyDoneTodos;
         this.typeOfTodos = "doneDaily";
@@ -83,6 +97,11 @@ export default {
         this.todoToShow = this.dailyTodos;
         this.typeOfTodos = "daily";
       }
+    },
+    deleteAllDoneTasks() {
+      this.$store.dispatch("tasks/deleteAllDoneTasks");
+      // this.$store.dispatch("modals/toggleDeleteDoneTasksModal");
+      this.todoToShow = this.dailyDoneTodos;
     },
   },
 };
@@ -115,6 +134,22 @@ export default {
       }
 
       &.active {
+        color: #fff;
+      }
+    }
+  }
+
+  .delete-wrapper {
+    .delete-all {
+      font-family: "PT Sans", sans-serif;
+      margin-left: 8px;
+      color: var(--greyish);
+      font-size: 16px;
+      font-weight: 400px;
+      transition: all 0.5s ease;
+
+      &:hover {
+        cursor: pointer;
         color: #fff;
       }
     }

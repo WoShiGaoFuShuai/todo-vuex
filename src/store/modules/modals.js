@@ -4,6 +4,7 @@ export default {
     isOpenAddTaskModal: false,
     titleModal: "Add",
     isDeleteCompletelyModal: false,
+    // isDeleteDoneTasksModal: false,
   }),
   mutations: {
     TOGGLE_MODALS(state) {
@@ -21,6 +22,9 @@ export default {
     TOGGLE_DELETE_COMPLETELY_MODAL(state) {
       state.isDeleteCompletelyModal = !state.isDeleteCompletelyModal;
     },
+    // TOGGLE_DELETE_DONE_TASKS_MODAL(state) {
+    //   state.isDeleteDoneTasksModal = !state.isDeleteDoneTasksModal;
+    // },
   },
   actions: {
     toggleModals({ commit }) {
@@ -35,6 +39,9 @@ export default {
     toggleDeleteCompletelyModal({ commit }) {
       commit("TOGGLE_DELETE_COMPLETELY_MODAL");
     },
+    // toggleDeleteDoneTasksModal({ commit }) {
+    //   commit("TOGGLE_DELETE_DONE_TASKS_MODAL");
+    // },
   },
   getters: {
     isOpen(state) {
@@ -46,5 +53,8 @@ export default {
     isDeleteCompletelyOpen(state) {
       return state.isDeleteCompletelyModal;
     },
+    // isDeleteDoneTasksModal(state) {
+    //   return state.isDeleteDoneTasksModal;
+    // },
   },
 };

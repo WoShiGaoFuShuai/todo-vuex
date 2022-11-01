@@ -159,6 +159,11 @@ export default {
         state.todos.splice(taskIndex, 1, payload);
       }
     },
+    DELETE_ALL_DONE_TASKS(store) {
+      console.log(...store.dailyDoneTodos);
+      store.deletedTodos.push(...store.dailyDoneTodos);
+      store.dailyDoneTodos = [];
+    },
   },
   actions: {
     addNewTodo({ commit }, payload) {
@@ -199,6 +204,9 @@ export default {
     },
     addEditedTodoGlobal({ commit }, payload) {
       commit("ADD_EDITED_TODO_GLOBAL", payload);
+    },
+    deleteAllDoneTasks({ commit }) {
+      commit("DELETE_ALL_DONE_TASKS");
     },
   },
   getters: {
