@@ -5,6 +5,11 @@
       <img class="image" src="@/assets/images/Sad-face.svg" alt="" />
       <h2 class="text">There is nothing to delete...</h2>
     </div>
+    <div class="delete-wrapper" v-if="deletedTodos.length">
+      <span @click="deleteAllDeletedTasks" class="delete-all"
+        >Delete all deleted tasks</span
+      >
+    </div>
     <TodoTask :todos="deletedTodos" :typeOfTodos="'deleted'" />
     <ConfirmDelete v-if="isDeleteCompletelyOpen" />
   </div>
@@ -26,6 +31,12 @@ export default {
       deletedTodos: "tasks/deletedTodos",
       isDeleteCompletelyOpen: "modals/isDeleteCompletelyOpen",
     }),
+  },
+  methods: {
+    deleteAllDeletedTasks() {
+      this.$store.dispatch("tasks/toggleDeleteAllDeletedTasks");
+      this.$store.dispatch("modals/toggleDeleteCompletelyModal");
+    },
   },
 };
 </script>
@@ -60,6 +71,22 @@ export default {
       filter: invert(69%) sepia(28%) saturate(246%) hue-rotate(164deg)
         brightness(88%) contrast(92%);
       margin-bottom: 20px;
+    }
+  }
+
+  .delete-wrapper {
+    .delete-all {
+      font-family: "PT Sans", sans-serif;
+      margin-left: 8px;
+      color: var(--greyish);
+      font-size: 16px;
+      font-weight: 400px;
+      transition: all 0.5s ease;
+
+      &:hover {
+        cursor: pointer;
+        color: #fff;
+      }
     }
   }
 }

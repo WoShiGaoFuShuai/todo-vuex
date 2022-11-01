@@ -48,6 +48,7 @@ export default {
     dailyTodos: [],
     dailyDoneTodos: [],
     editTask: [],
+    deleteAllDeletedTasks: false,
   }),
 
   mutations: {
@@ -79,6 +80,7 @@ export default {
       state.deleteCompletelyTaskId = null;
     },
     CHANGE_DELETE_COMPLETELY_TASK_INDEX(state, index) {
+      console.log("CHANGE");
       state.deleteCompletelyTaskId = index;
     },
     RESET_DELETE_COMPLETELY_TASK_ID(state) {
@@ -164,6 +166,12 @@ export default {
       store.deletedTodos.push(...store.dailyDoneTodos);
       store.dailyDoneTodos = [];
     },
+    TOGGLE_DELETE_ALL_DELETED_TASKS(store) {
+      store.deleteAllDeletedTasks = !store.deleteAllDeletedTasks;
+    },
+    DELETE_ALL_DELETED_TASKS(store) {
+      store.deletedTodos = [];
+    },
   },
   actions: {
     addNewTodo({ commit }, payload) {
@@ -208,6 +216,12 @@ export default {
     deleteAllDoneTasks({ commit }) {
       commit("DELETE_ALL_DONE_TASKS");
     },
+    toggleDeleteAllDeletedTasks({ commit }) {
+      commit("TOGGLE_DELETE_ALL_DELETED_TASKS");
+    },
+    deleteAllDeletedTasks({ commit }) {
+      commit("DELETE_ALL_DELETED_TASKS");
+    },
   },
   getters: {
     todos(state) {
@@ -236,6 +250,9 @@ export default {
     },
     editTask(state) {
       return state.editTask;
+    },
+    deleteAllDeletedTasks(state) {
+      return state.deleteAllDeletedTasks;
     },
   },
 };

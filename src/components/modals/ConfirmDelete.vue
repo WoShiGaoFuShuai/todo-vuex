@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ConfirmDelete",
   methods: {
@@ -40,9 +41,18 @@ export default {
       this.$store.dispatch("tasks/resetDeleteCompletelyTaskId");
     },
     confirmDeleteCompletely() {
-      this.$store.dispatch("tasks/removeCompletelyDeletedTask");
+      if (this.deleteAllDeletedTasks) {
+        this.$store.dispatch("tasks/deleteAllDeletedTasks");
+      } else {
+        this.$store.dispatch("tasks/removeCompletelyDeletedTask");
+      }
       this.$store.dispatch("modals/toggleDeleteCompletelyModal");
     },
+  },
+  computed: {
+    ...mapGetters({
+      deleteAllDeletedTasks: "tasks/deleteAllDeletedTasks",
+    }),
   },
 };
 </script>
