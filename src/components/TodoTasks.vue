@@ -105,7 +105,12 @@ export default {
     openEditModal(id) {
       this.$store.dispatch("modals/toggleModals");
       this.$store.dispatch("modals/changeTitleModals", "Edit");
-      this.$store.dispatch("tasks/editTask", id);
+
+      if (this.typeOfTodos === "global") {
+        this.$store.dispatch("tasks/editTaskGlobal", id);
+      } else {
+        this.$store.dispatch("tasks/editTaskDaily", id);
+      }
     },
     deleteTask(id) {
       if (this.typeOfTodos === "global") {

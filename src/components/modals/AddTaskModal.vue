@@ -204,7 +204,8 @@ export default {
         this.$store.dispatch("tasks/addNewTodo", newTodo);
       } else {
         newTodo.id = this.editTask[0].id;
-        this.$store.dispatch("tasks/addEditedTodo", newTodo);
+        console.log("MODAL", newTodo);
+        this.$store.dispatch("tasks/addEditedTodoGlobal", newTodo);
       }
       this.$store.dispatch("tasks/clearEditTask");
       this.$store.dispatch("modals/closeModals");

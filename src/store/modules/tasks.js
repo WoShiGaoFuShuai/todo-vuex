@@ -125,23 +125,39 @@ export default {
 
       state.dailyDoneTodos.splice(taskIndex, 1);
     },
-    EDIT_TASK(state, id) {
+    EDIT_TASK_GLOBAL(state, id) {
+      console.log("WORKING");
+
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === id)
       );
       const taskToEdit = state.todos[taskIndex];
+      console.log("TASKINDEX, TASK TO EDIT", taskIndex, taskToEdit);
+      state.editTask.push(taskToEdit);
+    },
+    EDIT_TASK_DAILY(state, id) {
+      const taskIndex = state.dailyTodos.indexOf(
+        ...state.dailyTodos.filter((item) => item.id === id)
+      );
+      const taskToEdit = state.dailyTodos[taskIndex];
       state.editTask.push(taskToEdit);
     },
     CLEAR_EDIT_TASK(state) {
       state.editTask = [];
     },
-    ADD_EDITED_TODO(state, payload) {
-      console.log(state);
-      console.log("OUR TODO", payload);
-      const taskIndex = state.todos.indexOf(
+    ADD_EDITED_TODO_GLOBAL(state, payload) {
+      let taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === payload.id)
       );
-      state.todos.splice(taskIndex, 1, payload);
+
+      if (taskIndex === -1) {
+        let taskIndex = state.dailyTodos.indexOf(
+          ...state.dailyTodos.filter((item) => item.id === payload.id)
+        );
+        state.dailyTodos.splice(taskIndex, 1, payload);
+      } else {
+        state.todos.splice(taskIndex, 1, payload);
+      }
     },
   },
   actions: {
@@ -172,15 +188,17 @@ export default {
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
     },
-    editTask({ commit }, id) {
-      commit("EDIT_TASK", id);
+    editTaskGlobal({ commit }, id) {
+      commit("EDIT_TASK_GLOBAL", id);
+    },
+    editTaskDaily({ commit }, id) {
+      commit("EDIT_TASK_DAILY", id);
     },
     clearEditTask({ commit }) {
       commit("CLEAR_EDIT_TASK");
     },
-    addEditedTodo({ commit }, payload) {
-      console.log("ACTION", payload);
-      commit("ADD_EDITED_TODO", payload);
+    addEditedTodoGlobal({ commit }, payload) {
+      commit("ADD_EDITED_TODO_GLOBAL", payload);
     },
   },
   getters: {
