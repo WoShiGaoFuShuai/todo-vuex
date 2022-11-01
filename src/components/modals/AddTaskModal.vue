@@ -43,7 +43,6 @@
           <fieldset class="fieldset radio category">
             <span class="label-wrapper">
               <span class="label-title">Category</span>
-
               <label
                 class="label-item"
                 v-for="({ name, className, value }, index) in categoryArray"
@@ -51,6 +50,7 @@
               >
                 <input
                   :value="value"
+                  id="category"
                   class="radio"
                   type="radio"
                   name="category"
@@ -86,6 +86,7 @@
                 <input
                   class="radio estimation-checkbox"
                   :name="name"
+                  id="estimation"
                   :value="value"
                   @click="addEstimation(value)"
                   type="checkbox"
@@ -107,6 +108,7 @@
               >
                 <input
                   :value="value"
+                  id="priority"
                   class="radio"
                   type="radio"
                   name="priority"
@@ -181,8 +183,11 @@ export default {
   methods: {
     closeModal() {
       this.$store.dispatch("modals/closeModals");
+      this.$store.dispatch("tasks/clearEditTask");
+      this.defaultValueInputs();
     },
     agreeModalTodo() {
+      console.log("DEADLINE", this.deadline);
       const newTodo = {
         title: this.title,
         description: this.description,
@@ -190,19 +195,19 @@ export default {
         deadline: this.deadline,
         estimation: this.estimation,
         priority: this.priority,
-        id: Math.random(),
         done: false,
       };
-      this.$store.dispatch("tasks/addNewTodo", newTodo);
+
+      if (!this.editTask.length) {
+        newTodo.id = Math.random();
+        console.log("WORKS");
+        this.$store.dispatch("tasks/addNewTodo", newTodo);
+      } else {
+        newTodo.id = this.editTask[0].id;
+        this.$store.dispatch("tasks/addEditedTodo", newTodo);
+      }
+      this.$store.dispatch("tasks/clearEditTask");
       this.$store.dispatch("modals/closeModals");
-
-      // console.log(this.title);
-      // console.log(this.description);
-      // console.log(this.category);
-      // console.log(this.deadline);
-      // console.log(this.estimation);
-      // console.log(this.priority);
-
       this.defaultValueInputs();
     },
     defaultValueInputs() {
@@ -222,9 +227,7 @@ export default {
     },
     addEstimation(inputValue) {
       this.estimation = inputValue + 1;
-      const allEstimation = document.querySelectorAll(
-        ".radio.estimation-checkbox"
-      );
+      const allEstimation = document.querySelectorAll("#estimation");
       for (let i = 0; i < allEstimation.length; i++) {
         if (i <= inputValue) allEstimation[i].checked = true;
         else allEstimation[i].checked = false;
@@ -234,7 +237,63 @@ export default {
   computed: {
     ...mapGetters({
       titleModal: ["modals/titleModal"],
+      editTask: ["tasks/editTask"],
     }),
+  },
+  mounted() {
+    if (this.editTask.length) {
+      const { title, description, deadline, category, priority, estimation } =
+        this.editTask[0];
+      //    done,, id,
+
+      this.title = title;
+      this.description = description;
+
+      //GETTING CATEGORY
+      const indexOfCategory = this.categoryArray.indexOf(
+        ...this.categoryArray.filter((item) => item.value === category)
+      );
+      const allCategoryValue = document.querySelectorAll("#category");
+      allCategoryValue[indexOfCategory].checked = true;
+      this.category = this.categoryArray[indexOfCategory].value;
+
+      //GETTING priority
+      const indexOfPriority = this.priorityArray.indexOf(
+        ...this.priorityArray.filter((item) => item.value === priority)
+      );
+      const allPriorityValue = document.querySelectorAll("#priority");
+      allPriorityValue[indexOfPriority].checked = true;
+      this.priority = this.priorityArray[indexOfPriority].value;
+
+      //GETTING ESTIMATION
+      const indexOfEstimation = this.estimationArray.indexOf(
+        ...this.estimationArray.filter((item) => item.value === estimation)
+      );
+      this.addEstimation(indexOfEstimation - 1);
+      this.estimation = estimation;
+
+      //GETTING DEADLINE
+      if (deadline === "today") {
+        // WE NEED TO TRANSFER TODAY INTO 2022-11-20
+        const date = new Date();
+
+        let day = date.getDate();
+        if (day < 10) {
+          day = "0" + day;
+        }
+
+        let month = date.getMonth();
+        if (month < 10) {
+          month = month + 1;
+          month = "0" + month;
+        } else {
+          month = month + 1;
+        }
+        this.deadline = `${date.getFullYear()}-${month}-${day}`;
+      } else {
+        this.deadline = deadline;
+      }
+    }
   },
 };
 

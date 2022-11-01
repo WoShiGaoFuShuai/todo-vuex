@@ -49,7 +49,7 @@
           />
           <img
             v-if="typeOfTodos !== 'doneDaily'"
-            @click="openEditModal"
+            @click="openEditModal(todo.id)"
             class="buttons-img"
             src="@/assets/images/Edit.svg"
             alt=""
@@ -102,9 +102,10 @@ export default {
     },
   },
   methods: {
-    openEditModal() {
+    openEditModal(id) {
       this.$store.dispatch("modals/toggleModals");
       this.$store.dispatch("modals/changeTitleModals", "Edit");
+      this.$store.dispatch("tasks/editTask", id);
     },
     deleteTask(id) {
       if (this.typeOfTodos === "global") {

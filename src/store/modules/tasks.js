@@ -47,6 +47,7 @@ export default {
     deleteCompletelyTaskId: null,
     dailyTodos: [],
     dailyDoneTodos: [],
+    editTask: [],
   }),
 
   mutations: {
@@ -124,6 +125,24 @@ export default {
 
       state.dailyDoneTodos.splice(taskIndex, 1);
     },
+    EDIT_TASK(state, id) {
+      const taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === id)
+      );
+      const taskToEdit = state.todos[taskIndex];
+      state.editTask.push(taskToEdit);
+    },
+    CLEAR_EDIT_TASK(state) {
+      state.editTask = [];
+    },
+    ADD_EDITED_TODO(state, payload) {
+      console.log(state);
+      console.log("OUR TODO", payload);
+      const taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === payload.id)
+      );
+      state.todos.splice(taskIndex, 1, payload);
+    },
   },
   actions: {
     addNewTodo({ commit }, payload) {
@@ -153,6 +172,16 @@ export default {
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
     },
+    editTask({ commit }, id) {
+      commit("EDIT_TASK", id);
+    },
+    clearEditTask({ commit }) {
+      commit("CLEAR_EDIT_TASK");
+    },
+    addEditedTodo({ commit }, payload) {
+      console.log("ACTION", payload);
+      commit("ADD_EDITED_TODO", payload);
+    },
   },
   getters: {
     todos(state) {
@@ -178,6 +207,9 @@ export default {
     },
     dailyDoneTodos(state) {
       return state.dailyDoneTodos;
+    },
+    editTask(state) {
+      return state.editTask;
     },
   },
 };
