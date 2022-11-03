@@ -42,12 +42,33 @@ export default {
         id: 22222,
         done: false,
       },
+      {
+        title: "Yes",
+        description: "Yes",
+        estimation: 2,
+        priority: "middle",
+        deadline: "today",
+        category: "sport",
+        id: 22242142,
+        done: false,
+      },
+      {
+        title: "No",
+        description: "No",
+        estimation: 1,
+        priority: "urgent",
+        deadline: "2022-01-12",
+        category: "hobby",
+        id: 555555555512412,
+        done: false,
+      },
     ],
     deletedTodos: [],
     deleteCompletelyTaskId: null,
     dailyTodos: [],
     dailyDoneTodos: [],
     editTask: [],
+    timerTodo: [],
     deleteAllDeletedTasks: false,
   }),
 
@@ -61,11 +82,20 @@ export default {
         ...state.todos.filter((item) => item.id === payload)
       );
       // GETTING DELETED TASK TO PUSH IT TO ARRAY WITH DELETED TODOS
-      const deletedTask = state.todos.filter((item) => item.id === payload);
-      state.deletedTodos.push(...deletedTask);
+      // const deletedTask = state.todos.filter((item) => item.id === payload);
+      const task = state.todos[taskIndex];
+      state.deletedTodos.push(task);
 
       // DELETING TASK FROM ARRAY TODOS
       state.todos.splice(taskIndex, 1);
+
+      if (state.timerTodo.length) {
+        switch (state.timerTodo[0].id === task.id) {
+          case true:
+            state.timerTodo = [];
+            break;
+        }
+      }
     },
     REMOVE_COMPLETELY_DELETED_TASK(state) {
       //GETTING INDEX OF TASK WHICH MUST BE REMOVED
@@ -80,7 +110,6 @@ export default {
       state.deleteCompletelyTaskId = null;
     },
     CHANGE_DELETE_COMPLETELY_TASK_INDEX(state, index) {
-      console.log("CHANGE");
       state.deleteCompletelyTaskId = index;
     },
     RESET_DELETE_COMPLETELY_TASK_ID(state) {
@@ -91,7 +120,6 @@ export default {
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === id)
       );
-
       //GETTING A TASK
       const task = state.todos[taskIndex];
       state.dailyTodos.push(task);
@@ -107,16 +135,72 @@ export default {
 
       state.deletedTodos.push(task);
       state.dailyTodos.splice(taskIndex, 1);
-    },
-    DONE_TASK(state, id) {
-      const taskIndex = state.dailyTodos.indexOf(
-        ...state.dailyTodos.filter((item) => item.id === id)
-      );
-      const task = state.dailyTodos[taskIndex];
-      task.done = true;
 
-      state.dailyDoneTodos.push(task);
-      state.dailyTodos.splice(taskIndex, 1);
+      if (state.timerTodo.length) {
+        switch (state.timerTodo[0].id === task.id) {
+          case true:
+            state.timerTodo = [];
+            break;
+        }
+      }
+    },
+    DONE_TASK(state, { id, type }) {
+      //IF WE PRESS BUTTON DONE IN DAILY TASKS
+      if (type === "daily") {
+        const taskIndex = state.dailyTodos.indexOf(
+          ...state.dailyTodos.filter((item) => item.id === id)
+        );
+        const task = state.dailyTodos[taskIndex];
+        task.done = true;
+
+        state.dailyDoneTodos.push(task);
+        state.dailyTodos.splice(taskIndex, 1);
+
+        //WE NEED TO CHECK DO WE HAVE THIS TASK IN TIMER, if YES - DELETE IN, CUZ ITS DONE
+        if (state.timerTodo.length) {
+          const res = state.timerTodo[0].id === task.id;
+          switch (res) {
+            case true:
+              state.timerTodo = [];
+              break;
+          }
+        }
+      }
+      // IF WE PRESS BUTTON DONE IN TIMER TASKS
+      else {
+        //CHECK IS THE TASK IN THE GLOBAL LIST
+        let taskIndex = state.todos.indexOf(
+          ...state.todos.filter((item) => item.id === id)
+        );
+        let task;
+
+        switch (taskIndex) {
+          //IF NOT IN GLOBAL, MEANS IT IS IN DAILY
+          case -1:
+            taskIndex = state.dailyTodos.indexOf(
+              ...state.dailyTodos.filter((item) => item.id === id)
+            );
+            task = state.dailyTodos[taskIndex];
+            task.done = true;
+            state.dailyDoneTodos.push(task);
+            state.dailyTodos.splice(taskIndex, 1);
+            break;
+          default:
+            //GLOBAL
+            task = state.todos[taskIndex];
+            task.done = true;
+            state.dailyDoneTodos.push(task);
+            state.todos.splice(taskIndex, 1);
+        }
+
+        // console.log(taskIndex);
+        // if (taskIndex === -1) {
+        //   taskIndex = state.dailyTodos.indexOf(
+        //     ...state.dailyTodos.filter((item) => item.id === id)
+        //   );
+        //   console.log(taskIndex);
+        // }
+      }
     },
     DELETE_DONE_DAILY_TASK(state, id) {
       const taskIndex = state.dailyDoneTodos.indexOf(
@@ -128,13 +212,10 @@ export default {
       state.dailyDoneTodos.splice(taskIndex, 1);
     },
     EDIT_TASK_GLOBAL(state, id) {
-      console.log("WORKING");
-
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === id)
       );
       const taskToEdit = state.todos[taskIndex];
-      console.log("TASKINDEX, TASK TO EDIT", taskIndex, taskToEdit);
       state.editTask.push(taskToEdit);
     },
     EDIT_TASK_DAILY(state, id) {
@@ -147,35 +228,104 @@ export default {
     CLEAR_EDIT_TASK(state) {
       state.editTask = [];
     },
-    ADD_EDITED_TODO_GLOBAL(state, payload) {
+    ADD_EDITED_TODO(state, payload) {
       let taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === payload.id)
       );
 
+      // IF WE HAVE -1 => IT IS NOT IN GLOBAL AND WE NEED TO CHECK IN DAILY TODOS
       if (taskIndex === -1) {
         let taskIndex = state.dailyTodos.indexOf(
           ...state.dailyTodos.filter((item) => item.id === payload.id)
         );
         state.dailyTodos.splice(taskIndex, 1, payload);
+
+        //CHECK IF EDITED TASK FROM DAILY LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+        if (state.timerTodo.length) {
+          switch (state.timerTodo[0].id === state.dailyTodos[taskIndex].id) {
+            case true:
+              state.timerTodo.splice(0, 1, payload);
+              break;
+          }
+        }
       } else {
         state.todos.splice(taskIndex, 1, payload);
+
+        //CHECK IF EDITED TASK FROM GLOBAL LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+        if (state.timerTodo.length) {
+          switch (state.timerTodo[0].id === state.todos[taskIndex].id) {
+            case true:
+              state.timerTodo.splice(0, 1, payload);
+              break;
+          }
+        }
       }
     },
-    DELETE_ALL_DONE_TASKS(store) {
-      console.log(...store.dailyDoneTodos);
-      store.deletedTodos.push(...store.dailyDoneTodos);
-      store.dailyDoneTodos = [];
+    DELETE_ALL_DONE_TASKS(state) {
+      state.deletedTodos.push(...state.dailyDoneTodos);
+      state.dailyDoneTodos = [];
     },
-    TOGGLE_DELETE_ALL_DELETED_TASKS(store) {
-      store.deleteAllDeletedTasks = !store.deleteAllDeletedTasks;
+    TOGGLE_DELETE_ALL_DELETED_TASKS(state) {
+      state.deleteAllDeletedTasks = !state.deleteAllDeletedTasks;
     },
-    DELETE_ALL_DELETED_TASKS(store) {
-      store.deletedTodos = [];
+    DELETE_ALL_DELETED_TASKS(state) {
+      state.deletedTodos = [];
+    },
+    GO_TO_TIMER(state, { id, type }) {
+      if (type === "global") {
+        const taskIndex = state.todos.indexOf(
+          ...state.todos.filter((item) => item.id === id)
+        );
+        const task = state.todos[taskIndex];
+        state.timerTodo.push(task);
+      } else {
+        const taskIndex = state.dailyTodos.indexOf(
+          ...state.dailyTodos.filter((item) => item.id === id)
+        );
+        const task = state.dailyTodos[taskIndex];
+        state.timerTodo.push(task);
+      }
+    },
+    DELETE_TIMER_TODO(state) {
+      state.timerTodo = [];
+    },
+    DELETE_DAILY_OR_GLOBAL_TASK(state, id) {
+      let taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === id)
+      );
+      let task;
+
+      switch (taskIndex) {
+        //IF WE DONT HAVE IN IN GLOBAL IT MEASNT THE TASK IS IN DAILY
+        case -1:
+          taskIndex = state.dailyTodos.indexOf(
+            ...state.dailyTodos.filter((item) => item.id === id)
+          );
+          task = state.dailyTodos[taskIndex];
+          state.deletedTodos.push(task);
+          state.dailyTodos.splice(taskIndex, 1);
+          state.timerTodo = [];
+          break;
+        //IF WE HAVE THE TASK IN GLOBAL
+        default:
+          task = state.todos[taskIndex];
+          state.deletedTodos.push(task);
+          state.todos.splice(taskIndex, 1);
+          state.timerTodo = [];
+      }
     },
   },
   actions: {
-    addNewTodo({ commit }, payload) {
+    addNewTodo({ commit, dispatch }, payload) {
       commit("ADD_NEW_TODO", payload);
+      const notification = {
+        text: "A task was successfully created.",
+        type: "success",
+      };
+      dispatch("modals/changeNotification", notification, { root: true });
+      setTimeout(() => {
+        dispatch("modals/closeNotification", null, { root: true });
+      }, 3500);
     },
     deleteTask({ commit }, id) {
       commit("DELETE_TASK", id);
@@ -189,14 +339,26 @@ export default {
     resetDeleteCompletelyTaskId({ commit }) {
       commit("RESET_DELETE_COMPLETELY_TASK_ID");
     },
-    pushToDailyTodos({ commit }, id) {
-      commit("PUSH_TO_DAILY_TODOS", id);
+    pushToDailyTodos({ state, commit, dispatch }, id) {
+      //WE CHECK IF THERE IS LESS THEN 4 items we can push a task to daily tasks
+      if (state.dailyTodos.length <= 4) {
+        commit("PUSH_TO_DAILY_TODOS", id);
+      } else {
+        const notification = {
+          text: "Sorry, you can have only 5 daily tasks at the same time.",
+          type: "error",
+        };
+        dispatch("modals/changeNotification", notification, { root: true });
+        setTimeout(() => {
+          dispatch("modals/closeNotification", null, { root: true });
+        }, 3500);
+      }
     },
     deleteDailyTask({ commit }, id) {
       commit("DELETE_DAILY_TASK", id);
     },
-    doneTask({ commit }, id) {
-      commit("DONE_TASK", id);
+    doneTask({ commit }, payload) {
+      commit("DONE_TASK", payload);
     },
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
@@ -210,8 +372,16 @@ export default {
     clearEditTask({ commit }) {
       commit("CLEAR_EDIT_TASK");
     },
-    addEditedTodoGlobal({ commit }, payload) {
-      commit("ADD_EDITED_TODO_GLOBAL", payload);
+    addEditedTodo({ commit, dispatch }, payload) {
+      commit("ADD_EDITED_TODO", payload);
+      const notification = {
+        text: "The task was successfully edited.",
+        type: "success",
+      };
+      dispatch("modals/changeNotification", notification, { root: true });
+      setTimeout(() => {
+        dispatch("modals/closeNotification", null, { root: true });
+      }, 3500);
     },
     deleteAllDoneTasks({ commit }) {
       commit("DELETE_ALL_DONE_TASKS");
@@ -221,6 +391,27 @@ export default {
     },
     deleteAllDeletedTasks({ commit }) {
       commit("DELETE_ALL_DELETED_TASKS");
+    },
+    goToTimer({ state, commit, dispatch }, payload) {
+      if (!state.timerTodo.length) {
+        commit("GO_TO_TIMER", payload);
+      } else {
+        const notification = {
+          text: "Sorry, you already have a task in a timer",
+          type: "error",
+        };
+        dispatch("modals/changeNotification", notification, { root: true });
+        // this.$router.push({ name: "home" });
+        setTimeout(() => {
+          dispatch("modals/closeNotification", null, { root: true });
+        }, 3500);
+      }
+    },
+    deleteTimerTodo({ commit }) {
+      commit("DELETE_TIMER_TODO");
+    },
+    deleteDailyOrGlobalTask({ commit }, id) {
+      commit("DELETE_DAILY_OR_GLOBAL_TASK", id);
     },
   },
   getters: {
@@ -253,6 +444,9 @@ export default {
     },
     deleteAllDeletedTasks(state) {
       return state.deleteAllDeletedTasks;
+    },
+    timerTodo(state) {
+      return state.timerTodo;
     },
   },
 };

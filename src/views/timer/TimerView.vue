@@ -1,62 +1,79 @@
 <template>
-  <v-card class="timer-wrap">
-    <v-tabs
-      class="bar-nav"
-      @change="changeCurrentTimer"
-      purple
-      v-model="currentTimer"
-      background-color="var(--greyish)"
-      centered
-      dark
-      icons-and-text
-    >
-      <v-tabs-slider class="slider"></v-tabs-slider>
+  <div>
+    <TodoTasks :todos="timerTodo" :typeOfTodos="'timerTodo'" />
+    <v-card class="timer-wrap">
+      <v-tabs
+        class="bar-nav"
+        @change="changeCurrentTimer"
+        purple
+        v-model="currentTimer"
+        background-color="var(--greyish)"
+        centered
+        dark
+        icons-and-text
+      >
+        <v-tabs-slider class="slider"></v-tabs-slider>
 
-      <v-tab v-for="(tab, index) in tabs" :key="index" class="bar-tab">
-        <span class="bar-tab-text">{{ tab.name }}</span>
+        <v-tab v-for="(tab, index) in tabs" :key="index" class="bar-tab">
+          <span class="bar-tab-text">{{ tab.name }}</span>
 
-        <v-icon class="bar-tab-icon">{{ tab.icon }}</v-icon>
-      </v-tab>
-    </v-tabs>
+          <v-icon class="bar-tab-icon">{{ tab.icon }}</v-icon>
+        </v-tab>
+      </v-tabs>
 
-    <v-card flat>
-      <v-card-text>
-        <h2>{{ displayMinutes }}:{{ displaySeconds }}</h2>
+      <v-card flat>
+        <v-card-text>
+          <h2>{{ displayMinutes }}:{{ displaySeconds }}</h2>
 
-        <div class="btn-wrap">
-          <v-btn class="start-btn" color="var(--greenish)" dark @click="start">
-            <v-icon left>mdi-play</v-icon>
-            <span class="btn-text">Start</span>
-          </v-btn>
+          <div class="btn-wrap">
+            <v-btn
+              class="start-btn"
+              color="var(--greenish)"
+              dark
+              @click="start"
+            >
+              <v-icon left>mdi-play</v-icon>
+              <span class="btn-text">Start</span>
+            </v-btn>
 
-          <v-btn class="pause-btn" color="var(--orangeish)" dark @click="pause">
-            <v-icon left class="icon-btn">mdi-pause</v-icon>
-            <span class="btn-text">Pause</span>
-          </v-btn>
+            <v-btn
+              class="pause-btn"
+              color="var(--orangeish)"
+              dark
+              @click="pause"
+            >
+              <v-icon left class="icon-btn">mdi-pause</v-icon>
+              <span class="btn-text">Pause</span>
+            </v-btn>
 
-          <v-btn class="reset-btn" color="var(--redish)" dark @click="reset">
-            <v-icon left>mdi-restart</v-icon>
-            <span class="btn-text">Reset</span>
-          </v-btn>
-        </div>
-      </v-card-text>
+            <v-btn class="reset-btn" color="var(--redish)" dark @click="reset">
+              <v-icon left>mdi-restart</v-icon>
+              <span class="btn-text">Reset</span>
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <div v-show="totalSeconds <= 0" class="stop-sound">
+        <button class="btn-stop-sound" @click="stopSound">STOP!</button>
+      </div>
+
+      <audio loop controls>
+        <source src="@/assets/sounds/finished-timer.mp3" />
+      </audio>
     </v-card>
-
-    <div v-show="totalSeconds <= 0" class="stop-sound">
-      <button class="btn-stop-sound" @click="stopSound">STOP!</button>
-    </div>
-
-    <audio loop controls>
-      <source src="@/assets/sounds/finished-timer.mp3" />
-    </audio>
-  </v-card>
+  </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
+import TodoTasks from "@/components/TodoTasks.vue";
 
 export default {
   name: "Pomodoro-main",
+  components: {
+    TodoTasks,
+  },
 
   // props: {
   //   updatedTimers: {
@@ -111,6 +128,9 @@ export default {
     },
     ...mapState({
       updatedTimers: (state) => state.timer.updatedTimers,
+    }),
+    ...mapGetters({
+      timerTodo: "tasks/timerTodo",
     }),
   },
   methods: {

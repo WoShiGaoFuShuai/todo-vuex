@@ -5,6 +5,7 @@
       <li class="passive">|</li>
       <li>Done</li>
     </ul> -->
+    {{ typeOfTodos }}
     <div class="content-tasks">
       <div
         :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"
@@ -41,6 +42,13 @@
             alt=""
           />
           <img
+            v-if="typeOfTodos === 'timerTodo'"
+            @click="doneTask(todo.id)"
+            class="buttons-img"
+            src="@/assets/images/Done.svg"
+            alt=""
+          />
+          <img
             v-if="typeOfTodos === 'global'"
             @click="pushToDailyTodos(todo.id)"
             class="buttons-img"
@@ -50,7 +58,10 @@
           <img
             v-if="typeOfTodos !== 'doneDaily'"
             @click="openEditModal(todo.id)"
-            class="buttons-img"
+            :class="[
+              'buttons-img',
+              { 'timer-edit': typeOfTodos === 'timerTodo' },
+            ]"
             src="@/assets/images/Edit.svg"
             alt=""
           />
@@ -66,7 +77,14 @@
           class="link"
           :to="{ name: 'timer' }"
         >
-          <div :class="['priority', todo.priority]">
+          <div
+            @click="goToTimer(todo.id)"
+            :class="[
+              'priority',
+              todo.priority,
+              { timer: typeOfTodos === 'timerTodo' },
+            ]"
+          >
             <div class="img">
               <span class="estimation">{{ todo.estimation }}</span>
             </div>
@@ -74,7 +92,14 @@
         </router-link>
         <div
           v-if="typeOfTodos === 'doneDaily'"
-          :class="['priority', 'done', todo.priority]"
+          :class="[
+            'priority',
+            todo.priority,
+            {
+              done: typeOfTodos === 'doneDaily',
+              timer: typeOfTodos === 'timerTodo',
+            },
+          ]"
         >
           <div class="img">
             <span class="estimation">{{ todo.estimation }}</span>
@@ -113,14 +138,30 @@ export default {
       }
     },
     deleteTask(id) {
-      if (this.typeOfTodos === "global") {
-        this.$store.dispatch("tasks/deleteTask", id);
-      } else if (this.typeOfTodos === "doneDaily") {
-        this.$store.dispatch("tasks/deleteDoneDailyTask", id);
-      } else {
-        console.log("FIRST", id);
-        this.$store.dispatch("tasks/deleteDailyTask", id);
+      switch (this.typeOfTodos) {
+        case "global":
+          this.$store.dispatch("tasks/deleteTask", id);
+          break;
+        case "doneDaily":
+          this.$store.dispatch("tasks/deleteDoneDailyTask", id);
+          break;
+        case "daily":
+          this.$store.dispatch("tasks/deleteDailyTask", id);
+          break;
+        case "timerTodo":
+          this.$store.dispatch("tasks/deleteDailyOrGlobalTask", id);
+          break;
       }
+      // if (this.typeOfTodos === "global") {
+      //   console.log("global");
+      //   this.$store.dispatch("tasks/deleteTask", id);
+      // } else if (this.typeOfTodos === "doneDaily") {
+      //   console.log("donedaily");
+      //   this.$store.dispatch("tasks/deleteDoneDailyTask", id);
+      // } else {
+      //   console.log("else");
+      //   this.$store.dispatch("tasks/deleteDailyTask", id);
+      // }
     },
     deleteTaskCompletely(id) {
       if (this.typeOfTodos === "deleted") {
@@ -132,7 +173,19 @@ export default {
       this.$store.dispatch("tasks/pushToDailyTodos", id);
     },
     doneTask(id) {
-      this.$store.dispatch("tasks/doneTask", id);
+      if (this.typeOfTodos === "daily") {
+        this.$store.dispatch("tasks/doneTask", { id, type: this.typeOfTodos });
+      } else {
+        this.$store.dispatch("tasks/deleteTimerTodo");
+        this.$store.dispatch("tasks/doneTask", { id, type: this.typeOfTodos });
+      }
+    },
+    goToTimer(id) {
+      if (this.typeOfTodos === "global") {
+        this.$store.dispatch("tasks/goToTimer", { id, type: "global" });
+      } else {
+        this.$store.dispatch("tasks/goToTimer", { id, type: "daily" });
+      }
     },
   },
 };
@@ -321,6 +374,11 @@ export default {
                 saturate(288%) hue-rotate(164deg) brightness(93%) contrast(87%);
             }
           }
+
+          &.timer-edit {
+            display: none;
+            pointer-events: none;
+          }
         }
       }
 
@@ -371,6 +429,10 @@ export default {
           .img {
             pointer-events: none;
           }
+        }
+
+        &.timer {
+          pointer-events: none;
         }
       }
     }

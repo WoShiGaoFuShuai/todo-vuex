@@ -26,7 +26,10 @@
 
     <div class="global-list-content">
       <TodoTasks v-if="active" :todos="todosToShow" :typeOfTodos="'global'" />
-      <NoGlobalTasks v-if="!todosToShow.length" :barName="currentActiveBar" />
+      <NoGlobalTasks
+        v-if="!todosToShow.length && active"
+        :barName="currentActiveBar"
+      />
     </div>
   </div>
 </template>
@@ -79,7 +82,6 @@ export default {
             (todo) => todo.priority === priorityType
           );
       }
-      console.log("sort");
       this.currentActiveBar = priorityType;
     },
   },
@@ -92,6 +94,7 @@ export default {
   // },
   beforeMount() {
     this.todosToShow = this.todos;
+    this.active = true;
   },
   watch: {
     todos(newValue) {

@@ -1,7 +1,7 @@
 <template>
   <div class="daily-task-wrapper">
     <div class="main-title">
-      <h1 class="title-daily">Daily Task List</h1>
+      <h1 @click="openModalAdd" class="title-daily">Daily Task List</h1>
       <img
         @click="openModalAdd"
         class="img"

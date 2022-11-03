@@ -187,7 +187,6 @@ export default {
       this.defaultValueInputs();
     },
     agreeModalTodo() {
-      console.log("DEADLINE", this.deadline);
       const newTodo = {
         title: this.title,
         description: this.description,
@@ -200,12 +199,11 @@ export default {
 
       if (!this.editTask.length) {
         newTodo.id = Math.random();
-        console.log("WORKS");
         this.$store.dispatch("tasks/addNewTodo", newTodo);
       } else {
+        console.log("THIS IS NOT NEW");
         newTodo.id = this.editTask[0].id;
-        console.log("MODAL", newTodo);
-        this.$store.dispatch("tasks/addEditedTodoGlobal", newTodo);
+        this.$store.dispatch("tasks/addEditedTodo", newTodo);
       }
       this.$store.dispatch("tasks/clearEditTask");
       this.$store.dispatch("modals/closeModals");
@@ -268,9 +266,10 @@ export default {
 
       //GETTING ESTIMATION
       const indexOfEstimation = this.estimationArray.indexOf(
-        ...this.estimationArray.filter((item) => item.value === estimation)
+        ...this.estimationArray.filter((item) => item.value === estimation - 1)
       );
-      this.addEstimation(indexOfEstimation - 1);
+
+      this.addEstimation(indexOfEstimation);
       this.estimation = estimation;
 
       //GETTING DEADLINE
