@@ -150,17 +150,17 @@ export default {
       deadline: "",
       estimation: 1,
       priority: "low",
-      categoryArray: [
-        {
-          name: "Work",
-          className: "orangeish",
-          value: "work",
-        },
-        { name: "Education", className: "blueish", value: "education" },
-        { name: "Hobby", className: "pinkish", value: "hobby" },
-        { name: "Sport", className: "redish", value: "sport" },
-        { name: "Other", className: "aquaish", value: "other" },
-      ],
+      // categoryArray: [
+      //   {
+      //     name: "Work",
+      //     className: "orangeish",
+      //     value: "work",
+      //   },
+      //   { name: "Education", className: "blueish", value: "education" },
+      //   { name: "Hobby", className: "pinkish", value: "hobby" },
+      //   { name: "Sport", className: "redish", value: "sport" },
+      //   { name: "Other", className: "aquaish", value: "other" },
+      // ],
       priorityArray: [
         { name: "Urgent", className: "redish", value: "urgent" },
         { name: "High", className: "orangeish", value: "high" },
@@ -237,6 +237,7 @@ export default {
     ...mapGetters({
       titleModal: ["modals/titleModal"],
       editTask: ["tasks/editTask"],
+      categoryArray: ["modals/categoryArray"],
     }),
   },
   mounted() {

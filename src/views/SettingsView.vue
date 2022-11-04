@@ -22,16 +22,21 @@
       </div>
     </div>
     <div v-if="openCategories" class="content-categories">
-      <div class="item" v-for="(item, i) in settingsCategoryArray" :key="i">
-        <span :class="['color', item.css]"></span>
-        <input class="category-input" type="text" v-model="item.title" />
+      <div class="item" v-for="(item, i) in categoryArray" :key="i">
+        <span :class="['color', item.value]"></span>
+        <input
+          class="category-input"
+          type="text"
+          :placeholder="item.name"
+          v-model="item.name"
+        />
       </div>
 
       <div class="buttons">
         <router-link :to="{ name: 'home' }">
           <button class="tasks">Go to Tasks</button>
         </router-link>
-        <button class="save">Save</button>
+        <button @click="saveNewCategories" class="save">Save</button>
       </div>
     </div>
     <div v-if="openPomodoro" class="content-settings">
@@ -80,34 +85,56 @@
 </template>
 
 <script>
-const DEFAULT_CATEGORY = [
-  {
-    title: "Work",
-    css: "work",
-  },
-  {
-    title: "Education",
-    css: "education",
-  },
-  {
-    title: "Hobby",
-    css: "hobby",
-  },
-  {
-    title: "Sport",
-    css: "sport",
-  },
-  {
-    title: "Other",
-    css: "other",
-  },
-];
+import { mapGetters } from "vuex";
+// const DEFAULT_CATEGORY = [
+//   {
+//     title: "work",
+//     css: "work",
+//   },
+//   {
+//     title: "education",
+//     css: "education",
+//   },
+//   {
+//     title: "hobby",
+//     css: "hobby",
+//   },
+//   {
+//     title: "sport",
+//     css: "sport",
+//   },
+//   {
+//     title: "other",
+//     css: "other",
+//   },
+// ];
 
 export default {
   name: "SettingsView",
   data() {
     return {
-      settingsCategoryArray: DEFAULT_CATEGORY,
+      settingsCategoryArray: [
+        {
+          title: "work",
+          css: "work",
+        },
+        {
+          title: "education",
+          css: "education",
+        },
+        {
+          title: "hobby",
+          css: "hobby",
+        },
+        {
+          title: "sport",
+          css: "sport",
+        },
+        {
+          title: "other",
+          css: "other",
+        },
+      ],
       settingsTimerArray: [
         { title: "Work Time", min: 15, max: 25, number: 25, color: "orange" },
         { title: "Long Break", min: 15, max: 30, number: 30, color: "purple" },
@@ -122,6 +149,30 @@ export default {
       this.openPomodoro = firstArg;
       this.openCategories = secondArg;
     },
+    saveNewCategories() {
+      const changedCategory = {
+        orange: this.categoryArray[0].name,
+        blue: this.categoryArray[1].name,
+        purple: this.categoryArray[2].name,
+        red: this.categoryArray[3].name,
+        aqua: this.categoryArray[4].name,
+      };
+
+      const notification = {
+        text: "Category names were updated!",
+        type: "success",
+      };
+      this.$store.dispatch("modals/changeCategoryNames", changedCategory);
+      this.$store.dispatch("modals/changeNotification", notification);
+      setTimeout(() => {
+        this.$store.dispatch("modals/closeNotification");
+      }, 3500);
+    },
+  },
+  computed: {
+    ...mapGetters({
+      categoryArray: "modals/categoryArray",
+    }),
   },
 };
 </script>
@@ -233,6 +284,7 @@ export default {
         outline: none;
         border: none;
         border-bottom: 1px solid #425869;
+        text-transform: capitalize;
       }
     }
 

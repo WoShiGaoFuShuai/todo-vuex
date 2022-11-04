@@ -10,6 +10,17 @@ export default {
       img: null,
       bg: null,
     },
+    categoryArray: [
+      {
+        name: "Work",
+        className: "orangeish",
+        value: "work",
+      },
+      { name: "Education", className: "blueish", value: "education" },
+      { name: "Hobby", className: "pinkish", value: "hobby" },
+      { name: "Sport", className: "redish", value: "sport" },
+      { name: "Other", className: "aquaish", value: "other" },
+    ],
     // isDeleteDoneTasksModal: false,
   }),
   mutations: {
@@ -54,6 +65,13 @@ export default {
     CLOSE_NOTIFICATION(state) {
       state.isShowNotification = false;
     },
+    CHANGE_CATEGORY_NAMES(state, { orange, blue, purple, red, aqua }) {
+      state.categoryArray[0].name = orange;
+      state.categoryArray[1].name = blue;
+      state.categoryArray[2].name = purple;
+      state.categoryArray[3].name = red;
+      state.categoryArray[4].name = aqua;
+    },
   },
   actions: {
     toggleModals({ commit }) {
@@ -70,9 +88,9 @@ export default {
     },
     changeNotification({ commit }, payload) {
       commit("CHANGE_NOTIFICATION", payload);
-      setTimeout(() => {
-        //МОГУ ЛИ Я ТУТ ЧТО-то НАПИСАТЬ, ЧТОБЫ ЧЕРЕЗ 3500мс запустить
-      }, 3500);
+      // setTimeout(() => {
+      //   //МОГУ ЛИ Я ТУТ ЧТО-то НАПИСАТЬ, ЧТОБЫ ЧЕРЕЗ 3500мс запустить
+      // }, 3500);
     },
 
     // toggleDeleteDoneTasksModal({ commit }) {
@@ -80,6 +98,9 @@ export default {
     // },
     closeNotification({ commit }) {
       commit("CLOSE_NOTIFICATION");
+    },
+    changeCategoryNames({ commit }, payload) {
+      commit("CHANGE_CATEGORY_NAMES", payload);
     },
   },
   getters: {
@@ -100,6 +121,9 @@ export default {
     },
     isShowNotification(state) {
       return state.isShowNotification;
+    },
+    categoryArray(state) {
+      return state.categoryArray;
     },
   },
 };

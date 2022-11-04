@@ -357,8 +357,43 @@ export default {
     deleteDailyTask({ commit }, id) {
       commit("DELETE_DAILY_TASK", id);
     },
-    doneTask({ commit }, payload) {
+    doneTask({ commit, dispatch }, payload) {
       commit("DONE_TASK", payload);
+      const randomNum = Math.round(Math.random() * 10);
+      let text;
+      switch (randomNum) {
+        case 0:
+        case 1:
+          text = "Awesome";
+          break;
+        case 2:
+        case 3:
+          text = "Great job";
+          break;
+        case 4:
+        case 5:
+          text = "Keep it up";
+          break;
+        case 6:
+        case 7:
+          text = "Nice";
+          break;
+        case 8:
+        case 9:
+          text = "Exellent";
+          break;
+        case 10:
+          text = "You are the best";
+          break;
+      }
+      const notification = {
+        text: `The task was done! ${text}!`,
+        type: "success",
+      };
+      dispatch("modals/changeNotification", notification, { root: true });
+      setTimeout(() => {
+        dispatch("modals/closeNotification", null, { root: true });
+      }, 3500);
     },
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
