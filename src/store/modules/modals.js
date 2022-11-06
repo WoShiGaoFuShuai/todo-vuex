@@ -86,11 +86,11 @@ export default {
     toggleDeleteCompletelyModal({ commit }) {
       commit("TOGGLE_DELETE_COMPLETELY_MODAL");
     },
-    changeNotification({ commit }, payload) {
+    changeNotification({ commit, dispatch }, payload) {
       commit("CHANGE_NOTIFICATION", payload);
-      // setTimeout(() => {
-      //   //МОГУ ЛИ Я ТУТ ЧТО-то НАПИСАТЬ, ЧТОБЫ ЧЕРЕЗ 3500мс запустить
-      // }, 3500);
+      setTimeout(() => {
+        dispatch("closeNotification");
+      }, 3500);
     },
 
     // toggleDeleteDoneTasksModal({ commit }) {

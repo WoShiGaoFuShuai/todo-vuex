@@ -323,9 +323,6 @@ export default {
         type: "success",
       };
       dispatch("modals/changeNotification", notification, { root: true });
-      setTimeout(() => {
-        dispatch("modals/closeNotification", null, { root: true });
-      }, 3500);
     },
     deleteTask({ commit }, id) {
       commit("DELETE_TASK", id);
@@ -349,9 +346,6 @@ export default {
           type: "error",
         };
         dispatch("modals/changeNotification", notification, { root: true });
-        setTimeout(() => {
-          dispatch("modals/closeNotification", null, { root: true });
-        }, 3500);
       }
     },
     deleteDailyTask({ commit }, id) {
@@ -391,9 +385,6 @@ export default {
         type: "success",
       };
       dispatch("modals/changeNotification", notification, { root: true });
-      setTimeout(() => {
-        dispatch("modals/closeNotification", null, { root: true });
-      }, 3500);
     },
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
@@ -414,9 +405,6 @@ export default {
         type: "success",
       };
       dispatch("modals/changeNotification", notification, { root: true });
-      setTimeout(() => {
-        dispatch("modals/closeNotification", null, { root: true });
-      }, 3500);
     },
     deleteAllDoneTasks({ commit }) {
       commit("DELETE_ALL_DONE_TASKS");
@@ -437,9 +425,6 @@ export default {
         };
         dispatch("modals/changeNotification", notification, { root: true });
         // this.$router.push({ name: "home" });
-        setTimeout(() => {
-          dispatch("modals/closeNotification", null, { root: true });
-        }, 3500);
       }
     },
     deleteTimerTodo({ commit }) {

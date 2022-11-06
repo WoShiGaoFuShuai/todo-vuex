@@ -83,28 +83,11 @@ export default {
   // },
   data() {
     return {
-      settingsModal: false,
+      // settingsModal: false,
       timerInstance: null,
       totalSeconds: null,
       currentTimer: 0,
-      tabs: [
-        {
-          name: "Pomodoro",
-          icon: "mdi-timer-sand",
-          totalSeconds: 25 * 60,
-        },
-        {
-          name: "Short Break",
-          icon: "mdi-coffee-outline",
-          totalSeconds: 5 * 60,
-        },
-        {
-          name: "Long Break",
-          icon: "mdi-bed",
-          totalSeconds: 15 * 60,
-        },
-      ],
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      tabs: null,
     };
   },
 
@@ -131,6 +114,7 @@ export default {
     }),
     ...mapGetters({
       timerTodo: "tasks/timerTodo",
+      tabsStore: "timer/tabs",
     }),
   },
   methods: {
@@ -143,17 +127,17 @@ export default {
       this.enableButton(this.startBtn);
       document.querySelector("#circle").style.display = "inline-block";
     },
-    updateTimers(updatedTimers) {
-      const { updatedPomodoro, updatedShortBreak, updatedLongBreak } =
-        updatedTimers;
-      this.tabs[0].totalSeconds = updatedPomodoro * 60;
-      this.tabs[1].totalSeconds = updatedShortBreak * 60;
-      this.tabs[2].totalSeconds = updatedLongBreak * 60;
-    },
-    showSettings() {
-      // this.$emit("settingsModal");
-      this.$store.commit("toggleSettingsModal");
-    },
+    // updateTimers(updatedTimers) {
+    //   const { updatedPomodoro, updatedShortBreak, updatedLongBreak } =
+    //     updatedTimers;
+    //   this.tabs[0].totalSeconds = updatedPomodoro * 60;
+    //   this.tabs[1].totalSeconds = updatedShortBreak * 60;
+    //   this.tabs[2].totalSeconds = updatedLongBreak * 60;
+    // },
+    // showSettings() {
+    //   // this.$emit("settingsModal");
+    //   this.$store.commit("toggleSettingsModal");
+    // },
     formatTime(time) {
       if (time < 10) {
         return "0" + time;
@@ -197,11 +181,14 @@ export default {
       }
     },
   },
+  beforeMount() {
+    this.tabs = this.tabsStore;
+  },
   mounted() {
     this.totalSeconds = this.tabs[0].totalSeconds;
     this.disableButton(this.pauseBtn, this.resetBtn);
     this.enableButton(this.startBtn);
-    this.$emit("sendTabs", this.tabs);
+    // this.$emit("sendTabs", this.tabs);
   },
   watch: {
     totalSeconds: {
@@ -225,11 +212,11 @@ export default {
       },
       deep: true,
     },
-    updatedTimers: {
-      handler(value) {
-        this.updateTimers(value);
-      },
-    },
+    // updatedTimers: {
+    //   handler(value) {
+    //     this.updateTimers(value);
+    //   },
+    // },
   },
 };
 </script>

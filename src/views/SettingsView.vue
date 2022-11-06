@@ -32,7 +32,7 @@
         />
       </div>
 
-      <div class="buttons">
+      <div class="buttons-categories">
         <router-link :to="{ name: 'home' }">
           <button class="tasks">Go to Tasks</button>
         </router-link>
@@ -43,7 +43,7 @@
       <div>
         <div
           class="item-settings"
-          v-for="({ title, min, max, number, color }, i) in settingsTimerArray"
+          v-for="({ title, min, max, number, color }, i) in timers"
           :key="i"
         >
           <div :class="['left', color]">
@@ -53,12 +53,12 @@
             <div class="top">
               <span class="top-name">{{ title }}</span>
 
-              <div class="buttons">
-                <button class="minus">
+              <div class="buttons-wrapper">
+                <button @click="changeNumber(title, 'minus')" class="minus">
                   <img src="@/assets/images/Minus.svg" alt="" />
                 </button>
                 <span class="number">{{ number }}</span>
-                <button class="plus">
+                <button @click="changeNumber(title, 'plus')" class="plus">
                   <img src="@/assets/images/Plus.svg" alt="" />
                 </button>
               </div>
@@ -73,11 +73,11 @@
           </div>
         </div>
 
-        <div class="buttons">
+        <div class="buttons-pomodoro">
           <router-link :to="{ name: 'home' }">
             <button class="tasks">Go to Tasks</button>
           </router-link>
-          <button class="save">Save</button>
+          <button @click="saveSettingsTimer" class="save">Save</button>
         </div>
       </div>
     </div>
@@ -86,60 +86,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-// const DEFAULT_CATEGORY = [
-//   {
-//     title: "work",
-//     css: "work",
-//   },
-//   {
-//     title: "education",
-//     css: "education",
-//   },
-//   {
-//     title: "hobby",
-//     css: "hobby",
-//   },
-//   {
-//     title: "sport",
-//     css: "sport",
-//   },
-//   {
-//     title: "other",
-//     css: "other",
-//   },
-// ];
-
 export default {
   name: "SettingsView",
   data() {
     return {
-      settingsCategoryArray: [
-        {
-          title: "work",
-          css: "work",
-        },
-        {
-          title: "education",
-          css: "education",
-        },
-        {
-          title: "hobby",
-          css: "hobby",
-        },
-        {
-          title: "sport",
-          css: "sport",
-        },
-        {
-          title: "other",
-          css: "other",
-        },
-      ],
-      settingsTimerArray: [
-        { title: "Work Time", min: 15, max: 25, number: 25, color: "orange" },
-        { title: "Long Break", min: 15, max: 30, number: 30, color: "purple" },
-        { title: "Short Break", min: 3, max: 5, number: 5, color: "blue" },
-      ],
+      timers: null,
       openPomodoro: true,
       openCategories: false,
     };
@@ -164,15 +115,33 @@ export default {
       };
       this.$store.dispatch("modals/changeCategoryNames", changedCategory);
       this.$store.dispatch("modals/changeNotification", notification);
-      setTimeout(() => {
-        this.$store.dispatch("modals/closeNotification");
-      }, 3500);
+    },
+    changeNumber(title, execute) {
+      const timer = this.timers.filter((item) => item.title === title)[0];
+
+      if (execute === "plus" && timer.max > timer.number) {
+        timer.number += 1;
+      } else if (execute === "minus" && timer.min < timer.number) {
+        timer.number -= 1;
+      }
+    },
+    saveSettingsTimer() {
+      const notification = {
+        text: "Settings in the timer were updated!",
+        type: "success",
+      };
+      this.$store.dispatch("timer/changeSettingsTimer", this.timers);
+      this.$store.dispatch("modals/changeNotification", notification);
     },
   },
   computed: {
     ...mapGetters({
       categoryArray: "modals/categoryArray",
+      settingsTimerArray: "timer/settingsTimerArray",
     }),
+  },
+  beforeMount() {
+    this.timers = JSON.parse(JSON.stringify(this.settingsTimerArray));
   },
 };
 </script>
@@ -288,7 +257,7 @@ export default {
       }
     }
 
-    .buttons {
+    .buttons-categories {
       display: flex;
       justify-content: center;
 
@@ -347,6 +316,18 @@ export default {
         align-self: baseline;
         margin-right: 16px;
         margin-top: 5px;
+
+        &.orangeish {
+          background-color: var(--orangeish);
+        }
+
+        &.purpleish {
+          background-color: var(--purpleish);
+        }
+
+        &.blueish {
+          background-color: var(--blueish);
+        }
       }
 
       .right {
@@ -370,7 +351,7 @@ export default {
             }
           }
 
-          .buttons {
+          .buttons-wrapper {
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -383,6 +364,7 @@ export default {
             .plus {
               display: flex;
               transition: all 1s ease;
+              padding: 8px 0;
 
               img {
                 transition: all 0.5s ease-in;
@@ -398,6 +380,10 @@ export default {
                     contrast(93%);
                 }
               }
+            }
+
+            .plus {
+              padding: 4px 0;
             }
 
             .number {
@@ -430,7 +416,7 @@ export default {
       }
     }
 
-    .buttons {
+    .buttons-pomodoro {
       margin-top: 80px;
       display: flex;
       justify-content: center;
