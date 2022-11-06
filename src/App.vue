@@ -14,6 +14,9 @@ import AppNavbar from "@/components/AppNavbar.vue";
 export default {
   name: "App",
   components: { AppNavbar },
+  beforeMount() {
+    console.log("APP");
+  },
 };
 </script>
 

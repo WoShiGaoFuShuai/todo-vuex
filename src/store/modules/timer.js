@@ -10,7 +10,7 @@ export default {
       {
         name: "Short Break",
         icon: "mdi-coffee-outline",
-        totalSeconds: 5 * 60,
+        totalSeconds: 3 * 60,
       },
       {
         name: "Long Break",
@@ -26,6 +26,8 @@ export default {
         number: 50,
         color: "orangeish",
       },
+
+      { title: "Short Break", min: 3, max: 5, number: 5, color: "blueish" },
       {
         title: "Long Break",
         min: 15,
@@ -33,13 +35,16 @@ export default {
         number: 30,
         color: "purpleish",
       },
-      { title: "Short Break", min: 3, max: 5, number: 5, color: "blueish" },
     ],
     updatedTimers: {},
   }),
   mutations: {
     CHANGE_SETTINGS_TIMER(state, payload) {
       state.settingsTimerArray = payload;
+      console.log(payload[0].number);
+      state.tabs[0].totalSeconds = payload[0].number * 60;
+      state.tabs[1].totalSeconds = payload[1].number * 60;
+      state.tabs[2].totalSeconds = payload[2].number * 60;
       console.log(payload);
     },
   },

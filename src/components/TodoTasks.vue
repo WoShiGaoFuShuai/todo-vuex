@@ -5,7 +5,6 @@
       <li class="passive">|</li>
       <li>Done</li>
     </ul> -->
-    {{ typeOfTodos }}
     <div class="content-tasks">
       <div
         :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"
@@ -152,16 +151,6 @@ export default {
           this.$store.dispatch("tasks/deleteDailyOrGlobalTask", id);
           break;
       }
-      // if (this.typeOfTodos === "global") {
-      //   console.log("global");
-      //   this.$store.dispatch("tasks/deleteTask", id);
-      // } else if (this.typeOfTodos === "doneDaily") {
-      //   console.log("donedaily");
-      //   this.$store.dispatch("tasks/deleteDoneDailyTask", id);
-      // } else {
-      //   console.log("else");
-      //   this.$store.dispatch("tasks/deleteDailyTask", id);
-      // }
     },
     deleteTaskCompletely(id) {
       if (this.typeOfTodos === "deleted") {
@@ -188,38 +177,15 @@ export default {
       }
     },
   },
+  beforeMount() {
+    console.log("aaaaaa");
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
   margin-top: 34px;
-
-  // .content-nav {
-  //   display: flex;
-  //   justify-content: flex-end;
-
-  //   li {
-  //     font-family: "PT Sans", sans-serif;
-  //     margin-left: 8px;
-  //     color: var(--greyish);
-  //     font-size: 16px;
-  //     font-weight: 400px;
-  //     transition: all 0.5s ease;
-
-  //     &:hover {
-  //       cursor: pointer;
-  //       color: #fff;
-  //       transform: scale(1.1);
-  //     }
-
-  //     &:hover.passive {
-  //       color: var(--greyish);
-  //       cursor: default;
-  //       transform: none;
-  //     }
-  //   }
-  // }
 
   .content-tasks {
     .content-task {

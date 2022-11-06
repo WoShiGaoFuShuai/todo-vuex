@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import { mapGetters } from "vuex";
 export default {
   name: "SettingsView",
@@ -131,6 +132,7 @@ export default {
         type: "success",
       };
       this.$store.dispatch("timer/changeSettingsTimer", this.timers);
+      router.push({ name: "timer" });
       this.$store.dispatch("modals/changeNotification", notification);
     },
   },

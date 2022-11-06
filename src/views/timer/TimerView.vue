@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 import TodoTasks from "@/components/TodoTasks.vue";
 
 export default {
@@ -74,16 +74,8 @@ export default {
   components: {
     TodoTasks,
   },
-
-  // props: {
-  //   updatedTimers: {
-  //     type: Object,
-  //     required: true,
-  //   },
-  // },
   data() {
     return {
-      // settingsModal: false,
       timerInstance: null,
       totalSeconds: null,
       currentTimer: 0,
@@ -109,9 +101,6 @@ export default {
     resetBtn() {
       return document.querySelector(".reset-btn");
     },
-    ...mapState({
-      updatedTimers: (state) => state.timer.updatedTimers,
-    }),
     ...mapGetters({
       timerTodo: "tasks/timerTodo",
       tabsStore: "timer/tabs",
@@ -125,19 +114,7 @@ export default {
       this.totalSeconds = this.tabs[this.currentTimer].totalSeconds;
       this.disableButton(this.pauseBtn, this.resetBtn);
       this.enableButton(this.startBtn);
-      document.querySelector("#circle").style.display = "inline-block";
     },
-    // updateTimers(updatedTimers) {
-    //   const { updatedPomodoro, updatedShortBreak, updatedLongBreak } =
-    //     updatedTimers;
-    //   this.tabs[0].totalSeconds = updatedPomodoro * 60;
-    //   this.tabs[1].totalSeconds = updatedShortBreak * 60;
-    //   this.tabs[2].totalSeconds = updatedLongBreak * 60;
-    // },
-    // showSettings() {
-    //   // this.$emit("settingsModal");
-    //   this.$store.commit("toggleSettingsModal");
-    // },
     formatTime(time) {
       if (time < 10) {
         return "0" + time;
@@ -188,7 +165,6 @@ export default {
     this.totalSeconds = this.tabs[0].totalSeconds;
     this.disableButton(this.pauseBtn, this.resetBtn);
     this.enableButton(this.startBtn);
-    // this.$emit("sendTabs", this.tabs);
   },
   watch: {
     totalSeconds: {
@@ -198,25 +174,10 @@ export default {
           clearInterval(this.timerInstance);
           this.timerInstance = null;
 
-          document.querySelector("#circle").style.display = "none";
           document.querySelector("audio").play();
         }
       },
     },
-    tabs: {
-      handler() {
-        this.displayMinutes;
-        this.displaySeconds;
-        this.reset();
-        this.$emit("sendTabs", this.tabs);
-      },
-      deep: true,
-    },
-    // updatedTimers: {
-    //   handler(value) {
-    //     this.updateTimers(value);
-    //   },
-    // },
   },
 };
 </script>
@@ -380,40 +341,6 @@ export default {
 
 audio {
   display: none;
-}
-
-#circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: var(--greyish);
-  position: absolute;
-  display: inline-block;
-  bottom: -25px;
-  right: -25px;
-  cursor: pointer;
-  transition: 1s ease all;
-  outline: none;
-
-  &:hover {
-    background-color: var(--grey-light);
-    .mdi-cog-outline::before {
-      transform: rotate(360deg);
-      transition: 1s ease-in-out all;
-    }
-  }
-
-  .v-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: (--main-bg);
-  }
-}
-
-.theme--dark.v-tabs > .v-tabs-bar {
-  background-color: red !important;
 }
 
 @media (max-width: 1024px) {
