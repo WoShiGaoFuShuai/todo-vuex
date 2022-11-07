@@ -197,7 +197,7 @@ export default {
         align-self: center;
 
         .deadline-span {
-          color: #9f9f9f;
+          color: var(--expired);
           font-weight: 700;
           font-size: 11px;
           margin: 0 16px;

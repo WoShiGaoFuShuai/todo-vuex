@@ -15,7 +15,16 @@ export default {
   name: "App",
   components: { AppNavbar },
   beforeMount() {
-    console.log("APP");
+    this.$store.dispatch("tasks/setTodayDate");
+
+    if (this.$store.state.tasks.todos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "global");
+      this.$store.dispatch("tasks/sortTasks", "global");
+    }
+    if (this.$store.state.tasks.dailyTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "daily");
+      this.$store.dispatch("tasks/sortTasks", "daily");
+    }
   },
 };
 </script>

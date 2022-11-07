@@ -70,6 +70,7 @@
               id="deadline"
               type="date"
               placeholder="Add DEADLINE here"
+              :min="todayInStore"
               required
             />
           </fieldset>
@@ -195,11 +196,18 @@ export default {
         estimation: this.estimation,
         priority: this.priority,
         done: false,
+        isItExpired: false,
+        isItToday: false,
       };
+
+      if (this.deadline === this.todayInStore) {
+        newTodo.isItToday = true;
+      }
 
       if (!this.editTask.length) {
         newTodo.id = Math.random();
         this.$store.dispatch("tasks/addNewTodo", newTodo);
+        this.$store.dispatch("tasks/sortTasks", "global");
       } else {
         console.log("THIS IS NOT NEW");
         newTodo.id = this.editTask[0].id;
@@ -238,6 +246,7 @@ export default {
       titleModal: ["modals/titleModal"],
       editTask: ["tasks/editTask"],
       categoryArray: ["modals/categoryArray"],
+      todayInStore: ["tasks/todayInStore"],
     }),
   },
   mounted() {
@@ -274,26 +283,7 @@ export default {
       this.estimation = estimation;
 
       //GETTING DEADLINE
-      if (deadline === "today") {
-        // WE NEED TO TRANSFER TODAY INTO 2022-11-20
-        const date = new Date();
-
-        let day = date.getDate();
-        if (day < 10) {
-          day = "0" + day;
-        }
-
-        let month = date.getMonth();
-        if (month < 10) {
-          month = month + 1;
-          month = "0" + month;
-        } else {
-          month = month + 1;
-        }
-        this.deadline = `${date.getFullYear()}-${month}-${day}`;
-      } else {
-        this.deadline = deadline;
-      }
+      this.deadline = deadline;
     }
   },
 };

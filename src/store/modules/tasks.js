@@ -62,6 +62,7 @@ export default {
       //   id: 555555555512412,
       //   done: false,
       // },
+      /////////////////////
       {
         category: "work",
         deadline: "2022-11-06",
@@ -71,6 +72,8 @@ export default {
         id: 0.19117425191408577,
         priority: "low",
         title: "q",
+        isItToday: false,
+        isItExpired: false,
       },
       {
         category: "education",
@@ -81,15 +84,117 @@ export default {
         id: 0.7513069349335795,
         priority: "urgent",
         title: "rwqr",
+        isItToday: false,
+        isItExpired: false,
+      },
+      {
+        category: "other",
+        deadline: "2022-11-06",
+        description: "weq",
+        done: false,
+        estimation: 3,
+        id: 0.8523170674574712,
+        isItExpired: false,
+        isItToday: true,
+        priority: "low",
+        title: "qwe",
+      },
+      {
+        category: "other",
+        deadline: "2022-11-07",
+        description: "3333333",
+        done: false,
+        estimation: 3,
+        id: 0.85231706744574712,
+        isItExpired: false,
+        isItToday: true,
+        priority: "low",
+        title: "44444444",
+      },
+
+      {
+        category: "other",
+        deadline: "2022-11-22",
+        description: "22",
+        done: false,
+        estimation: 3,
+        id: 0.85232317067442574712,
+        isItExpired: false,
+        isItToday: false,
+        priority: "low",
+        title: "44444444",
+      },
+
+      {
+        category: "other",
+        deadline: "2022-11-09",
+        description: "3fasf3",
+        done: false,
+        estimation: 3,
+        id: 0.85231706731244574712,
+        isItExpired: false,
+        isItToday: false,
+        priority: "low",
+        title: "44444444",
       },
     ],
     deletedTodos: [],
     deleteCompletelyTaskId: null,
-    dailyTodos: [],
+    dailyTodos: [
+      {
+        category: "work",
+        deadline: "2022-11-06",
+        description: "w",
+        done: false,
+        estimation: 4,
+        id: 0.1911742511231291408577,
+        priority: "low",
+        title: "q",
+        isItToday: false,
+        isItExpired: false,
+      },
+      {
+        category: "education",
+        deadline: "2022-11-10",
+        description: "rqw",
+        done: false,
+        estimation: 1,
+        id: 0.75130693493342425795,
+        priority: "urgent",
+        title: "rwqr",
+        isItToday: false,
+        isItExpired: false,
+      },
+      {
+        category: "other",
+        deadline: "2022-11-06",
+        description: "weq",
+        done: false,
+        estimation: 3,
+        id: 0.8523170674574213123712,
+        isItExpired: false,
+        isItToday: true,
+        priority: "low",
+        title: "qwe",
+      },
+      {
+        category: "other",
+        deadline: "2022-11-07",
+        description: "3333333",
+        done: false,
+        estimation: 3,
+        id: 0.852317067444241574712,
+        isItExpired: false,
+        isItToday: true,
+        priority: "low",
+        title: "44444444",
+      },
+    ],
     dailyDoneTodos: [],
     editTask: [],
     timerTodo: [],
     deleteAllDeletedTasks: false,
+    todayInStore: null,
   }),
 
   mutations: {
@@ -248,19 +353,11 @@ export default {
     CLEAR_EDIT_TASK(state) {
       state.editTask = [];
     },
-    ADD_EDITED_TODO(state, payload) {
-      let taskIndex = state.todos.indexOf(
-        ...state.todos.filter((item) => item.id === payload.id)
-      );
-
-      // IF WE HAVE -1 => IT IS NOT IN GLOBAL AND WE NEED TO CHECK IN DAILY TODOS
-      if (taskIndex === -1) {
-        let taskIndex = state.dailyTodos.indexOf(
-          ...state.dailyTodos.filter((item) => item.id === payload.id)
-        );
+    ADD_EDITED_TODO(state, { taskIndex, type, payload }) {
+      if (type === "daily") {
         state.dailyTodos.splice(taskIndex, 1, payload);
 
-        //CHECK IF EDITED TASK FROM DAILY LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+        // CHECK IF EDITED TASK FROM DAILY LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
         if (state.timerTodo.length) {
           switch (state.timerTodo[0].id === state.dailyTodos[taskIndex].id) {
             case true:
@@ -271,7 +368,7 @@ export default {
       } else {
         state.todos.splice(taskIndex, 1, payload);
 
-        //CHECK IF EDITED TASK FROM GLOBAL LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+        // CHECK IF EDITED TASK FROM GLOBAL LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
         if (state.timerTodo.length) {
           switch (state.timerTodo[0].id === state.todos[taskIndex].id) {
             case true:
@@ -280,6 +377,37 @@ export default {
           }
         }
       }
+      // let taskIndex = state.todos.indexOf(
+      //   ...state.todos.filter((item) => item.id === payload.id)
+      // );
+
+      // // IF WE HAVE -1 => IT IS NOT IN GLOBAL AND WE NEED TO CHECK IN DAILY TODOS
+      // if (taskIndex === -1) {
+      //   let taskIndex = state.dailyTodos.indexOf(
+      //     ...state.dailyTodos.filter((item) => item.id === payload.id)
+      //   );
+      //   state.dailyTodos.splice(taskIndex, 1, payload);
+
+      //   //CHECK IF EDITED TASK FROM DAILY LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+      //   if (state.timerTodo.length) {
+      //     switch (state.timerTodo[0].id === state.dailyTodos[taskIndex].id) {
+      //       case true:
+      //         state.timerTodo.splice(0, 1, payload);
+      //         break;
+      //     }
+      //   }
+      // } else {
+      //   state.todos.splice(taskIndex, 1, payload);
+
+      //   //CHECK IF EDITED TASK FROM GLOBAL LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
+      //   if (state.timerTodo.length) {
+      //     switch (state.timerTodo[0].id === state.todos[taskIndex].id) {
+      //       case true:
+      //         state.timerTodo.splice(0, 1, payload);
+      //         break;
+      //     }
+      //   }
+      // }
     },
     DELETE_ALL_DONE_TASKS(state) {
       state.deletedTodos.push(...state.dailyDoneTodos);
@@ -333,6 +461,96 @@ export default {
           state.todos.splice(taskIndex, 1);
           state.timerTodo = [];
       }
+    },
+    SET_TODAY_DATE(state) {
+      const date = new Date();
+
+      let day = date.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+
+      let month = date.getMonth();
+      if (month < 10) {
+        month = month + 1;
+        month = "0" + month;
+      } else {
+        month = month + 1;
+      }
+      state.todayInStore = `${date.getFullYear()}-${month}-${day}`;
+    },
+    CHECK_DEADLINE(state, typeOfTodos) {
+      const todayDeadline = state.todayInStore;
+      const todayDate = +todayDeadline.slice(-2);
+      const todayMonth = +todayDeadline.slice(-5, -3);
+      const todayYear = +todayDeadline.slice(0, 4);
+
+      let currentTodos;
+      if (typeOfTodos === "global") {
+        currentTodos = state.todos;
+      } else {
+        currentTodos = state.dailyTodos;
+      }
+
+      //todayDeadline = '2022-11-07'
+      //expired = '2022-11-06'
+      currentTodos.forEach((todo) => {
+        const todoDate = +todo.deadline.slice(-2);
+        const todoMonth = +todo.deadline.slice(-5, -3);
+        const todoYear = +todo.deadline.slice(0, 4);
+
+        if (
+          todoDate === todayDate &&
+          todoMonth === todayMonth &&
+          todoYear === todayYear
+        ) {
+          todo.isItToday = true;
+          return;
+        } else if (
+          todoDate < todayDate &&
+          (todoMonth === todayMonth || todoMonth < todayMonth) &&
+          (todoYear === todayYear || todoYear < todayYear)
+        ) {
+          todo.isItExpired = true;
+          todo.isItToday = false;
+        }
+      });
+    },
+    SORT_TASKS(state, typeOfTodos) {
+      function compare(a, b) {
+        // if (a.isItToday || b.isItToday) {
+        //   return -2;
+        // }
+        if (a.deadline < b.deadline) {
+          return -1;
+        }
+        if (a.deadline > b.deadline) {
+          return 1;
+        }
+        return 0;
+      }
+
+      let todosToSort;
+
+      switch (typeOfTodos) {
+        case "global":
+          todosToSort = state.todos;
+          break;
+
+        case "daily":
+          todosToSort = state.dailyTodos;
+          break;
+
+        case "doneDaily":
+          todosToSort = state.dailyDoneTodos;
+          break;
+
+        case "deleted":
+          todosToSort = state.deletedTodos;
+          break;
+      }
+
+      todosToSort.sort(compare);
     },
   },
   actions: {
@@ -418,8 +636,23 @@ export default {
     clearEditTask({ commit }) {
       commit("CLEAR_EDIT_TASK");
     },
-    addEditedTodo({ commit, dispatch }, payload) {
-      commit("ADD_EDITED_TODO", payload);
+    addEditedTodo({ state, commit, dispatch }, payload) {
+      let taskIndex = state.todos.indexOf(
+        ...state.todos.filter((item) => item.id === payload.id)
+      );
+
+      // IF WE HAVE -1 => IT IS NOT IN GLOBAL AND WE NEED TO CHECK IN DAILY TODOS
+      if (taskIndex === -1) {
+        let taskIndex = state.dailyTodos.indexOf(
+          ...state.dailyTodos.filter((item) => item.id === payload.id)
+        );
+        commit("ADD_EDITED_TODO", { taskIndex, type: "daily", payload });
+        dispatch("sortTasks", "daily");
+      } else {
+        commit("ADD_EDITED_TODO", { taskIndex, type: "global", payload });
+        dispatch("sortTasks", "global");
+      }
+
       const notification = {
         text: "The task was successfully edited.",
         type: "success",
@@ -452,6 +685,15 @@ export default {
     },
     deleteDailyOrGlobalTask({ commit }, id) {
       commit("DELETE_DAILY_OR_GLOBAL_TASK", id);
+    },
+    setTodayDate({ commit }) {
+      commit("SET_TODAY_DATE");
+    },
+    checkDeadline({ commit }, payload) {
+      commit("CHECK_DEADLINE", payload);
+    },
+    sortTasks({ commit }, payload) {
+      commit("SORT_TASKS", payload);
     },
   },
   getters: {
@@ -487,6 +729,9 @@ export default {
     },
     timerTodo(state) {
       return state.timerTodo;
+    },
+    todayInStore(state) {
+      return state.todayInStore;
     },
   },
 };

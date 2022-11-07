@@ -5,6 +5,7 @@
       <li class="passive">|</li>
       <li>Done</li>
     </ul> -->
+    {{typeOfTodos}}
     <div class="content-tasks">
       <div
         :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"
@@ -20,14 +21,52 @@
           ]"
         ></div>
         <div class="deadline" v-if="typeOfTodos !== 'deleted'">
+          <template v-if="!todo.isItToday">
+            <span
+              :class="[
+                'date',
+                'number',
+                todo.priority,
+                {
+                  done: typeOfTodos === 'doneDaily',
+                  expired: todo.isItExpired,
+                },
+              ]"
+            >
+              {{ changeDayDeadline(todo.deadline) }}
+            </span>
+
+            <span
+              :class="[
+                'date',
+                todo.priority,
+                {
+                  done: typeOfTodos === 'doneDaily',
+                  expired: todo.isItExpired,
+                },
+              ]"
+              >{{ changeMonthDeadline(todo.deadline) }}
+            </span>
+          </template>
           <span
-            :class="['span', 'date', { done: typeOfTodos === 'doneDaily' }]"
-            >{{ todo.deadline }}</span
+            v-else
+            :class="[
+              'date',
+              todo.priority,
+              { done: typeOfTodos === 'doneDaily' },
+            ]"
           >
-          <!-- <span>{{ checkFunc(todo.deadline) }}</span> -->
+            Today
+          </span>
         </div>
         <div :class="['text', { 'text-deleted': typeOfTodos === 'deleted' }]">
-          <p :class="['text-title', { done: typeOfTodos === 'doneDaily' }]">
+          <p
+            :class="[
+              'text-title',
+              todo.priority,
+              { done: typeOfTodos === 'doneDaily', expired: todo.isItExpired },
+            ]"
+          >
             {{ todo.title }}
           </p>
           <p class="text-description">{{ todo.description }}</p>
@@ -73,7 +112,12 @@
         </div>
         <router-link
           v-if="typeOfTodos !== 'doneDaily'"
-          class="link"
+          :class="[
+            'link',
+            {
+              deleted: typeOfTodos === 'deleted',
+            },
+          ]"
           :to="{ name: 'timer' }"
         >
           <div
@@ -81,7 +125,9 @@
             :class="[
               'priority',
               todo.priority,
-              { timer: typeOfTodos === 'timerTodo' },
+              {
+                timer: typeOfTodos === 'timerTodo',
+              },
             ]"
           >
             <div class="img">
@@ -176,9 +222,27 @@ export default {
         this.$store.dispatch("tasks/goToTimer", { id, type: "daily" });
       }
     },
-  },
-  beforeMount() {
-    console.log("aaaaaa");
+    changeMonthDeadline(deadline) {
+      const allMonths = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      let month = allMonths[+deadline.slice(5, 7) - 1];
+      return month;
+    },
+    changeDayDeadline(deadline) {
+      return deadline.slice(-2);
+    },
   },
 };
 </script>
@@ -235,24 +299,50 @@ export default {
 
       .deadline {
         align-self: center;
+        margin: 0 16px;
+        text-align: center;
 
         @media (max-width: 768px) {
           align-self: flex-start;
         }
 
-        .span {
-          color: #9f9f9f;
+        .date {
+          font-family: var(--second-font);
+          color: var(--redish);
           font-weight: 700;
           font-size: 11px;
-          margin: 0 16px;
           text-transform: uppercase;
 
-          &.date {
-            color: red;
+          &.number {
+            margin-top: 10px;
+            font-size: 32px;
+            display: block;
+            line-height: 16px;
+          }
 
-            &.done {
-              color: #9f9f9f;
-            }
+          &.low {
+            color: var(--greenish);
+            background-color: inherit;
+          }
+
+          &.middle {
+            color: var(--yellowish);
+            background-color: inherit;
+          }
+
+          &.high {
+            color: var(--orangeish);
+            background-color: inherit;
+          }
+
+          &.urgent {
+            color: var(--redish);
+            background-color: inherit;
+          }
+
+          &.expired,
+          &.done {
+            color: var(--expired);
           }
         }
       }
@@ -280,6 +370,30 @@ export default {
           margin-bottom: 4px;
           overflow-wrap: break-word;
           word-break: break-all;
+
+          &.low {
+            color: var(--greenish);
+            background-color: inherit;
+          }
+
+          &.middle {
+            color: var(--yellowish);
+            background-color: inherit;
+          }
+
+          &.high {
+            color: var(--orangeish);
+            background-color: inherit;
+          }
+
+          &.urgent {
+            color: var(--redish);
+            background-color: inherit;
+          }
+
+          &.expired {
+            color: var(--expired);
+          }
 
           @media (max-width: 425px) {
             font-size: 16px;
@@ -346,6 +460,10 @@ export default {
             pointer-events: none;
           }
         }
+      }
+
+      .link.deleted {
+        pointer-events: none;
       }
 
       .priority {
