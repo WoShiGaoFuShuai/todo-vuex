@@ -25,6 +25,16 @@ export default {
       this.$store.dispatch("tasks/checkDeadline", "daily");
       this.$store.dispatch("tasks/sortTasks", "daily");
     }
+
+    if (this.$store.state.tasks.dailyDoneTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "doneDaily");
+      this.$store.dispatch("tasks/sortTasks", "doneDaily");
+    }
+
+    if (this.$store.state.tasks.deletedTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "deleted");
+      this.$store.dispatch("tasks/sortTasks", "deleted");
+    }
   },
 };
 </script>

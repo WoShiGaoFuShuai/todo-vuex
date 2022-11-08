@@ -2,116 +2,6 @@ export default {
   namespaced: true,
   state: () => ({
     todos: [
-      // {
-      //   title: "000",
-      //   description: "00",
-      //   estimation: 3,
-      //   priority: "low",
-      //   deadline: "today",
-      //   category: "work",
-      //   id: 111111,
-      //   done: false,
-      // },
-      // {
-      //   title: "333333333",
-      //   description: "33333333333",
-      //   estimation: 4,
-      //   priority: "urgent",
-      //   deadline: "2022-02-12",
-      //   category: "work",
-      //   id: 44444,
-      //   done: false,
-      // },
-      // {
-      //   title: "Learing fa a afassasasas as asas sfs fqw sa ffqwqw",
-      //   description: "Learn something new today",
-      //   estimation: 1,
-      //   priority: "middle",
-      //   deadline: "today",
-      //   category: "sport",
-      //   id: 3333,
-      //   done: false,
-      // },
-      // {
-      //   title: "123",
-      //   description: "42ay",
-      //   estimation: 1,
-      //   priority: "high",
-      //   deadline: "today",
-      //   category: "sport",
-      //   id: 22222,
-      //   done: false,
-      // },
-      // {
-      //   title: "Yes",
-      //   description: "Yes",
-      //   estimation: 2,
-      //   priority: "middle",
-      //   deadline: "today",
-      //   category: "sport",
-      //   id: 22242142,
-      //   done: false,
-      // },
-      // {
-      //   title: "No",
-      //   description: "No",
-      //   estimation: 1,
-      //   priority: "urgent",
-      //   deadline: "2022-01-12",
-      //   category: "hobby",
-      //   id: 555555555512412,
-      //   done: false,
-      // },
-      /////////////////////
-      {
-        category: "work",
-        deadline: "2022-11-06",
-        description: "w",
-        done: false,
-        estimation: 4,
-        id: 0.19117425191408577,
-        priority: "low",
-        title: "q",
-        isItToday: false,
-        isItExpired: false,
-      },
-      {
-        category: "education",
-        deadline: "2022-11-10",
-        description: "rqw",
-        done: false,
-        estimation: 1,
-        id: 0.7513069349335795,
-        priority: "urgent",
-        title: "rwqr",
-        isItToday: false,
-        isItExpired: false,
-      },
-      {
-        category: "other",
-        deadline: "2022-11-06",
-        description: "weq",
-        done: false,
-        estimation: 3,
-        id: 0.8523170674574712,
-        isItExpired: false,
-        isItToday: true,
-        priority: "low",
-        title: "qwe",
-      },
-      {
-        category: "other",
-        deadline: "2022-11-07",
-        description: "3333333",
-        done: false,
-        estimation: 3,
-        id: 0.85231706744574712,
-        isItExpired: false,
-        isItToday: true,
-        priority: "low",
-        title: "44444444",
-      },
-
       {
         category: "other",
         deadline: "2022-11-22",
@@ -486,10 +376,22 @@ export default {
       const todayYear = +todayDeadline.slice(0, 4);
 
       let currentTodos;
-      if (typeOfTodos === "global") {
-        currentTodos = state.todos;
-      } else {
-        currentTodos = state.dailyTodos;
+      switch (typeOfTodos) {
+        case "global":
+          currentTodos = state.todos;
+          break;
+
+        case "daily":
+          currentTodos = state.dailyTodos;
+          break;
+
+        case "doneDaily":
+          currentTodos = state.dailyDoneTodos;
+          break;
+
+        case "deleted":
+          currentTodos = state.deletedTodos;
+          break;
       }
 
       //todayDeadline = '2022-11-07'
@@ -578,6 +480,7 @@ export default {
       //WE CHECK IF THERE IS LESS THEN 4 items we can push a task to daily tasks
       if (state.dailyTodos.length <= 4) {
         commit("PUSH_TO_DAILY_TODOS", id);
+        dispatch("sortTasks", "daily");
       } else {
         const notification = {
           text: "Sorry, you can have only 5 daily tasks at the same time.",

@@ -5,7 +5,7 @@
       <li class="passive">|</li>
       <li>Done</li>
     </ul> -->
-    {{typeOfTodos}}
+    {{ typeOfTodos }}
     <div class="content-tasks">
       <div
         :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"
@@ -211,9 +211,11 @@ export default {
       if (this.typeOfTodos === "daily") {
         this.$store.dispatch("tasks/doneTask", { id, type: this.typeOfTodos });
       } else {
+        // IF WE DONE A TASK WHICH IS IN THE TIMER
         this.$store.dispatch("tasks/deleteTimerTodo");
         this.$store.dispatch("tasks/doneTask", { id, type: this.typeOfTodos });
       }
+      this.$store.dispatch("tasks/sortTasks", "doneDaily");
     },
     goToTimer(id) {
       if (this.typeOfTodos === "global") {
