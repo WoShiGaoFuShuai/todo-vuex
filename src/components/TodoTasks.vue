@@ -73,14 +73,7 @@
         </div>
         <div class="buttons" v-if="typeOfTodos !== 'deleted'">
           <img
-            v-if="typeOfTodos === 'daily'"
-            @click="doneTask(todo.id)"
-            class="buttons-img"
-            src="@/assets/images/Done.svg"
-            alt=""
-          />
-          <img
-            v-if="typeOfTodos === 'timerTodo'"
+            v-if="dailyOrTimer"
             @click="doneTask(todo.id)"
             class="buttons-img"
             src="@/assets/images/Done.svg"
@@ -244,6 +237,11 @@ export default {
     },
     changeDayDeadline(deadline) {
       return deadline.slice(-2);
+    },
+  },
+  computed: {
+    dailyOrTimer() {
+      return ["daily", "timerTodo"].includes(this.typeOfTodos);
     },
   },
 };

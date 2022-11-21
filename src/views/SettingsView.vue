@@ -115,7 +115,7 @@ export default {
         type: "success",
       };
       this.$store.dispatch("modals/changeCategoryNames", changedCategory);
-      this.$store.dispatch("modals/changeNotification", notification);
+      this.$store.dispatch("modals/pushNotification", notification);
     },
     changeNumber(title, execute) {
       const timer = this.timers.filter((item) => item.title === title)[0];
@@ -133,7 +133,7 @@ export default {
       };
       this.$store.dispatch("timer/changeSettingsTimer", this.timers);
       router.push({ name: "timer" });
-      this.$store.dispatch("modals/changeNotification", notification);
+      this.$store.dispatch("modals/pushNotification", notification);
     },
   },
   computed: {

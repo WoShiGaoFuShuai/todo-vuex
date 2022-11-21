@@ -68,6 +68,12 @@ color: #fff
    padding: 50px 44px;
  }
 
+ @media (max-width: 768px) {
+  .wrapper {
+    padding: 20px;
+  }
+ }
+
  .v-application a {
 color: none; 
 }

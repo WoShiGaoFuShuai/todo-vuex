@@ -4,12 +4,13 @@ export default {
     isOpenAddTaskModal: false,
     titleModal: "Add",
     isDeleteCompletelyModal: false,
-    isShowNotification: false,
-    notification: {
-      text: null,
-      img: null,
-      bg: null,
-    },
+    timeout: null,
+    // notification: {
+    //   text: null,
+    //   img: null,
+    //   bg: null,
+    // },
+    arrayNotification: [],
     categoryArray: [
       {
         name: "Work",
@@ -39,31 +40,33 @@ export default {
     TOGGLE_DELETE_COMPLETELY_MODAL(state) {
       state.isDeleteCompletelyModal = !state.isDeleteCompletelyModal;
     },
-    // TOGGLE_DELETE_DONE_TASKS_MODAL(state) {
-    //   state.isDeleteDoneTasksModal = !state.isDeleteDoneTasksModal;
-    // },
-    CHANGE_NOTIFICATION(state, { text, type }) {
-      state.isShowNotification = true;
-      switch (type) {
+    PUSH_NOTIFICATION(state, payload) {
+      console.log("push-notif", payload);
+
+      switch (payload.type) {
         case "warning":
-          state.notification.text = text;
-          state.notification.img = require("@/assets/images/Warning-msg.svg");
-          state.notification.bg = "#ffa841";
+          payload.img = require("@/assets/images/Warning-msg.svg");
+          payload.bg = "#ffa841";
           break;
         case "error":
-          state.notification.text = text;
-          state.notification.img = require("@/assets/images/Error-msg.svg");
-          state.notification.bg = "#f75c4c";
+          payload.img = require("@/assets/images/Error-msg.svg");
+          payload.bg = "#f75c4c";
           break;
         case "success":
-          state.notification.text = text;
-          state.notification.img = require("@/assets/images/Success-msg.svg");
-          state.notification.bg = "#1abc9c";
+          payload.img = require("@/assets/images/Success-msg.svg");
+          payload.bg = "#1abc9c";
           break;
       }
+
+      state.arrayNotification.push(payload);
     },
-    CLOSE_NOTIFICATION(state) {
-      state.isShowNotification = false;
+    CLOSE_NOTIFICATION(state, payload) {
+      const index = state.arrayNotification.indexOf(
+        state.arrayNotification.find(
+          (notification) => notification.id === payload
+        )
+      );
+      state.arrayNotification.splice(index, 1);
     },
     CHANGE_CATEGORY_NAMES(state, { orange, blue, purple, red, aqua }) {
       state.categoryArray[0].name = orange;
@@ -86,18 +89,27 @@ export default {
     toggleDeleteCompletelyModal({ commit }) {
       commit("TOGGLE_DELETE_COMPLETELY_MODAL");
     },
-    changeNotification({ commit, dispatch }, payload) {
-      commit("CHANGE_NOTIFICATION", payload);
+    pushNotification({ state, commit }, payload) {
+      payload.id = Math.round(Math.random() * 10000000);
+      commit("PUSH_NOTIFICATION", payload);
       setTimeout(() => {
-        dispatch("closeNotification");
+        const indexOfNotification = state.arrayNotification.indexOf(
+          state.arrayNotification.find(
+            (notification) => notification.id === payload.id
+          )
+        );
+        // IF WE HAVE THE NOTIFICATION we will delete it after 3500ms
+        if (indexOfNotification !== -1) {
+          state.arrayNotification.splice(indexOfNotification, 1);
+        }
       }, 3500);
     },
 
     // toggleDeleteDoneTasksModal({ commit }) {
     //   commit("TOGGLE_DELETE_DONE_TASKS_MODAL");
     // },
-    closeNotification({ commit }) {
-      commit("CLOSE_NOTIFICATION");
+    closeNotification({ commit }, payload) {
+      commit("CLOSE_NOTIFICATION", payload);
     },
     changeCategoryNames({ commit }, payload) {
       commit("CHANGE_CATEGORY_NAMES", payload);
@@ -116,14 +128,14 @@ export default {
     // isDeleteDoneTasksModal(state) {
     //   return state.isDeleteDoneTasksModal;
     // },
-    notification(state) {
-      return state.notification;
-    },
-    isShowNotification(state) {
-      return state.isShowNotification;
-    },
+    // notification(state) {
+    //   return state.notification;
+    // },
     categoryArray(state) {
       return state.categoryArray;
+    },
+    arrayNotification(state) {
+      return state.arrayNotification;
     },
   },
 };

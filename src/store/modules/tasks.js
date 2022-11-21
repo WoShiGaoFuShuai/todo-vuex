@@ -1,3 +1,5 @@
+// import { app } from "@/main";
+
 export default {
   namespaced: true,
   state: () => ({
@@ -78,6 +80,18 @@ export default {
         isItToday: true,
         priority: "low",
         title: "44444444",
+      },
+      {
+        category: "other",
+        deadline: "2022-11-08",
+        description: "3333333",
+        done: false,
+        estimation: 3,
+        id: 0.81241252317067444241574712,
+        isItExpired: false,
+        isItToday: true,
+        priority: "low",
+        title: "01",
       },
     ],
     dailyDoneTodos: [],
@@ -462,7 +476,7 @@ export default {
         text: "A task was successfully created.",
         type: "success",
       };
-      dispatch("modals/changeNotification", notification, { root: true });
+      dispatch("modals/pushNotification", notification, { root: true });
     },
     deleteTask({ commit }, id) {
       commit("DELETE_TASK", id);
@@ -486,7 +500,7 @@ export default {
           text: "Sorry, you can have only 5 daily tasks at the same time.",
           type: "error",
         };
-        dispatch("modals/changeNotification", notification, { root: true });
+        dispatch("modals/pushNotification", notification, { root: true });
       }
     },
     deleteDailyTask({ commit }, id) {
@@ -525,7 +539,7 @@ export default {
         text: `The task was done! ${text}!`,
         type: "success",
       };
-      dispatch("modals/changeNotification", notification, { root: true });
+      dispatch("modals/pushNotification", notification, { root: true });
     },
     deleteDoneDailyTask({ commit }, id) {
       commit("DELETE_DONE_DAILY_TASK", id);
@@ -560,7 +574,7 @@ export default {
         text: "The task was successfully edited.",
         type: "success",
       };
-      dispatch("modals/changeNotification", notification, { root: true });
+      dispatch("modals/pushNotification", notification, { root: true });
     },
     deleteAllDoneTasks({ commit }) {
       commit("DELETE_ALL_DONE_TASKS");
@@ -574,12 +588,14 @@ export default {
     goToTimer({ state, commit, dispatch }, payload) {
       if (!state.timerTodo.length) {
         commit("GO_TO_TIMER", payload);
+        // console.log("aaa", app.$router);
+        // app.$router.push('...')
       } else {
         const notification = {
           text: "Sorry, you already have a task in a timer",
           type: "error",
         };
-        dispatch("modals/changeNotification", notification, { root: true });
+        dispatch("modals/pushNotification", notification, { root: true });
         // this.$router.push({ name: "home" });
       }
     },

@@ -38,6 +38,13 @@ export default {
       this.$store.dispatch("modals/toggleDeleteCompletelyModal");
     },
   },
+  beforeMount() {
+    console.log("DELETED");
+    if (this.$store.state.tasks.deletedTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "deleted");
+      this.$store.dispatch("tasks/sortTasks", "deleted");
+    }
+  },
 };
 </script>
 

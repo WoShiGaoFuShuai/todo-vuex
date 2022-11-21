@@ -67,7 +67,7 @@ export default {
       dailyTodos: "tasks/dailyTodos",
       dailyDoneTodos: "tasks/dailyDoneTodos",
       todos: "tasks/todos",
-      isDeleteDoneTasksModal: "modals/isDeleteDoneTasksModal",
+      // isDeleteDoneTasksModal: "modals/isDeleteDoneTasksModal",
     }),
   },
   data() {

@@ -3,16 +3,15 @@
     <DailyTask />
     <TopDailyTasks />
     <GlobalList />
-    <NotificationMsg v-if="isShowNotification" />
   </div>
 </template>
 
 <script>
 import DailyTask from "@/components/daily/DailyTask.vue";
 import TopDailyTasks from "@/components/daily/TopDailyTasks.vue";
-import NotificationMsg from "@/components/modals/NotificationMsg.vue";
+// import NotificationMsg from "@/components/modals/NotificationMsg.vue";
 import GlobalList from "@/components/global/GlobalList.vue";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
@@ -20,15 +19,26 @@ export default {
     DailyTask,
     GlobalList,
     TopDailyTasks,
-    NotificationMsg,
+    // NotificationMsg,
   },
   data() {
     return {};
   },
-  computed: {
-    ...mapGetters({
-      isShowNotification: "modals/isShowNotification",
-    }),
+  beforeMount() {
+    console.log("HOME!");
+    if (this.$store.state.tasks.todos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "global");
+      this.$store.dispatch("tasks/sortTasks", "global");
+    }
+    if (this.$store.state.tasks.dailyTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "daily");
+      this.$store.dispatch("tasks/sortTasks", "daily");
+    }
+
+    if (this.$store.state.tasks.dailyDoneTodos.length) {
+      this.$store.dispatch("tasks/checkDeadline", "doneDaily");
+      this.$store.dispatch("tasks/sortTasks", "doneDaily");
+    }
   },
 };
 </script>
