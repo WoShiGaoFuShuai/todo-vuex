@@ -123,6 +123,12 @@ But if you need to delete exact task just press on the left side square;
 
 The same you can do with tasks which already done. You can delete them 1 by 1 or do it in one click.
 
+## Contacts
+
+If you have any ideas or problems, contact me:
+📱 [Telegram](https://t.me/mackseam)
+📧 [Gmail] (efremovmaxim95@gmail.com)
+
 ## Project setup
 
 ```
