@@ -87,6 +87,8 @@ So you can work only with 1 task on a timer page at a time;
 You see this notification when you've done a task;
 ![Done-task-notification](git_images/Done-task-notification.jpg)
 
+And some other notification you can see while using this app 😉
+
 ---
 
 ### Changing category names
@@ -97,8 +99,6 @@ You can change category names if some of them aren't suitable for you;
 
 And you can see changed category names when you're creating a new task task;
 ![Changed-category-result](git_images/Changed-category-result.jpg)
-
-And some other notification you can see while using this app 😉
 
 ---
 
