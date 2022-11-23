@@ -11,18 +11,6 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/login",
-    name: "login",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "@/views/auth/LoginView.vue"),
-  },
-  {
-    path: "/signup",
-    name: "signup",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "@/views/auth/SignupView.vue"),
-  },
-  {
     path: "/settings",
     name: "settings",
     component: () =>
@@ -32,7 +20,7 @@ const routes = [
     path: "/timer",
     name: "timer",
     component: () =>
-      import(/* webpackChunkName: "timer" */ "@/views/timer/TimerView.vue"),
+      import(/* webpackChunkName: "timer" */ "@/views/TimerView.vue"),
   },
   {
     path: "/deleted",

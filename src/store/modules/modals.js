@@ -5,11 +5,6 @@ export default {
     titleModal: "Add",
     isDeleteCompletelyModal: false,
     timeout: null,
-    // notification: {
-    //   text: null,
-    //   img: null,
-    //   bg: null,
-    // },
     arrayNotification: [],
     categoryArray: [
       {
@@ -22,7 +17,6 @@ export default {
       { name: "Sport", className: "redish", value: "sport" },
       { name: "Other", className: "aquaish", value: "other" },
     ],
-    // isDeleteDoneTasksModal: false,
   }),
   mutations: {
     TOGGLE_MODALS(state) {
@@ -41,8 +35,6 @@ export default {
       state.isDeleteCompletelyModal = !state.isDeleteCompletelyModal;
     },
     PUSH_NOTIFICATION(state, payload) {
-      console.log("push-notif", payload);
-
       switch (payload.type) {
         case "warning":
           payload.img = require("@/assets/images/Warning-msg.svg");
@@ -104,10 +96,6 @@ export default {
         }
       }, 3500);
     },
-
-    // toggleDeleteDoneTasksModal({ commit }) {
-    //   commit("TOGGLE_DELETE_DONE_TASKS_MODAL");
-    // },
     closeNotification({ commit }, payload) {
       commit("CLOSE_NOTIFICATION", payload);
     },
@@ -125,12 +113,6 @@ export default {
     isDeleteCompletelyOpen(state) {
       return state.isDeleteCompletelyModal;
     },
-    // isDeleteDoneTasksModal(state) {
-    //   return state.isDeleteDoneTasksModal;
-    // },
-    // notification(state) {
-    //   return state.notification;
-    // },
     categoryArray(state) {
       return state.categoryArray;
     },

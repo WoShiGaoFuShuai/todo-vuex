@@ -85,13 +85,6 @@ export default {
       this.currentActiveBar = priorityType;
     },
   },
-  // beforeUpdate() {
-  //   console.log(" beforeUpdate");
-  // },
-  // updated() {
-  // this.currentActiveBar = "urgent";
-  // console.log("UPDARED");
-  // },
   beforeMount() {
     this.todosToShow = this.todos;
     this.active = true;
@@ -116,19 +109,6 @@ export default {
   @media (max-width: 500px) {
     flex-direction: column;
   }
-
-  // &:hover {
-  //   cursor: pointer;
-
-  //   // .title {
-  //   //   color: var(--grey-light);
-  //   // }
-
-  //   .img {
-  //     filter: brightness(0) saturate(100%) invert(69%) sepia(82%) saturate(195%)
-  //       hue-rotate(153deg) brightness(94%) contrast(86%);
-  //   }
-  // }
 
   .left {
     display: flex;

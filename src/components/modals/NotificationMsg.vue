@@ -1,15 +1,5 @@
 <template>
   <div :class="['notification-msg']">
-    <!-- <div class="left">
-      <div class="left-img">
-        <img class="image" :src="notification.img" alt="" />
-      </div>
-    </div>
-    <div class="right">
-      <h3 class="text">{{ notification.text }}</h3>
-      <button @click="closeNotification" class="close"></button>
-    </div> -->
-
     <div
       v-for="notification in arrayNotification"
       :key="notification.id"
@@ -44,24 +34,8 @@ export default {
   name: "NotificationMsg",
   computed: {
     ...mapGetters({
-      // notification: "modals/notification",
       arrayNotification: "modals/arrayNotification",
     }),
-    // getBg() {
-    //   let res;
-    //   switch (this.notification.bg) {
-    //     case "#ffa841":
-    //       res = "warning-msg";
-    //       break;
-    //     case "#f75c4c":
-    //       res = "error-msg";
-    //       break;
-    //     case "#1abc9c":
-    //       res = "success-msg";
-    //       break;
-    //   }
-    //   return res;
-    // },
   },
   methods: {
     closeNotification(id) {

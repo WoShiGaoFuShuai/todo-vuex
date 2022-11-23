@@ -4,7 +4,7 @@
       <div class="main-text">
         <div class="left">
           <h1 class="left-title">Settings</h1>
-          <h2 class="left-subtitle">Categories list overview</h2>
+          <h2 class="left-subtitle">{{ subtitle }}</h2>
         </div>
         <div class="right">
           <span
@@ -94,12 +94,19 @@ export default {
       timers: null,
       openPomodoro: true,
       openCategories: false,
+      subtitle: "Timer settings",
     };
   },
   methods: {
     changeSettingsView(firstArg, secondArg) {
       this.openPomodoro = firstArg;
       this.openCategories = secondArg;
+
+      if (firstArg) {
+        this.subtitle = "Timer settings";
+      } else {
+        this.subtitle = "Categories list overview";
+      }
     },
     saveNewCategories() {
       const changedCategory = {
@@ -154,7 +161,6 @@ export default {
 
   .top-wrapper {
     display: flex;
-    // justify-content: center;
 
     @media (max-width: 768px) {
       margin-bottom: -30px;

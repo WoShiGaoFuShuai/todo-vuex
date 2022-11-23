@@ -1,73 +1,12 @@
 <template>
   <div>
-    <!-- <nav class="nav">
-      <ul class="nav-ul">
-        <template>
-          <li class="nav-li nav-username">Welcome, USERNAME!</li>
-          <li :class="['nav-li', { active: activeHamburger }]">
-            <img src="@/assets/images/Logout.svg" alt="" />
-          </li>
-          <li :class="['nav-li', { active: activeHamburger }]">
-            <router-link :to="{ name: 'deleted' }">
-              <div class="delete-btn-wrapper">
-                <img src="@/assets/images/Delete.svg" alt="" />
-                <div v-if="deletedTodos.length" class="delete-quantity">
-                  <img src="@/assets/images/Delete-quantity.svg" alt="" />
-                  <span class="delete-quantity-num">{{
-                    deletedTodos.length
-                  }}</span>
-                </div>
-              </div>
-            </router-link>
-          </li>
-          <li :class="['nav-li', { active: activeHamburger }]">
-            <router-link :to="{ name: 'home' }">
-              <img src="@/assets/images/Global List.svg" alt="" />
-            </router-link>
-          </li>
-          <li :class="['nav-li', { active: activeHamburger }]">
-            <router-link :to="{ name: 'timer' }">
-              <img src="@/assets/images/Timer.svg" alt="" />
-            </router-link>
-          </li>
-
-          <li :class="['nav-li', { active: activeHamburger }]">
-            <router-link :to="{ name: 'settings' }">
-              <img src="@/assets/images/Settings.svg" alt="" />
-            </router-link>
-          </li>
-          <li
-            :class="['hamburger', { active: activeHamburger }]"
-            @click="toggleHamburger"
-          >
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </li>
-        </template>
-        <template>
-          <div class="gone">
-            <router-link :to="{ name: 'login' }"
-              ><li class="nav-li link">Login</li></router-link
-            >
-            <router-link :to="{ name: 'signup' }"
-              ><li class="nav-li link">Signup</li></router-link
-            >
-          </div>
-        </template>
-      </ul>
-    </nav> -->
-
     <nav class="nav">
       <span :class="['username', { mobile: activeHamburger }]"
-        >Welcome, USERNAME</span
+        >Welcome to the app</span
       >
       <ul :class="['nav-ul', { mobile: activeHamburger }]">
         <template>
           <li :class="['nav-li', { active: activeHamburger }]">
-            <img src="@/assets/images/Logout.svg" alt="" />
-          </li>
-          <li :class="['nav-li', { active: activeHamburger }]">
             <router-link :to="{ name: 'deleted' }">
               <div class="delete-btn-wrapper">
                 <img src="@/assets/images/Delete.svg" alt="" />
@@ -105,16 +44,7 @@
             <span class="bar"></span>
           </li>
         </template>
-        <template>
-          <div class="gone">
-            <router-link :to="{ name: 'login' }"
-              ><li class="nav-li link">Login</li></router-link
-            >
-            <router-link :to="{ name: 'signup' }"
-              ><li class="nav-li link">Signup</li></router-link
-            >
-          </div>
-        </template>
+        <template> </template>
       </ul>
     </nav>
   </div>
@@ -141,9 +71,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.gone {
-  display: none;
-}
 .nav {
   position: relative;
 
@@ -226,17 +153,6 @@ export default {
     .nav-li {
       margin-left: 32px;
       padding-top: 5px;
-
-      // &:first-of-type {
-      //   margin-left: 0;
-      //   margin-right: auto;
-      //   color: var(--greyish);
-      //   padding-top: 3px;
-
-      //   @media (max-width: 768px) {
-      //     display: block;
-      //   }
-      // }
 
       @media (max-width: 768px) {
         &:first-of-type {

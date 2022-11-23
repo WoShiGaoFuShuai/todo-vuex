@@ -7,7 +7,7 @@
     </div>
     <div class="delete-wrapper" v-if="deletedTodos.length">
       <span @click="deleteAllDeletedTasks" class="delete-all"
-        >Delete all deleted tasks</span
+        >Remove all deleted tasks</span
       >
     </div>
     <TodoTask :todos="deletedTodos" :typeOfTodos="'deleted'" />
@@ -39,7 +39,6 @@ export default {
     },
   },
   beforeMount() {
-    console.log("DELETED");
     if (this.$store.state.tasks.deletedTodos.length) {
       this.$store.dispatch("tasks/checkDeadline", "deleted");
       this.$store.dispatch("tasks/sortTasks", "deleted");

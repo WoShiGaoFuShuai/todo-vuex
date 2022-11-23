@@ -9,9 +9,8 @@
 <script>
 import DailyTask from "@/components/daily/DailyTask.vue";
 import TopDailyTasks from "@/components/daily/TopDailyTasks.vue";
-// import NotificationMsg from "@/components/modals/NotificationMsg.vue";
 import GlobalList from "@/components/global/GlobalList.vue";
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
@@ -19,13 +18,11 @@ export default {
     DailyTask,
     GlobalList,
     TopDailyTasks,
-    // NotificationMsg,
   },
   data() {
     return {};
   },
   beforeMount() {
-    console.log("HOME!");
     if (this.$store.state.tasks.todos.length) {
       this.$store.dispatch("tasks/checkDeadline", "global");
       this.$store.dispatch("tasks/sortTasks", "global");
@@ -39,6 +36,11 @@ export default {
       this.$store.dispatch("tasks/checkDeadline", "doneDaily");
       this.$store.dispatch("tasks/sortTasks", "doneDaily");
     }
+  },
+  computed: {
+    ...mapGetters({
+      todayInStore: "tasks/todayInStore",
+    }),
   },
 };
 </script>

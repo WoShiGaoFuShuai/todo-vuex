@@ -1,104 +1,76 @@
-// import { app } from "@/main";
-
 export default {
   namespaced: true,
   state: () => ({
     todos: [
       {
         category: "other",
-        deadline: "2022-11-22",
-        description: "22",
+        deadline: "2022-11-29",
+        description: "Oranges, Cucumbers, Carrots",
         done: false,
         estimation: 3,
-        id: 0.85232317067442574712,
+        id: 0.2269693874029507,
         isItExpired: false,
         isItToday: false,
         priority: "low",
-        title: "44444444",
+        title: "Buy groceries",
       },
-
       {
-        category: "other",
-        deadline: "2022-11-09",
-        description: "3fasf3",
+        category: "education",
+        deadline: "2022-11-12",
+        description: "Pages 25-28",
         done: false,
-        estimation: 3,
-        id: 0.85231706731244574712,
+        estimation: 2,
+        id: 0.22659693874829507,
+        isItExpired: false,
+        isItToday: false,
+        priority: "urgent",
+        title: "Do homework (Biology)",
+      },
+      {
+        category: "work",
+        deadline: "2022-12-12",
+        description: "Report about results of the research",
+        done: false,
+        estimation: 5,
+        id: 0.12659693874029507,
+        isItExpired: false,
+        isItToday: false,
+        priority: "high",
+        title: "Make a report",
+      },
+      {
+        category: "hobby",
+        deadline: "2023-01-05",
+        description: "Finish drawing of the fish and drawing of the landscape",
+        done: false,
+        estimation: 4,
+        id: 0.126596938740295997,
+        isItExpired: false,
+        isItToday: false,
+        priority: "middle",
+        title: "Finish drawings",
+      },
+      {
+        category: "hobby",
+        deadline: "2022-12-30",
+        description: "Do yoga for 30 mins, learn 1 new position",
+        done: false,
+        estimation: 1,
+        id: 0.126596938740295997,
         isItExpired: false,
         isItToday: false,
         priority: "low",
-        title: "44444444",
+        title: "Do yoga",
       },
     ],
     deletedTodos: [],
     deleteCompletelyTaskId: null,
-    dailyTodos: [
-      {
-        category: "work",
-        deadline: "2022-11-06",
-        description: "w",
-        done: false,
-        estimation: 4,
-        id: 0.1911742511231291408577,
-        priority: "low",
-        title: "q",
-        isItToday: false,
-        isItExpired: false,
-      },
-      {
-        category: "education",
-        deadline: "2022-11-10",
-        description: "rqw",
-        done: false,
-        estimation: 1,
-        id: 0.75130693493342425795,
-        priority: "urgent",
-        title: "rwqr",
-        isItToday: false,
-        isItExpired: false,
-      },
-      {
-        category: "other",
-        deadline: "2022-11-06",
-        description: "weq",
-        done: false,
-        estimation: 3,
-        id: 0.8523170674574213123712,
-        isItExpired: false,
-        isItToday: true,
-        priority: "low",
-        title: "qwe",
-      },
-      {
-        category: "other",
-        deadline: "2022-11-07",
-        description: "3333333",
-        done: false,
-        estimation: 3,
-        id: 0.852317067444241574712,
-        isItExpired: false,
-        isItToday: true,
-        priority: "low",
-        title: "44444444",
-      },
-      {
-        category: "other",
-        deadline: "2022-11-08",
-        description: "3333333",
-        done: false,
-        estimation: 3,
-        id: 0.81241252317067444241574712,
-        isItExpired: false,
-        isItToday: true,
-        priority: "low",
-        title: "01",
-      },
-    ],
+    dailyTodos: [],
     dailyDoneTodos: [],
     editTask: [],
     timerTodo: [],
     deleteAllDeletedTasks: false,
-    todayInStore: null,
+    todayInStore: "2022-11-21",
   }),
 
   mutations: {
@@ -111,7 +83,6 @@ export default {
         ...state.todos.filter((item) => item.id === payload)
       );
       // GETTING DELETED TASK TO PUSH IT TO ARRAY WITH DELETED TODOS
-      // const deletedTask = state.todos.filter((item) => item.id === payload);
       const task = state.todos[taskIndex];
       state.deletedTodos.push(task);
 
@@ -145,6 +116,61 @@ export default {
       state.deleteCompletelyTaskId = null;
     },
     PUSH_TO_DAILY_TODOS(state, id) {
+      if (id === "example") {
+        const tasksForExample = [
+          {
+            category: "education",
+            deadline: state.todayInStore,
+            description: "History Exam (repeat 1-12 units)",
+            done: false,
+            estimation: 1,
+            id: 0.1252167876541,
+            isItExpired: false,
+            isItToday: true,
+            priority: "urgent",
+            title: "Prepare to the exam",
+          },
+          {
+            category: "other",
+            deadline: "2022-10-30",
+            description: "Find HTML/CSS course and Typescript",
+            done: false,
+            estimation: 2,
+            id: 0.12576531244029507,
+            isItExpired: true,
+            isItToday: false,
+            priority: "high",
+            title: "Find a course",
+          },
+          {
+            category: "work",
+            deadline: state.todayInStore,
+            description:
+              "Count how many days I was working in October and November",
+            done: false,
+            estimation: 3,
+            id: 0.2898765462131244029507,
+            isItExpired: false,
+            isItToday: true,
+            priority: "middle",
+            title: "Calculate salary",
+          },
+          {
+            category: "hobby",
+            deadline: state.todayInStore,
+            description: "Legs day & Shoulders",
+            done: false,
+            estimation: 4,
+            id: 0.9462131244012507,
+            isItExpired: false,
+            isItToday: true,
+            priority: "low",
+            title: "Gym",
+          },
+        ];
+        state.dailyTodos.push(...tasksForExample);
+        return;
+      }
       //GETTING INDEX OF A TASK
       const taskIndex = state.todos.indexOf(
         ...state.todos.filter((item) => item.id === id)
@@ -221,14 +247,6 @@ export default {
             state.dailyDoneTodos.push(task);
             state.todos.splice(taskIndex, 1);
         }
-
-        // console.log(taskIndex);
-        // if (taskIndex === -1) {
-        //   taskIndex = state.dailyTodos.indexOf(
-        //     ...state.dailyTodos.filter((item) => item.id === id)
-        //   );
-        //   console.log(taskIndex);
-        // }
       }
     },
     DELETE_DONE_DAILY_TASK(state, id) {
@@ -281,37 +299,6 @@ export default {
           }
         }
       }
-      // let taskIndex = state.todos.indexOf(
-      //   ...state.todos.filter((item) => item.id === payload.id)
-      // );
-
-      // // IF WE HAVE -1 => IT IS NOT IN GLOBAL AND WE NEED TO CHECK IN DAILY TODOS
-      // if (taskIndex === -1) {
-      //   let taskIndex = state.dailyTodos.indexOf(
-      //     ...state.dailyTodos.filter((item) => item.id === payload.id)
-      //   );
-      //   state.dailyTodos.splice(taskIndex, 1, payload);
-
-      //   //CHECK IF EDITED TASK FROM DAILY LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
-      //   if (state.timerTodo.length) {
-      //     switch (state.timerTodo[0].id === state.dailyTodos[taskIndex].id) {
-      //       case true:
-      //         state.timerTodo.splice(0, 1, payload);
-      //         break;
-      //     }
-      //   }
-      // } else {
-      //   state.todos.splice(taskIndex, 1, payload);
-
-      //   //CHECK IF EDITED TASK FROM GLOBAL LIST IS IN THE TIMER AS WELL. IF YES - CHANGE IT
-      //   if (state.timerTodo.length) {
-      //     switch (state.timerTodo[0].id === state.todos[taskIndex].id) {
-      //       case true:
-      //         state.timerTodo.splice(0, 1, payload);
-      //         break;
-      //     }
-      //   }
-      // }
     },
     DELETE_ALL_DONE_TASKS(state) {
       state.deletedTodos.push(...state.dailyDoneTodos);
@@ -408,8 +395,6 @@ export default {
           break;
       }
 
-      //todayDeadline = '2022-11-07'
-      //expired = '2022-11-06'
       currentTodos.forEach((todo) => {
         const todoDate = +todo.deadline.slice(-2);
         const todoMonth = +todo.deadline.slice(-5, -3);
@@ -434,9 +419,6 @@ export default {
     },
     SORT_TASKS(state, typeOfTodos) {
       function compare(a, b) {
-        // if (a.isItToday || b.isItToday) {
-        //   return -2;
-        // }
         if (a.deadline < b.deadline) {
           return -1;
         }
@@ -491,6 +473,12 @@ export default {
       commit("RESET_DELETE_COMPLETELY_TASK_ID");
     },
     pushToDailyTodos({ state, commit, dispatch }, id) {
+      //EXAMPLE
+      if (id === "example") {
+        commit("PUSH_TO_DAILY_TODOS", id);
+        dispatch("sortTasks", "daily");
+        return;
+      }
       //WE CHECK IF THERE IS LESS THEN 4 items we can push a task to daily tasks
       if (state.dailyTodos.length <= 4) {
         commit("PUSH_TO_DAILY_TODOS", id);
@@ -588,15 +576,12 @@ export default {
     goToTimer({ state, commit, dispatch }, payload) {
       if (!state.timerTodo.length) {
         commit("GO_TO_TIMER", payload);
-        // console.log("aaa", app.$router);
-        // app.$router.push('...')
       } else {
         const notification = {
           text: "Sorry, you already have a task in a timer",
           type: "error",
         };
         dispatch("modals/pushNotification", notification, { root: true });
-        // this.$router.push({ name: "home" });
       }
     },
     deleteTimerTodo({ commit }) {

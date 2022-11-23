@@ -1,11 +1,5 @@
 <template>
   <div class="content">
-    <!-- <ul class="content-nav">
-      <li>To Do</li>
-      <li class="passive">|</li>
-      <li>Done</li>
-    </ul> -->
-    {{ typeOfTodos }}
     <div class="content-tasks">
       <div
         :class="['content-task', { done: typeOfTodos === 'doneDaily' }]"

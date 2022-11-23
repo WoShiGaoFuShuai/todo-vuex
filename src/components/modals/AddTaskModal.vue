@@ -1,5 +1,4 @@
 <template>
-  <!-- <BaseModal> -->
   <div class="modal-add-task wrapper" @click="closeModal">
     <div class="add-task" @click.stop="">
       <form @submit.prevent="agreeModalTodo" class="form">
@@ -16,7 +15,6 @@
           </li>
         </ul>
         <h2 class="title-modal">{{ titleModal }} Task</h2>
-        <!-- <h2 class="title">{{ type === "edit" ? "Edit" : "Add" }} Task</h2> -->
         <div class="content">
           <fieldset class="fieldset">
             <label class="label-title" for="title">Title</label>
@@ -125,24 +123,14 @@
       </form>
     </div>
   </div>
-  <!-- </BaseModal> -->
 </template>
 
 <script>
-// import BaseModal from "@/components/Modal.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "AddTaskModal",
-  components: {
-    // BaseModal,
-  },
-  // props: {
-  //   type: {
-  //     type: String,
-  //     default: "Add",
-  //   },
-  // },
+  components: {},
   data() {
     return {
       title: "",
@@ -151,17 +139,6 @@ export default {
       deadline: "",
       estimation: 1,
       priority: "low",
-      // categoryArray: [
-      //   {
-      //     name: "Work",
-      //     className: "orangeish",
-      //     value: "work",
-      //   },
-      //   { name: "Education", className: "blueish", value: "education" },
-      //   { name: "Hobby", className: "pinkish", value: "hobby" },
-      //   { name: "Sport", className: "redish", value: "sport" },
-      //   { name: "Other", className: "aquaish", value: "other" },
-      // ],
       priorityArray: [
         { name: "Urgent", className: "redish", value: "urgent" },
         { name: "High", className: "orangeish", value: "high" },
@@ -209,7 +186,6 @@ export default {
         this.$store.dispatch("tasks/addNewTodo", newTodo);
         this.$store.dispatch("tasks/sortTasks", "global");
       } else {
-        console.log("THIS IS NOT NEW");
         newTodo.id = this.editTask[0].id;
         this.$store.dispatch("tasks/addEditedTodo", newTodo);
       }
@@ -253,7 +229,6 @@ export default {
     if (this.editTask.length) {
       const { title, description, deadline, category, priority, estimation } =
         this.editTask[0];
-      //    done,, id,
 
       this.title = title;
       this.description = description;
@@ -287,8 +262,6 @@ export default {
     }
   },
 };
-
-// // const categoryIndex = ["work", "education", "hobby", "sport", "other"];
 </script>
 
 <style lang="scss" scoped>
@@ -300,7 +273,6 @@ export default {
 }
 
 .modal-add-task {
-  // display: none;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   z-index: 100;
@@ -569,6 +541,7 @@ export default {
                 font-weight: 400px;
                 line-height: 20px;
                 font-size: 16px;
+                text-transform: capitalize;
               }
             }
           }

@@ -41,11 +41,9 @@ export default {
   mutations: {
     CHANGE_SETTINGS_TIMER(state, payload) {
       state.settingsTimerArray = payload;
-      console.log(payload[0].number);
       state.tabs[0].totalSeconds = payload[0].number * 60;
       state.tabs[1].totalSeconds = payload[1].number * 60;
       state.tabs[2].totalSeconds = payload[2].number * 60;
-      console.log(payload);
     },
   },
   actions: {

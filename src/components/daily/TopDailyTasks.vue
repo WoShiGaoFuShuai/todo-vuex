@@ -3,7 +3,6 @@
     v-if="todos.length || dailyTodos.length || dailyDoneTodos.length"
     class="content"
   >
-    <!-- <ConfirmDeleteDoneTasks v-if="isDeleteDoneTasksModal" /> -->
     <ul class="content-nav">
       <li
         @click="changeTodoToShow('dailyTodos')"
@@ -24,7 +23,7 @@
       v-if="typeOfTodos === 'doneDaily' && dailyDoneTodos.length"
     >
       <span @click="deleteAllDoneTasks" class="delete-all"
-        >Delete all done tasks</span
+        >Remove all done tasks</span
       >
     </div>
     <TodoTasks :todos="todoToShow" :typeOfTodos="typeOfTodos" />
@@ -38,7 +37,6 @@
         {{ textTodo.line1 }} <br />
         {{ textTodo.line2 }}
       </NoDailyTasks>
-      <!-- v-if="todos.length && !dailyDoneTodos.length" -->
       <NoDailyTasks
         v-if="!dailyDoneTodos.length"
         :typeOfTodos="typeOfTodos"
@@ -54,12 +52,10 @@
 <script>
 import TodoTasks from "@/components/TodoTasks.vue";
 import NoDailyTasks from "@/components/daily/NoDailyTasks.vue";
-// import ConfirmDeleteDoneTasks from "@/components/modals/ConfirmDeleteDoneTasks.vue";
-
 import { mapGetters } from "vuex";
 
 export default {
-  name: "DailyTasks",
+  name: "TopDailyTasks",
   components: { TodoTasks, NoDailyTasks },
 
   computed: {
@@ -67,7 +63,6 @@ export default {
       dailyTodos: "tasks/dailyTodos",
       dailyDoneTodos: "tasks/dailyDoneTodos",
       todos: "tasks/todos",
-      // isDeleteDoneTasksModal: "modals/isDeleteDoneTasksModal",
     }),
   },
   data() {
@@ -100,7 +95,6 @@ export default {
     },
     deleteAllDoneTasks() {
       this.$store.dispatch("tasks/deleteAllDoneTasks");
-      // this.$store.dispatch("modals/toggleDeleteDoneTasksModal");
       this.todoToShow = this.dailyDoneTodos;
     },
   },
