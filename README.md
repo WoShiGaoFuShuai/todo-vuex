@@ -66,7 +66,7 @@ To put a task on a page with a timer (to easily control working time of the task
 
 ---
 
-### Notifications to encrease User Experience
+### Notifications to increase User Experience
 
 You see this notification when you successfully edited a task
 ![Edited-task-notification](git_images/Edited-task-notification.jpg)
@@ -79,7 +79,7 @@ You see this notification when you tried to put more than 5 daily tasks
 ---
 
 You see this notification when you tried to put second task on a timer page;
-So you can work only with 1 todo on a timer page at a time;
+So you can work only with 1 task on a timer page at a time;
 ![Only-1-task-in-timer-notification](git_images/Only-1-task-in-timer-notification.jpg)
 
 ---
@@ -95,8 +95,10 @@ You can change category names if some of them aren't suitable for you;
 
 ![Change-category](git_images/Change-category.jpg)
 
-And changed category names you can see when you're creating a new todo task;
+And you can see changed category names when you're creating a new task task;
 ![Changed-category-result](git_images/Changed-category-result.jpg)
+
+And some other notification you can see while using this app 😉
 
 ---
 
